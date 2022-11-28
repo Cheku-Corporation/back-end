@@ -20,3 +20,8 @@ services:
       - MYSQL_USER=demo
     ports:
       - 33050:3306/tcp
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    ports:
+      - "5672:5672"
+      - "15692:15692"
