@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "viagem")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Viagem implements Serializable {
 
     @Id

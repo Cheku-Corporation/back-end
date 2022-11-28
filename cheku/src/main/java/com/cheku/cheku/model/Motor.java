@@ -8,8 +8,11 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "motors")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Motor implements Serializable {
 
+    //dados estaticos
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +27,12 @@ public class Motor implements Serializable {
     @Column(name = "modelo")
     private String modelo;
 
-    //alteraveis
-    @Column(name = "tempertatura")
-    private int temperatura;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusMotor status;
+    //dados dinamicos
+//    @Column(name = "tempertatura")
+//    private int temperatura;
+//
+//    @Column(name = "status")
+//    @Enumerated(EnumType.ORDINAL)
+//    private StatusMotor status;
 
 }

@@ -7,9 +7,12 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "cars")
 public class Car  {
 
+    //Atributos estaticos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,12 +23,13 @@ public class Car  {
     @Column(name = "modelo", nullable = false)
     private String modelo;
 
-    @Column(name = "ano", nullable = false)
-    private int ano;
+    @Column(name = "year", nullable = false)
+    private int year;
 
     @Column(name = "matricula", unique = true, nullable = false)
     private String matricula;
 
+    //Relacionamentos (verificar)
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private TypeCar type;
@@ -34,52 +38,36 @@ public class Car  {
     @JoinColumn(name = "motor_id", referencedColumnName = "id", nullable = false)
     private Motor motor;
 
-    @OneToMany
+    @OneToOne(optional = false)
     @JoinColumn(name = "pneu_id", referencedColumnName = "id")
-    private List<Pneus> pneus;
-
-    @OneToMany
-    @JoinColumn(name = "viagem_id", referencedColumnName = "id")
-    private List<Viagem> viagens;
-
-    @Column(name = "localization")
-    @OneToOne
-    private Localization localization;
+    private Pneus pneus;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "nif", nullable = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     //alteraveis
-    @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusCar status;
-
-    @Column(name = "km")
-    private int km;
-
-    @Column(name = "velocidade")
-    private int velocidade;
-
-    //-1 seria REVERSE
-    //0 seria NONE
-    @Column(name = "caixa_velocidades")
-    private int caixa_velocidades;
-
-    //niveis de combustivel, agua e  oleo
-    //dados entre 0 e 100
-    @Column(name = "combustivel")
-    private int combustivel;
-
-    @Column(name = "agua")
-    private int agua;
-
-    @Column(name = "oleo")
-    private int oleo;
-
-    @Column(name = "ligth")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusLigth ligth;
+//    @Column(name = "status")
+//    @Enumerated(EnumType.ORDINAL)
+//    private StatusCar status;
+//
+//    @Column(name = "km")
+//    private int km;
+//
+//    //niveis de combustivel, agua e  oleo
+//    //dados entre 0 e 100
+//    @Column(name = "combustivel")
+//    private int combustivel;
+//
+//    @Column(name = "agua")
+//    private int agua;
+//
+//    @Column(name = "oleo")
+//    private int oleo;
+//
+//    @Column(name = "ligth")
+//    @Enumerated(EnumType.ORDINAL)
+//    private StatusLigth ligth;
 
 
 

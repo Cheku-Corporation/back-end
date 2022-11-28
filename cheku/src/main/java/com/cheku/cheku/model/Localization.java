@@ -8,8 +8,9 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "localization")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Localization implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
