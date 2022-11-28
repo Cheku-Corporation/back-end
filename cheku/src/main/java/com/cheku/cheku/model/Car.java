@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cars")
-public class Car  {
+public class Car{
 
     //Atributos estaticos
     @Id
@@ -31,22 +31,26 @@ public class Car  {
     private String matricula;
 
     //Relacionamentos (verificar)
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", nullable = true)
     @Enumerated(EnumType.ORDINAL)
     private TypeCar type;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = true)
     @JoinColumn(name = "motor_id", referencedColumnName = "id", nullable = false)
     private Motor motor;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = true)
     @JoinColumn(name = "pneu_id", referencedColumnName = "id", nullable = false)
     private Pneus pneus;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private User user;
 
+    Car(String brand, String model, int year, String matricula) {
+        this.brand = brand;
+        this.model = model;
+        this.matricula = matricula;
+        this.year = year;
+    }
 }
-
-

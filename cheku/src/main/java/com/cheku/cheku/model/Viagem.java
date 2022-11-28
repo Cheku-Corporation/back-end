@@ -25,12 +25,12 @@ public class Viagem implements Serializable {
     @Column(name = "data_fim")
     private Date data_fim;
 
-    @Column(name = "carro")
-    @OneToOne
-    private Car carro;
+    // @Column(name = "carro")
+    // @OneToOne
+    // private Car carro;
 
-    @Column(name = "points")
-    @OneToMany
-    private List<Localization> points;
+    // @Column(name = "points")
+    // @OneToMany
+    // private List<Localization> points;
 
 }

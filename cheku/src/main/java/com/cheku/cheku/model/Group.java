@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -23,11 +22,11 @@ public class Group {
     private String name;
 
     //lista de users
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "users", referencedColumnName = "id", nullable = false)
     private List<User> users;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = false)
     private List<Car> carList;
 
