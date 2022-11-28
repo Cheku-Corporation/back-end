@@ -10,25 +10,25 @@ import java.io.Serializable;
 @Table(name = "motors")
 public class Motor implements Serializable {
 
-    @column(name = "id")
-    @id
+    @Column(name = "id")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @column(name = "potencia")
+    @Column(name = "potencia")
     private int potencia;
 
-    @column(name = "cilindrada")
+    @Column(name = "cilindrada")
     private int cilindrada;
 
-    @column(name = "modelo")
+    @Column(name = "modelo")
     private String modelo;
 
     //alteraveis
-    @column(name = "tempertatura")
+    @Column(name = "tempertatura")
     private int temperatura;
 
-    @column(name = "status")
+    @Column(name = "status")
     @Enumerated(EnumType.ORDINAL)
     private StatusMotor status;
 

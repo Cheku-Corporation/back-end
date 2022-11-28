@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
@@ -44,9 +45,4 @@ public class User implements Serializable{
         this.password = password;
     }
 
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nif);
-    }
 }

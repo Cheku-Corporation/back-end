@@ -8,27 +8,25 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "cars")
+public class Car  {
 
-public class Car implements Serializable {
-
-    @column(name = "id")
-    @id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @column(name = "marca", nullable = false)
+    @Column(name = "marca", nullable = false)
     private String marca;
 
-    @column(name = "modelo", nullable = false)
+    @Column(name = "modelo", nullable = false)
     private String modelo;
 
-    @column(name = "ano", nullable = false)
+    @Column(name = "ano", nullable = false)
     private int ano;
 
-    @column(name = "matricula", unique = true, nullable = false)
+    @Column(name = "matricula", unique = true, nullable = false)
     private String matricula;
 
-    @column(name = "type", nullable = false)
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private TypeCar type;
 
@@ -44,7 +42,7 @@ public class Car implements Serializable {
     @JoinColumn(name = "viagem_id", referencedColumnName = "id")
     private List<Viagem> viagens;
 
-    @column(name = "localization")
+    @Column(name = "localization")
     @OneToOne
     private Localization localization;
 
@@ -53,21 +51,21 @@ public class Car implements Serializable {
     private User user;
 
     //alteraveis
-    @column(name = "status")
+    @Column(name = "status")
     @Enumerated(EnumType.ORDINAL)
     private StatusCar status;
 
-    @column(name = "km")
+    @Column(name = "km")
     private int km;
 
-    @column(name = "velocidade")
+    @Column(name = "velocidade")
     private int velocidade;
 
 //    @column(name = "caixa_velocidades")
 //    private int caixa_velocidades;
 
 
-    @column(name = "ligth")
+    @Column(name = "ligth")
     @Enumerated(EnumType.ORDINAL)
     private StatusLigth ligth;
 
