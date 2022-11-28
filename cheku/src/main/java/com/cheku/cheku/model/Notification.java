@@ -1,11 +1,10 @@
 package com.cheku.cheku.model;
 
-import lombok.Data;
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
 
-public class Notificacoes implements Serializable{
+public class Notification implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

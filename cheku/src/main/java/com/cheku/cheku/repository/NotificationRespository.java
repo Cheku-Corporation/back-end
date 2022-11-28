@@ -1,9 +1,11 @@
 package com.cheku.cheku.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import com.cheku.cheku.model.*;
 
 @Repository
-public class NotificationRespository extends JpaRepository<Notificacoes, Long>  {
+public interface NotificationRespository extends JpaRepository<Notification, Long>  {
 
 }

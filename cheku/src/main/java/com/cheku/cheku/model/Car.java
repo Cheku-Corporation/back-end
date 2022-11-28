@@ -63,7 +63,7 @@ public class Car  {
 
     //-1 seria REVERSE
     //0 seria NONE
-    @column(name = "caixa_velocidades")
+    @Column(name = "caixa_velocidades")
     private int caixa_velocidades;
 
     //niveis de combustivel, agua e  oleo

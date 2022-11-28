@@ -1,8 +1,11 @@
 package com.cheku.cheku.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import com.cheku.cheku.model.*;
 
-public class PneusRepository extends JpaRepository<Pneus, Long>  {
+@Repository
+public interface PneusRepository extends JpaRepository<Pneus, Long>  {
 
 }
