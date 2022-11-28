@@ -17,11 +17,11 @@ public class Car  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "marca", nullable = false)
-    private String marca;
+    @Column(name = "brand", nullable = false)
+    private String brand;
 
-    @Column(name = "modelo", nullable = false)
-    private String modelo;
+    @Column(name = "model", nullable = false)
+    private String model;
 
     @Column(name = "year", nullable = false)
     private int year;
@@ -39,38 +39,12 @@ public class Car  {
     private Motor motor;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "pneu_id", referencedColumnName = "id")
+    @JoinColumn(name = "pneu_id", referencedColumnName = "id", nullable = false)
     private Pneus pneus;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private User user;
-
-    //alteraveis
-//    @Column(name = "status")
-//    @Enumerated(EnumType.ORDINAL)
-//    private StatusCar status;
-//
-//    @Column(name = "km")
-//    private int km;
-//
-//    //niveis de combustivel, agua e  oleo
-//    //dados entre 0 e 100
-//    @Column(name = "combustivel")
-//    private int combustivel;
-//
-//    @Column(name = "agua")
-//    private int agua;
-//
-//    @Column(name = "oleo")
-//    private int oleo;
-//
-//    @Column(name = "ligth")
-//    @Enumerated(EnumType.ORDINAL)
-//    private StatusLigth ligth;
-
-
-
 
 }
 

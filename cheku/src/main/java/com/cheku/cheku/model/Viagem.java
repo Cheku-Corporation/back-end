@@ -23,9 +23,6 @@ public class Viagem implements Serializable {
     @Column(name = "data_fim")
     private Date data_fim;
 
-    @Column(name = "distancia")
-    private int distancia;
-
     @Column(name = "carro")
     @OneToOne
     private Car carro;

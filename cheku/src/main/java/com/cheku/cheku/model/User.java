@@ -23,9 +23,6 @@ public class User implements Serializable{
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
@@ -33,7 +30,9 @@ public class User implements Serializable{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @OneToMany(optional = true)
-    private List<Car> cars;
+
+    //grupos
+    @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
+    private Group group;
 }

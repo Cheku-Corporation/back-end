@@ -26,13 +26,4 @@ public class Motor implements Serializable {
 
     @Column(name = "modelo")
     private String modelo;
-
-    //dados dinamicos
-//    @Column(name = "tempertatura")
-//    private int temperatura;
-//
-//    @Column(name = "status")
-//    @Enumerated(EnumType.ORDINAL)
-//    private StatusMotor status;
-
 }

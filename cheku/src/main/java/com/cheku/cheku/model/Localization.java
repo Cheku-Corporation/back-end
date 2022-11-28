@@ -25,4 +25,7 @@ public class Localization implements Serializable {
     @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
     private Car car;
 
+    @Column(name = "date", nullable = false)
+    private Date date;
+
 }

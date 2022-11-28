@@ -3,22 +3,32 @@ package com.cheku.cheku.model;
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
+import lombok.Data;
 
-public class Notification implements Serializable{
+
+@Entity
+@Data
+@Table(name = "notifications")
+public class Notification implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "data")
-    private Date data;
+    @Column(name = "type", nullable = false)
+    private String type;
 
-    @Column(name = "typeNot")
-    @Enumerated(EnumType.ORDINAL)
-    private TypeNotfication type;
+    @Column(name = "message", nullable = false)
+    private String message;
 
-    @Column(name = "descricao")
-    private String descricao;
+    @Column(name = "date", nullable = false)
+    private Date date;
 
-    //colocar com referencia ao user
+    @Column(name = "read", nullable = false)
+    private boolean read;
+
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User user;
+
 }
