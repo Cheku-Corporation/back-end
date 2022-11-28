@@ -61,9 +61,21 @@ public class Car  {
     @Column(name = "velocidade")
     private int velocidade;
 
-//    @column(name = "caixa_velocidades")
-//    private int caixa_velocidades;
+    //-1 seria REVERSE
+    //0 seria NONE
+    @column(name = "caixa_velocidades")
+    private int caixa_velocidades;
 
+    //niveis de combustivel, agua e  oleo
+    //dados entre 0 e 100
+    @Column(name = "combustivel")
+    private int combustivel;
+
+    @Column(name = "agua")
+    private int agua;
+
+    @Column(name = "oleo")
+    private int oleo;
 
     @Column(name = "ligth")
     @Enumerated(EnumType.ORDINAL)
