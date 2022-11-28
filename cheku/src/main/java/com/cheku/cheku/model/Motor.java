@@ -1,35 +1,30 @@
 package com.cheku.cheku.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.*;
 import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "motors")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Motor implements Serializable {
 
-    @column(name = "id")
-    @id
+    //dados estaticos
+    @Column(name = "id")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @column(name = "potencia")
+    @Column(name = "potencia")
     private int potencia;
 
-    @column(name = "cilindrada")
+    @Column(name = "cilindrada")
     private int cilindrada;
 
-    @column(name = "modelo")
+    @Column(name = "modelo")
     private String modelo;
-
-    //alteraveis
-    @column(name = "tempertatura")
-    private int temperatura;
-
-    @column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusMotor status;
-
 }

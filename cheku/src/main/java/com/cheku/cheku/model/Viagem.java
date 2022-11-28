@@ -1,6 +1,8 @@
 package com.cheku.cheku.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "viagem")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Viagem implements Serializable {
 
     @Id
@@ -21,15 +25,12 @@ public class Viagem implements Serializable {
     @Column(name = "data_fim")
     private Date data_fim;
 
-    @Column(name = "distancia")
-    private int distancia;
+    // @Column(name = "carro")
+    // @OneToOne
+    // private Car carro;
 
-    @Column(name = "carro")
-    @OneToOne
-    private Car carro;
-
-    @Column(name = "points")
-    @OneToMany
-    private List<Localization> points;
+    // @Column(name = "points")
+    // @OneToMany
+    // private List<Localization> points;
 
 }
