@@ -9,26 +9,26 @@ import java.util.List;
 @Service
 public class VelocityService {
 
-        @Autowired
-        private VelocityRepository velocityRepository;
+    @Autowired
+    private VelocityRepository velocityRepository;
 
-        public List<HistoryVelocity> getAllVelocity() {
-            return velocityRepository.findAll();
-        }
+    public List<HistoryVelocity> getAllVelocity() {
+        return velocityRepository.findAll();
+    }
 
-        public HistoryVelocity getVelocityById(Long id) {
-            return velocityRepository.findById(id).get();
-        }
+    public HistoryVelocity getVelocityById(Long id) {
+        return velocityRepository.findById(id).get();
+    }
 
-        public void save(HistoryVelocity velocity) {
-            velocityRepository.save(velocity);
-        }
+    public void save(HistoryVelocity velocity) {
+        velocityRepository.save(velocity);
+    }
 
-        public void update(HistoryVelocity velocity) {
-            velocityRepository.save(velocity);
-        }
+    public void update(HistoryVelocity velocity) {
+        velocityRepository.save(velocity);
+    }
 
-        public void delete(Long id) {
-            velocityRepository.deleteById(id);
-        }
+    public void delete(Long id) {
+        velocityRepository.deleteById(id);
+    }
 }

@@ -20,7 +20,7 @@ public class HistoryVelocity implements Serializable {
     private Long id;
 
     @Column(name = "velocity", nullable = false)
-    private int velocity;
+    private Double velocity;
 
     //-1 seria REVERSE
     //0 seria NONE
