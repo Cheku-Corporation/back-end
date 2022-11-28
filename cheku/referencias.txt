@@ -1,0 +1,3 @@
+https://www.baeldung.com/jpa-persisting-enums-in-jpa
+https://www.baeldung.com/hibernate-one-to-many
+https://tenmilesquare.com/spring-boot-jpa-relationship-quick-guide/
