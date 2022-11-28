@@ -1,9 +1,10 @@
 package com.cheku.cheku.model;
 
+import com.cheku.cheku.model.enums.TypeCar;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.*;
-import java.io.Serializable;
 
 @Entity
 @Data

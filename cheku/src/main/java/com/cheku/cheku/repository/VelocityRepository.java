@@ -1,9 +1,9 @@
 package com.cheku.cheku.repository;
 
-import com.cheku.cheku.model.Velocity;
+import com.cheku.cheku.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public class VelocityRepository extends JpaRepository<Velocity, Long> {
+public interface VelocityRepository extends JpaRepository<HistoryVelocity, Long> {
 
 }
