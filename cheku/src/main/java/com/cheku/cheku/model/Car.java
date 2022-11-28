@@ -1,34 +1,37 @@
 package com.cheku.cheku.model;
 
+import com.cheku.cheku.model.enums.TypeCar;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.*;
-import java.io.Serializable;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "cars")
+public class Car  {
 
-public class Car implements Serializable {
-
-    @column(name = "id")
-    @id
+    //Atributos estaticos
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @column(name = "marca", nullable = false)
-    private String marca;
+    @Column(name = "brand", nullable = false)
+    private String brand;
 
-    @column(name = "modelo", nullable = false)
-    private String modelo;
+    @Column(name = "model", nullable = false)
+    private String model;
 
-    @column(name = "ano", nullable = false)
-    private int ano;
+    @Column(name = "year", nullable = false)
+    private int year;
 
-    @column(name = "matricula", unique = true, nullable = false)
+    @Column(name = "matricula", unique = true, nullable = false)
     private String matricula;
 
-    @column(name = "type", nullable = false)
+    //Relacionamentos (verificar)
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private TypeCar type;
 
@@ -36,43 +39,13 @@ public class Car implements Serializable {
     @JoinColumn(name = "motor_id", referencedColumnName = "id", nullable = false)
     private Motor motor;
 
-    @OneToMany
-    @JoinColumn(name = "pneu_id", referencedColumnName = "id")
-    private List<Pneus> pneus;
-
-    @OneToMany
-    @JoinColumn(name = "viagem_id", referencedColumnName = "id")
-    private List<Viagem> viagens;
-
-    @column(name = "localization")
-    @OneToOne
-    private Localization localization;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "pneu_id", referencedColumnName = "id", nullable = false)
+    private Pneus pneus;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "nif", nullable = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private User user;
-
-    //alteraveis
-    @column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusCar status;
-
-    @column(name = "km")
-    private int km;
-
-    @column(name = "velocidade")
-    private int velocidade;
-
-//    @column(name = "caixa_velocidades")
-//    private int caixa_velocidades;
-
-
-    @column(name = "ligth")
-    @Enumerated(EnumType.ORDINAL)
-    private StatusLigth ligth;
-
-
-
 
 }
 

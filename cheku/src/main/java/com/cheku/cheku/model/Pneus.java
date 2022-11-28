@@ -1,6 +1,8 @@
 package com.cheku.cheku.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
@@ -8,28 +10,19 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "pneus")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pneus implements Serializable{
 
+    //dados estaticos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "marca", nullable = false)
-    private String marca;
+    @Column(name = "brand", nullable = false)
+    private String brand;
 
-    @Column(name = "modelo", nullable = false)
-    private String modelo;
-
-    @Column(name = "date")
-    private Date date;
-
-
-    @Column(name = "pressao", nullable = false)
-    private int pressao;
-
-//    @Column(name = "status")
-//    @Enumerated(EnumType.ORDINAL)
-//    private StatusPneus status;
-
+    @Column(name = "model", nullable = false)
+    private String model;
 
 }

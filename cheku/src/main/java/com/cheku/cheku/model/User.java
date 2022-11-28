@@ -2,9 +2,12 @@ package com.cheku.cheku.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import javax.persistence.*;
 import java.util.*;
@@ -12,15 +15,15 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User implements Serializable{
 
+    //dados estaticos
     @Id
-    @Column(name = "nif", nullable = false)
-    private long nif;
-
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "id", nullable = false)
+    private long id;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -29,24 +32,9 @@ public class User implements Serializable{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "cars")
-    @OneToMany
-    private List<Car> cars;
 
-    //Constructors
-    public User() {
-    }
-
-    public User(long nif, String name, String email, String password) {
-        this.nif = nif;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nif);
-    }
+    //grupos
+    @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
+    private Group group;
 }
