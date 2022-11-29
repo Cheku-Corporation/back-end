@@ -24,13 +24,17 @@ public class HistoryVelocity implements Serializable {
 
     //-1 seria REVERSE
     //0 seria NONE
-    @Column(name = "gear")
+    @Column(name = "gear", nullable = true)
     private int gear;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date", nullable = true)
     private Date date;
 
-    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = true)
+    @ManyToOne(optional = true)
     private Car car;
+
+    public HistoryVelocity(Double velocity) {
+        this.velocity = velocity;
+    }
 }

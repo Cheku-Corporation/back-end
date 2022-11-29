@@ -31,7 +31,7 @@ public class APICreateController {
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) {
         System.out.println("Car brand: " + car.getBrand());
-        carService.save(car);
+        carService.save(new Car(car.getBrand(), car.getModel(), car.getMatricula(), car.getYear()));
         return null;
 	}
 }

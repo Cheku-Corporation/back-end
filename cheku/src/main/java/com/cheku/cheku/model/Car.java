@@ -47,7 +47,7 @@ public class Car{
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    Car(String brand, String model, int year, String matricula) {
+    public Car(String brand, String model, String matricula, int year) {
         this.brand = brand;
         this.model = model;
         this.matricula = matricula;

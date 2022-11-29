@@ -23,7 +23,7 @@ public class APIReadController {
 	@GetMapping("api/velocity")
 	public List<HistoryVelocity> getCarVelocities() {
 		//return movieService.getMovies();
-		velocityService.save(new HistoryVelocity(Long.parseLong("4"), (Double) 10.0, 3, new Date(), new Car()));
+		velocityService.save(new HistoryVelocity((Double) 10.0));
 		List<HistoryVelocity> vel = velocityService.getAllVelocity();
 		return vel;
 	}
