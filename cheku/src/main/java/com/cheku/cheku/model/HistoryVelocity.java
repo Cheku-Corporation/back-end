@@ -22,20 +22,15 @@ public class HistoryVelocity {
     @Column(name = "velocity", nullable = false)
     private Double velocity;
 
-    public HistoryVelocity(Double velocity) {
-        this.velocity = velocity;
-    }
+    //-1 seria REVERSE
+    //0 seria NONE
+    @Column(name = "gear", nullable = false)
+    private int gear;
 
-    //    //-1 seria REVERSE
-//    //0 seria NONE
-//    @Column(name = "gear")
-//    private int gear;
-//
-//    @Column(name = "date"
-//    private Date date;
-//
-//    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = true)
-//    @ManyToOne(optional = true)
-//    private Car car;
+    @Column(name = "date", nullable = false)
+    private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "car_id",nullable = false)
+    private Car car;
 }

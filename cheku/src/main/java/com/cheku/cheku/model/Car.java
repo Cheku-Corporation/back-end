@@ -18,38 +18,31 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "brand")
+    @Column(name = "brand", nullable = false)
     private String brand;
 
-    @Column(name = "model")
+    @Column(name = "model", nullable = false)
     private String model;
 
-    @Column(name = "year")
+    @Column(name = "year", nullable = false)
     private int year;
 
-    @Column(name = "matricula")
+    @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCar type;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "motor_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "motor")
     private Motor motor;
-//
-//    @OneToOne(optional = true)
-//    @JoinColumn(name = "pneu_id", referencedColumnName = "id", nullable = false)
-//    private Pneus pneus;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pneus")
+    private Pneus pneus;
 //
 //    @ManyToOne(optional = true)
 //    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
 //    private User user;
-
-    public Car(String brand, String model, String matricula, int year) {
-        this.brand = brand;
-        this.model = model;
-        this.matricula = matricula;
-        this.year = year;
-    }
 }

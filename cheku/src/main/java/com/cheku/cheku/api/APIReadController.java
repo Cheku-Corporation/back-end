@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.HistoryVelocity;
+import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 
 @RestController
@@ -23,20 +22,25 @@ public class APIReadController {
 	@Autowired
 	private CarService carservice;
 
-	@GetMapping("api/velocity")
+	@Autowired
+	private MotorService motorservice;
+
+	//Done
+	@GetMapping("api/velocitys")
 	public List<HistoryVelocity> getCarVelocities() {
-		//return movieService.getMovies();
-		velocityService.saveitem(new HistoryVelocity((Double) 10.0));
-		List<HistoryVelocity> vel = velocityService.getAllVelocity();
-		return vel;
+		return velocityService.getAllVelocity();
 	}
 
-	@GetMapping("api/car")
+	//Done
+	@GetMapping("api/cars")
 	public List<Car> getCars() {
-		//return movieService.getMovies();
-		List<Car> cars = carservice.getAllCars();
-		System.out.print(cars);
-		return cars;
+		return carservice.getAllCars();
+	}
+
+	//Done
+	@GetMapping("api/motors")
+	public List<Motor> getMotors() {
+		return motorservice.getAllMotors();
 	}
 
 }
