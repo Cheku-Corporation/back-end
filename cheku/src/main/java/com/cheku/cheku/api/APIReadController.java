@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.Car;
 import com.cheku.cheku.model.HistoryVelocity;
-import com.cheku.cheku.service.VelocityService;
+import com.cheku.cheku.service.*;
 
 @RestController
 public class APIReadController {
@@ -20,18 +20,23 @@ public class APIReadController {
 	@Autowired
 	private VelocityService velocityService;
 
+	@Autowired
+	private CarService carservice;
+
 	@GetMapping("api/velocity")
 	public List<HistoryVelocity> getCarVelocities() {
 		//return movieService.getMovies();
-		velocityService.save(new HistoryVelocity((Double) 10.0));
+		velocityService.saveitem(new HistoryVelocity((Double) 10.0));
 		List<HistoryVelocity> vel = velocityService.getAllVelocity();
 		return vel;
 	}
 
-	// @GetMapping("api/quotes")
-	// public Quote quoteFromMovie(@RequestParam(value = "serial", defaultValue = "27") String id) {
-	// 	Movie m = movieService.getMovieById(Long.parseLong(id));
-	// 	List<Quote> qs = quoteService.getQuoteByMovieId(m);
-	// 	return qs.get((int)(Math.random()*(qs.size() + 1 )));
-	// }
+	@GetMapping("api/car")
+	public List<Car> getCars() {
+		//return movieService.getMovies();
+		List<Car> cars = carservice.getAllCars();
+		System.out.print(cars);
+		return cars;
+	}
+
 }

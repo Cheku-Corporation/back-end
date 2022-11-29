@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.Car;
+import com.cheku.cheku.model.HistoryVelocity;
 import com.cheku.cheku.service.CarService;
 import com.cheku.cheku.service.VelocityService;
+import com.cheku.cheku.exception.ResourceNotFoundException;
 
 @RestController
 public class APICreateController {
@@ -23,15 +25,14 @@ public class APICreateController {
     @Autowired
 	private VelocityService velocityService;
 
-    @PostMapping("api/velocity")
-    public void createVelocityRecord() {
-		
-    }
-
+//    @PostMapping("api/velocity")
+//    public void createVelocityRecord(@Valid @RequestBody HistoryVelocity velocity) throws ResourceNotFoundException{
+//        VelocityService.saveitem(velocity);
+//
+//    }
+    //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) {
-        System.out.println("Car brand: " + car.getBrand());
-        carService.save(new Car(car.getBrand(), car.getModel(), car.getMatricula(), car.getYear()));
-        return null;
+        return carService.addCar(car);
 	}
 }

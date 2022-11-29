@@ -7,4 +7,5 @@ import com.cheku.cheku.model.*;
 @Repository
 public interface MotorRepository extends JpaRepository<Motor, Long>  {
 
+
 }

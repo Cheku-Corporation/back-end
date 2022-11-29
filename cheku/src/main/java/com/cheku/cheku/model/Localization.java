@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Table(name = "localization")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Localization implements Serializable {
+public class Localization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,9 +23,9 @@ public class Localization implements Serializable {
     @Column(name = "longitude", nullable = false)
     private String longitude;
 
-    @OneToOne
-    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
-    private Car car;
+//    @OneToOne
+//    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
+//    private Car car;
 
     @Column(name = "date", nullable = false)
     private Date date;

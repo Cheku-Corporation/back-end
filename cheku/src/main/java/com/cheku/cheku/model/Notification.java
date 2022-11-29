@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Table(name = "notifications")
-public class Notification implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Notification  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +31,8 @@ public class Notification implements Serializable {
     @Column(name = "read", nullable = false)
     private boolean read;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private User user;
+//    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+//    @ManyToOne(optional = false)
+//    private User user;
 
 }

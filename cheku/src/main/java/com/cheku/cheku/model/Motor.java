@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Table(name = "motors")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Motor implements Serializable {
+public class Motor {
 
     //dados estaticos
     @Column(name = "id")

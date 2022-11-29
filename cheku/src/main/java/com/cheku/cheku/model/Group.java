@@ -22,12 +22,12 @@ public class Group {
     private String name;
 
     //lista de users
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "users", referencedColumnName = "id", nullable = false)
-    private List<User> users;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cars", referencedColumnName = "id", nullable = false)
-    private List<Car> carList;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "users", referencedColumnName = "id", nullable = false)
+//    private List<User> users;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "cars", referencedColumnName = "id", nullable = false)
+//    private List<Car> carList;
 
 }

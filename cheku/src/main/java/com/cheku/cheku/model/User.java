@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User implements Serializable{
+public class User {
 
     //dados estaticos
     @Id
@@ -29,9 +29,9 @@ public class User implements Serializable{
     @Column(name = "password", nullable = false)
     private String password;
 
-
-    //grupos
-    @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private Group group;
+//
+//    //grupos
+//    @ManyToOne
+//    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
+//    private Group group;
 }

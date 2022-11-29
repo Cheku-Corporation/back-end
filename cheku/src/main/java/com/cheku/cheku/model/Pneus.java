@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Table(name = "pneus")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pneus implements Serializable{
+public class Pneus {
 
     //dados estaticos
     @Id

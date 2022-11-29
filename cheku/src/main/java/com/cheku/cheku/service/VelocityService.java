@@ -20,7 +20,7 @@ public class VelocityService {
         return velocityRepository.findById(id).get();
     }
 
-    public void save(HistoryVelocity velocity) {
+    public void saveitem(HistoryVelocity velocity) {
         velocityRepository.save(velocity);
     }
 
