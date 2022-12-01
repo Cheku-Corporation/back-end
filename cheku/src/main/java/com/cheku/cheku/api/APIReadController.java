@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.HistoryVelocity;
-import com.cheku.cheku.service.VelocityService;
+import com.cheku.cheku.model.*;
+import com.cheku.cheku.service.*;
 
 @RestController
 public class APIReadController {
@@ -20,18 +19,28 @@ public class APIReadController {
 	@Autowired
 	private VelocityService velocityService;
 
-	@GetMapping("api/velocity")
+	@Autowired
+	private CarService carservice;
+
+	@Autowired
+	private MotorService motorservice;
+
+	//Done
+	@GetMapping("api/velocitys")
 	public List<HistoryVelocity> getCarVelocities() {
-		//return movieService.getMovies();
-		velocityService.save(new HistoryVelocity((Double) 10.0));
-		List<HistoryVelocity> vel = velocityService.getAllVelocity();
-		return vel;
+		return velocityService.getAllVelocity();
 	}
 
-	// @GetMapping("api/quotes")
-	// public Quote quoteFromMovie(@RequestParam(value = "serial", defaultValue = "27") String id) {
-	// 	Movie m = movieService.getMovieById(Long.parseLong(id));
-	// 	List<Quote> qs = quoteService.getQuoteByMovieId(m);
-	// 	return qs.get((int)(Math.random()*(qs.size() + 1 )));
-	// }
+	//Done
+	@GetMapping("api/cars")
+	public List<Car> getCars() {
+		return carservice.getAllCars();
+	}
+
+	//Done
+	@GetMapping("api/motors")
+	public List<Motor> getMotors() {
+		return motorservice.getAllMotors();
+	}
+
 }

@@ -11,20 +11,19 @@ import java.io.Serializable;
 @Table(name = "motors")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Motor implements Serializable {
+public class Motor {
 
-    //dados estaticos
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "potencia")
+    @Column(name = "potencia", nullable = false)
     private int potencia;
 
-    @Column(name = "cilindrada")
+    @Column(name = "cilindrada", nullable = false)
     private int cilindrada;
 
-    @Column(name = "modelo")
+    @Column(name = "modelo", nullable = false)
     private String modelo;
 }

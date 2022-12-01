@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HistoryVelocity implements Serializable {
+public class HistoryVelocity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +24,13 @@ public class HistoryVelocity implements Serializable {
 
     //-1 seria REVERSE
     //0 seria NONE
-    @Column(name = "gear", nullable = true)
+    @Column(name = "gear", nullable = false)
     private int gear;
 
-    @Column(name = "date", nullable = true)
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = true)
-    @ManyToOne(optional = true)
+    @ManyToOne
+    @JoinColumn(name = "car_id",nullable = false)
     private Car car;
-
-    public HistoryVelocity(Double velocity) {
-        this.velocity = velocity;
-    }
 }

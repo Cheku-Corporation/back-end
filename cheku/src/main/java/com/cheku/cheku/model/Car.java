@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cars")
-public class Car{
+public class Car {
 
     //Atributos estaticos
     @Id
@@ -27,30 +27,22 @@ public class Car{
     @Column(name = "year", nullable = false)
     private int year;
 
-    @Column(name = "matricula", unique = true, nullable = false)
+    @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    //Relacionamentos (verificar)
-    @Column(name = "type", nullable = true)
-    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeCar type;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "motor_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "motor")
     private Motor motor;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "pneu_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pneus")
     private Pneus pneus;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private User user;
-
-    public Car(String brand, String model, String matricula, int year) {
-        this.brand = brand;
-        this.model = model;
-        this.matricula = matricula;
-        this.year = year;
-    }
+//
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
+//    private User user;
 }
