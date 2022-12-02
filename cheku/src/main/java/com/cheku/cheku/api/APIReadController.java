@@ -6,10 +6,12 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cheku.cheku.auxiliar_classes.Velocity;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 
@@ -25,10 +27,22 @@ public class APIReadController {
 	@Autowired
 	private MotorService motorservice;
 
-	//Done
-	@GetMapping("api/velocitys")
+	//Done (Should not be used!)
+	@GetMapping("api/velocities")
 	public List<HistoryVelocity> getCarVelocities() {
 		return velocityService.getAllVelocity();
+	}
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/100")
+	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast100Velocities(car_id);
+	}
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/1000")
+	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast1000Velocities(car_id);
 	}
 
 	//Done
