@@ -18,7 +18,7 @@ public class ChekuApplication {
 
   static final String topicExchangeName = "";
 
-  static final String queueName = "car_queue";
+  static final String queueName = "car_0";
 
   @Bean
   Queue queue() {

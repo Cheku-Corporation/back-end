@@ -21,11 +21,11 @@ public class VelocityService {
     }
 
     public HistoryVelocity addVelocity(HistoryVelocity velocity) throws ResourceNotFoundException {
-        if (carRepository.existsById(velocity.getCar().getId())){
-            System.out.println("Carro existe");
-            Car car = carRepository.findById(velocity.getCar().getId()).orElseThrow(() -> new ResourceNotFoundException("Car not found for this id :: " + velocity.getCar().getId()));
-            velocity.setCar(car);
-        }
+        // if (carRepository.existsById(velocity.getCar().getId())){
+        //     System.out.println("Carro existe");
+        //     Car car = carRepository.findById(velocity.getCar().getId()).orElseThrow(() -> new ResourceNotFoundException("Car not found for this id :: " + velocity.getCar().getId()));
+        //     velocity.setCar(car);
+        // }
         return velocityRepository.save(velocity);
     }
 }
