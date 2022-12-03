@@ -1,6 +1,7 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
+
 import java.util.*;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class HistoryVelocity {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id",nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "car_id", nullable = true)
     private Car car;
 }
