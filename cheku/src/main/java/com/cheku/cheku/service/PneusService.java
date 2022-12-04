@@ -20,6 +20,10 @@ public class PneusService {
 
     //Done
     public Pneus addPneus(Pneus pneus){
+        // verificar se não existe um pneu com o mesmo parâmetro
+        if (pneusRepository.findByBrandAndModel(pneus.getBrand(), pneus.getModel()) != null) {
+            return null;
+        }
         return pneusRepository.save(pneus);
     }
 }

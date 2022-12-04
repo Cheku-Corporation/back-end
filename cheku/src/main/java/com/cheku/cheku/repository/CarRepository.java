@@ -9,5 +9,5 @@ import com.cheku.cheku.model.*;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long>  {
-
+    public Car findByMatricula(String matricula);
 }

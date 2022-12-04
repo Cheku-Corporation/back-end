@@ -27,6 +27,9 @@ public class APIReadController {
 	@Autowired
 	private MotorService motorservice;
 
+	@Autowired
+	private PneusService pneusService;
+
 	//Done (Should not be used!)
 	@GetMapping("api/velocities")
 	public List<HistoryVelocity> getCarVelocities() {
@@ -45,16 +48,27 @@ public class APIReadController {
 		return velocityService.getLast1000Velocities(car_id);
 	}
 
-	//Done
+
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
 		return carservice.getAllCars();
+	}
+
+	@GetMapping("api/car/{car_id}")
+	public Car getCar(@PathVariable Long car_id) {
+		return carservice.getCar(car_id);
 	}
 
 	//Done
 	@GetMapping("api/motors")
 	public List<Motor> getMotors() {
 		return motorservice.getAllMotors();
+	}
+
+	//Done
+	@GetMapping("api/pneus")
+	public List<Pneus> getPneus() {
+		return pneusService.getAllPneus();
 	}
 
 }

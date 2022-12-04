@@ -31,6 +31,9 @@ public class HistoryVelocity {
     @Column(name = "date", nullable = false)
     private Date date;
 
+//    @Column(name = "RPM", nullable = false)
+//    private Double RPM;
+
     @ManyToOne(optional = true)
     @JoinColumn(name = "car_id", nullable = true)
     private Car car;

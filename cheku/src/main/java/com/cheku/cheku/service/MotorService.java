@@ -20,6 +20,12 @@ public class MotorService {
     //Done
     public Motor addMotor(Motor motor){
 
+        // verificar se não existe um motor com o mesmo parâmetro
+        if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
+            return null;
+        }
+
+
         return motorRepository.save(motor);
     }
 }

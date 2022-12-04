@@ -7,5 +7,5 @@ import com.cheku.cheku.model.*;
 
 @Repository
 public interface PneusRepository extends JpaRepository<Pneus, Long>  {
-
+    public Pneus findByBrandAndModel(String brand, String model);
 }

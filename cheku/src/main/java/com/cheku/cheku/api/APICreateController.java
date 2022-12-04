@@ -35,7 +35,7 @@ public class APICreateController {
         return velocityService.addVelocity(velocity);
     }
 
-    //Not DONE(incompleto)
+    //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
         return carService.addCar(car);
@@ -47,6 +47,7 @@ public class APICreateController {
         return motorService.addMotor(motor);
     }
 
+    //DONE
     @PostMapping("api/pneus")
     public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
         return pneusService.addPneus(pneus);
