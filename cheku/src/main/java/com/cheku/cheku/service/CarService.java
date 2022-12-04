@@ -75,7 +75,22 @@ public class CarService {
     }
 
     public Car getCar(Long id) {
-        return carRepository.findById(id).get();
+
+        try{
+            return carRepository.findById(id).get();
+        } catch (Exception e) {
+            System.out.println("Carro não existe");
+            return null;
+        }
     }
 
+    public String deleteCar(Long id) {
+        try {
+            carRepository.deleteById(id);
+            return "Carro eliminado com sucesso";
+        } catch (Exception e) {
+            System.out.println("Erro ao apagar carro");
+            return "Erro ao apagar carro";
+        }
+    }
 }
