@@ -39,10 +39,10 @@ public class CarService {
                 motorRepository.save(car.getMotor());
             }
         } catch (Exception e) {
-            try{
+            try {
                 motorRepository.findById(car.getMotor().getId());
                 car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println("Motor não existe");
                 return null;
             }
@@ -57,16 +57,22 @@ public class CarService {
                 pneusRepository.save(car.getPneus());
             }
         } catch (Exception e) {
-            try{
+            try {
                 pneusRepository.findById(car.getPneus().getId());
                 car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
 
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println("Pneus não existem");
                 return null;
             }
         }
-        return carRepository.save(car);}
+        try {
+            return carRepository.save(car);
+        } catch (Exception e) {
+            System.out.println("Erro ao guardar carro");
+            return null;
+        }
+    }
 
     public Car getCar(Long id) {
         return carRepository.findById(id).get();

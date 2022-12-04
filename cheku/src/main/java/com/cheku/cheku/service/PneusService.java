@@ -24,6 +24,12 @@ public class PneusService {
         if (pneusRepository.findByBrandAndModel(pneus.getBrand(), pneus.getModel()) != null) {
             return null;
         }
-        return pneusRepository.save(pneus);
+
+        try {
+            return pneusRepository.save(pneus);
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar pneus");
+            return null;
+        }
     }
 }
