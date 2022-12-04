@@ -41,13 +41,13 @@ public class CarService {
         } catch (Exception e) {
             try{
                 motorRepository.findById(car.getMotor().getId());
+                car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
             }catch(Exception ex){
                 System.out.println("Motor não existe");
                 return null;
             }
         }
         // verificar se os pneus existem
-
         try {
             Pneus pneus = pneusRepository.findByBrandAndModel(car.getPneus().getBrand(), car.getPneus().getModel());
             if (pneus != null) {
@@ -59,13 +59,15 @@ public class CarService {
         } catch (Exception e) {
             try{
                 pneusRepository.findById(car.getPneus().getId());
+                car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
+
             }catch(Exception ex){
                 System.out.println("Pneus não existem");
                 return null;
             }
         }
-        return carRepository.save(car);
-    }
+        return carRepository.save(car);}
+
     public Car getCar(Long id) {
         return carRepository.findById(id).get();
     }
