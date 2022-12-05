@@ -20,6 +20,10 @@ public class AguaService {
     }
 
     public Agua save(Agua agua) {
+        if(agua.getLiters() == null || agua.getLiters() < 0 || agua.getLiters() > 100){
+            System.out.println("Invalid Liters");
+            return null;
+        }
         try{
             Car car  = carRepository.findById(agua.getCar().getId()).get();
             agua.setCar(car);

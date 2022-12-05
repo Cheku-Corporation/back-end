@@ -20,6 +20,10 @@ public class OleoService {
     }
 
     public Oleo save(Oleo oleo) {
+        if(oleo.getLiters() == null || oleo.getLiters() < 0 || oleo.getLiters() > 100){
+            System.out.println("Invalid Liters");
+            return null;
+        }
         try{
             Car car  = carRepository.findById(oleo.getCar().getId()).get();
             oleo.setCar(car);
