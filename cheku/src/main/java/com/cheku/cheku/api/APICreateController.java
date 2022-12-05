@@ -32,6 +32,9 @@ public class APICreateController {
     @Autowired
     private LocalizationService localizationService;
 
+    @Autowired
+    private CombustivelService combustivelService;
+
     //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
@@ -50,7 +53,7 @@ public class APICreateController {
         return pneusService.addPneus(pneus);
     }
 
-    //Done
+    //-----------------------------REMOVER MAIS TARDE--------------------------------
     @PostMapping("api/velocity")
     public HistoryVelocity createVelocityRecord (@Valid @RequestBody HistoryVelocity velocity) throws ResourceNotFoundException{
         return velocityService.addVelocity(velocity);
@@ -60,5 +63,12 @@ public class APICreateController {
     public Localization createLocalizationRecord (@Valid @RequestBody Localization localization) throws ResourceNotFoundException{
         return localizationService.addLocalization(localization);
     }
+
+    @PostMapping("api/combustivel")
+    public Combustivel createCombustivelRecord (@Valid @RequestBody Combustivel combustivel) throws ResourceNotFoundException{
+        return combustivelService.addCombustivel(combustivel);
+    }
+    // --------------------end -----------------
+
 }
 

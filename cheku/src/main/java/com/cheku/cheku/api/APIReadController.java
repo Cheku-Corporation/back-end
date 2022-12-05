@@ -33,23 +33,9 @@ public class APIReadController {
 	@Autowired
 	private LocalizationService localizationService;
 
-	//Done (Should not be used!)
-	@GetMapping("api/velocities")
-	public List<HistoryVelocity> getCarVelocities() {
-		return velocityService.getAllVelocity();
-	}
+	@Autowired
+	private CombustivelService combustivelService;
 
-	//Done
-	@GetMapping("api/car/{car_id}/velocities/100")
-	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
-		return velocityService.getLast100Velocities(car_id);
-	}
-
-	//Done
-	@GetMapping("api/car/{car_id}/velocities/1000")
-	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
-		return velocityService.getLast1000Velocities(car_id);
-	}
 
 
 	@GetMapping("api/cars")
@@ -75,10 +61,33 @@ public class APIReadController {
 		return pneusService.getAllPneus();
 	}
 
-
+	//Done (Should not be used!)
 	@GetMapping("api/localizations")
 	public List<Localization> getLocalizations() {
 		return localizationService.getAllLocalizations();
+	}
+
+	//Done (Should not be used!)
+	@GetMapping("api/combustiveis")
+	public List<Combustivel> getCombustivel() {
+		return combustivelService.getAllCombustiveis();
+	}
+	//Done (Should not be used!)
+	@GetMapping("api/velocities")
+	public List<HistoryVelocity> getCarVelocities() {
+		return velocityService.getAllVelocity();
+	}
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/100")
+	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast100Velocities(car_id);
+	}
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/1000")
+	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast1000Velocities(car_id);
 	}
 
 }
