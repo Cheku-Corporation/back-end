@@ -75,7 +75,6 @@ public class CarService {
     }
 
     public Car getCar(Long id) {
-
         try{
             return carRepository.findById(id).get();
         } catch (Exception e) {
@@ -91,6 +90,52 @@ public class CarService {
         } catch (Exception e) {
             System.out.println("Erro ao apagar carro");
             return "Erro ao apagar carro";
+        }
+    }
+
+    public Car updateCar(Car car){
+        // verificar se o motor existe
+        try {
+            Motor motor = motorRepository.findByPotenciaAndCilindradaAndModelo(car.getMotor().getPotencia(), car.getMotor().getCilindrada(), car.getMotor().getModelo());
+            if (motor != null) {
+                car.setMotor(motor);
+            }
+            if (motor == null) {
+                motorRepository.save(car.getMotor());
+            }
+        } catch (Exception e) {
+            try {
+                motorRepository.findById(car.getMotor().getId());
+                car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
+            } catch (Exception ex) {
+                System.out.println("Motor não existe");
+                return null;
+            }
+        }
+        // verificar se os pneus existem
+        try {
+            Pneus pneus = pneusRepository.findByBrandAndModel(car.getPneus().getBrand(), car.getPneus().getModel());
+            if (pneus != null) {
+                car.setPneus(pneus);
+            }
+            if (pneus == null) {
+                pneusRepository.save(car.getPneus());
+            }
+        } catch (Exception e) {
+            try {
+                pneusRepository.findById(car.getPneus().getId());
+                car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
+
+            } catch (Exception ex) {
+                System.out.println("Pneus não existem");
+                return null;
+            }
+        }
+        try {
+            return carRepository.save(car);
+        } catch (Exception e) {
+            System.out.println("Erro ao guardar carro");
+            return null;
         }
     }
 }
