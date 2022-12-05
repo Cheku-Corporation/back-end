@@ -1,4 +1,4 @@
-package com.cheku.cheku.model;
+package com.cheku.cheku.model.reafazer;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

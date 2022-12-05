@@ -45,6 +45,9 @@ public class APICreateController {
     @Autowired
     private PneusHistoryService pneusHistoryService;
 
+    @Autowired
+    private LuzesService luzesService;
+
     //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
@@ -100,6 +103,12 @@ public class APICreateController {
     public PneusHistory createPneusHistoryRecord (@Valid @RequestBody PneusHistory pneusHistory) throws ResourceNotFoundException{
         return pneusHistoryService.savePneusHistory(pneusHistory);
     }
+
+    @PostMapping("api/luzes")
+    public Luzes createLuzesRecord (@Valid @RequestBody Luzes luzes) throws ResourceNotFoundException{
+        return luzesService.save(luzes);
+    }
+
     // --------------------end -----------------
 
 }

@@ -44,6 +44,9 @@ public class APIReadController {
 	@Autowired
 	private PneusHistoryService pneusHistoryService;
 
+	@Autowired
+	private LuzesService luzesService;
+
 
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
@@ -105,6 +108,11 @@ public class APIReadController {
 	@GetMapping("api/pneusHistory")
 	public List<PneusHistory> getPneusHistory() {
 		return pneusHistoryService.getAllPneusHistory();
+	}
+
+	@GetMapping("api/Luzes")
+	public List<Luzes> getLuzes() {
+		return luzesService.getAllLuzes();
 	}
 
 	//Done
