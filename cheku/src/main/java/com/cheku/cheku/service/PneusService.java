@@ -28,8 +28,7 @@ public class PneusService {
         try {
             return pneusRepository.save(pneus);
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar pneus");
-            return null;
+            throw new RuntimeException("Error saving pneus");
         }
     }
 }

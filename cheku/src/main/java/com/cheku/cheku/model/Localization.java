@@ -1,17 +1,17 @@
 package com.cheku.cheku.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.*;
 import java.io.Serializable;
 
+
 @Entity
 @Data
-@Table(name = "localization")
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "localization")
 public class Localization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,10 @@ public class Localization {
     @Column(name = "longitude", nullable = false)
     private String longitude;
 
-//    @OneToOne
-//    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
-//    private Car car;
-
     @Column(name = "date", nullable = false)
     private Date date;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "car_id", nullable = true)
+    private Car car;
 }

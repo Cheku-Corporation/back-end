@@ -27,8 +27,7 @@ public class MotorService {
         try {
             return motorRepository.save(motor);
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar motor");
-            return null;
+            throw new RuntimeException("Error saving motor");
         }
     }
 }
