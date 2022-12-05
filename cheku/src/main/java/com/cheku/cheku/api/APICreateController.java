@@ -35,6 +35,12 @@ public class APICreateController {
     @Autowired
     private CombustivelService combustivelService;
 
+    @Autowired
+    private OleoService oleoService;
+
+    @Autowired
+    private AguaService aguaService;
+
     //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
@@ -67,6 +73,16 @@ public class APICreateController {
     @PostMapping("api/combustivel")
     public Combustivel createCombustivelRecord (@Valid @RequestBody Combustivel combustivel) throws ResourceNotFoundException{
         return combustivelService.addCombustivel(combustivel);
+    }
+
+    @PostMapping("api/oleo")
+    public Oleo createOleoRecord (@Valid @RequestBody Oleo oleo) throws ResourceNotFoundException{
+        return oleoService.save(oleo);
+    }
+
+    @PostMapping("api/agua")
+    public Agua createAguaRecord (@Valid @RequestBody Agua agua) throws ResourceNotFoundException{
+        return aguaService.save(agua);
     }
     // --------------------end -----------------
 

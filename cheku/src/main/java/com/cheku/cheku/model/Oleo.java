@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "combustivel")
-public class Combustivel {
+@Table(name = "oleo")
+public class Oleo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,4 +26,5 @@ public class Combustivel {
     @ManyToOne(optional = true)
     @JoinColumn(name = "car_id", nullable = true)
     private Car car;
+
 }

@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "combustivel")
-public class Combustivel {
+@Table(name = "agua")
+public class Agua {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

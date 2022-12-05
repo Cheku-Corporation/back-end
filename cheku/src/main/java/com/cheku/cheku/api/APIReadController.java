@@ -36,6 +36,12 @@ public class APIReadController {
 	@Autowired
 	private CombustivelService combustivelService;
 
+	@Autowired
+	private OleoService oleoService;
+
+	@Autowired
+	private AguaService aguaService;
+
 
 
 	@GetMapping("api/cars")
@@ -78,6 +84,17 @@ public class APIReadController {
 		return velocityService.getAllVelocity();
 	}
 
+	//Done (Should not be used!)
+	@GetMapping("api/oleos")
+	public List<Oleo> getOleo() {
+		return oleoService.getAllOleos();
+	}
+
+	//Done (Should not be used!)
+	@GetMapping("api/aguas")
+	public List<Agua> getAgua() {
+		return aguaService.getAllAguas();
+	}
 	//Done
 	@GetMapping("api/car/{car_id}/velocities/100")
 	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
@@ -89,5 +106,7 @@ public class APIReadController {
 	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast1000Velocities(car_id);
 	}
+
+
 
 }
