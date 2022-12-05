@@ -94,6 +94,13 @@ public class CarService {
     }
 
     public Car updateCar(Car car){
+        try{
+            carRepository.findById(car.getId()).get();
+        } catch (Exception e) {
+            System.out.println("Carro não existe");
+            return null;
+        }
+
         // verificar se o motor existe
         try {
             Motor motor = motorRepository.findByPotenciaAndCilindradaAndModelo(car.getMotor().getPotencia(), car.getMotor().getCilindrada(), car.getMotor().getModelo());
