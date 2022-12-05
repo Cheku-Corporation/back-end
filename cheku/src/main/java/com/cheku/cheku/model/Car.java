@@ -27,19 +27,19 @@ public class Car {
     @Column(name = "year", nullable = false)
     private int year;
 
-    @Column(name = "matricula", nullable = false, unique = true)
+    @Column(name = "matricula", nullable = false)
     private String matricula;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCar type;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "motor")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "motor", nullable = false)
     private Motor motor;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "pneus")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "pneus", nullable = false)
     private Pneus pneus;
 //
 //    @ManyToOne(optional = true)

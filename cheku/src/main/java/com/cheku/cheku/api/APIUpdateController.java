@@ -2,21 +2,14 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.cheku.cheku.model.Car;
+import com.cheku.cheku.service.CarService;
+
+
 
 @RestController
 public class APIUpdateController {
-    // @Autowired
-	// private MovieService movieService;
-
-
-	// @PutMapping("api/movies")
-	// public List<Movie> allMovies(String name) {
-	// 	return movieService.getMovies();
-	// }
 
 	// @PutMapping("api/quotes")
 	// public Quote quoteFromMovie(@RequestParam(value = "serial", defaultValue = "27") String id) {
@@ -24,4 +17,13 @@ public class APIUpdateController {
 	// 	List<Quote> qs = quoteService.getQuoteByMovieId(m);
 	// 	return qs.get((int)(Math.random()*(qs.size() + 1 )));
 	// }
+
+    @Autowired
+    private CarService carService;
+
+    @PutMapping("api/car")
+    public Car updateCar(@RequestBody Car car) {
+        return carService.updateCar(car);
+    }
+
 }

@@ -29,14 +29,19 @@ public class APICreateController {
     @Autowired
     private PneusService pneusService;
 
-    //Done
-    @PostMapping("api/velocity")
-    public HistoryVelocity createVelocityRecord (@Valid @RequestBody HistoryVelocity velocity) throws ResourceNotFoundException{
-        return velocityService.addVelocity(velocity);
-    }
+    @Autowired
+    private LocalizationService localizationService;
 
+    @Autowired
+    private CombustivelService combustivelService;
 
-    //Not DONE(incompleto)
+    @Autowired
+    private OleoService oleoService;
+
+    @Autowired
+    private AguaService aguaService;
+
+    //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
         return carService.addCar(car);
@@ -48,9 +53,38 @@ public class APICreateController {
         return motorService.addMotor(motor);
     }
 
+    //DONE
     @PostMapping("api/pneus")
     public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
         return pneusService.addPneus(pneus);
     }
 
+    //-----------------------------REMOVER MAIS TARDE--------------------------------
+    @PostMapping("api/velocity")
+    public HistoryVelocity createVelocityRecord (@Valid @RequestBody HistoryVelocity velocity) throws ResourceNotFoundException{
+        return velocityService.addVelocity(velocity);
+    }
+
+    @PostMapping("api/localization")
+    public Localization createLocalizationRecord (@Valid @RequestBody Localization localization) throws ResourceNotFoundException{
+        return localizationService.addLocalization(localization);
+    }
+
+    @PostMapping("api/combustivel")
+    public Combustivel createCombustivelRecord (@Valid @RequestBody Combustivel combustivel) throws ResourceNotFoundException{
+        return combustivelService.addCombustivel(combustivel);
+    }
+
+    @PostMapping("api/oleo")
+    public Oleo createOleoRecord (@Valid @RequestBody Oleo oleo) throws ResourceNotFoundException{
+        return oleoService.save(oleo);
+    }
+
+    @PostMapping("api/agua")
+    public Agua createAguaRecord (@Valid @RequestBody Agua agua) throws ResourceNotFoundException{
+        return aguaService.save(agua);
+    }
+    // --------------------end -----------------
+
 }
+

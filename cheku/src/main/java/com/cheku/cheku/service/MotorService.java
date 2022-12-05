@@ -18,8 +18,16 @@ public class MotorService {
     }
 
     //Done
-    public Motor addMotor(Motor motor){
+    public Motor addMotor(Motor motor) {
 
-        return motorRepository.save(motor);
+        // verificar se não existe um motor com o mesmo parâmetro
+        if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
+            return null;
+        }
+        try {
+            return motorRepository.save(motor);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving motor");
+        }
     }
 }

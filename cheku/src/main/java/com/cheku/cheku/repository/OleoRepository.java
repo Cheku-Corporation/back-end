@@ -1,10 +1,11 @@
 package com.cheku.cheku.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.cheku.cheku.model.*;
 
-@Repository
-public interface MotorRepository extends JpaRepository<Motor, Long>  {
-    public Motor findByPotenciaAndCilindradaAndModelo(int potencia, int cilindrada, String modelo);
+public interface OleoRepository extends JpaRepository<Oleo, Long>  {
+    public List<Oleo> findByCar(Car car);
 }
