@@ -71,11 +71,11 @@ public class CarService {
     }
 
     public Car getCar(Long id) {
-        try{
-            return carRepository.findById(id).get();
-        } catch (Exception e) {
-            throw new RuntimeException("Car not found");
-        }
+        return carRepository.findById(id).get();
+    }
+
+    public boolean existsById(Long id) {
+        return carRepository.existsById(id);
     }
 
     public String deleteCar(Long id) {
