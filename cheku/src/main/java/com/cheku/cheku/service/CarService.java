@@ -26,7 +26,7 @@ public class CarService {
     public Car addCar(Car car) {
         // verificar se não existe um carro com a mesma matricula
         if (carRepository.findByMatricula(car.getMatricula()) != null) {
-            System.out.println"Car already exists");
+            System.out.println("Car already exists");
             return null;
         }
         // verificar se o motor existe
@@ -141,7 +141,8 @@ public class CarService {
         try {
             return carRepository.save(car);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving car");
+            System.out.println("Error saving car");
+            return null;
         }
     }
 }

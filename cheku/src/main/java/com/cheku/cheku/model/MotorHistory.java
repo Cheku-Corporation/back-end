@@ -1,6 +1,6 @@
 package com.cheku.cheku.model;
 
-import com.cheku.cheku.model.enums.TypeCar;
+import com.cheku.cheku.model.enums.StateMotor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "motor_history")
-public class Motor_history {
+public class MotorHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Motor_history {
 
     @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StateMotor type;
+    private StateMotor state;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "car_id", nullable = true)
