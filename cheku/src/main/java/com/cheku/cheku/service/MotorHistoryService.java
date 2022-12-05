@@ -33,10 +33,6 @@ public class MotorHistoryService {
         }
     }
 
-    public MotorHistory getMotorHistoryById(Long id) {
-        return motorHistoryRepository.findById(id).orElse(null);
-    }
-
     public List<MotorHistory> getAllMotorHistory() {
         return motorHistoryRepository.findAll();
     }

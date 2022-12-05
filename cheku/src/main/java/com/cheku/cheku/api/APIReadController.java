@@ -41,6 +41,9 @@ public class APIReadController {
 	@Autowired
 	private MotorHistoryService motorHistoryService;
 
+	@Autowired
+	private PneusHistoryService pneusHistoryService;
+
 
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
@@ -98,6 +101,12 @@ public class APIReadController {
 	public List<MotorHistory> getMotorHistory() {
 		return motorHistoryService.getAllMotorHistory();
 	}
+
+	@GetMapping("api/pneusHistory")
+	public List<PneusHistory> getPneusHistory() {
+		return pneusHistoryService.getAllPneusHistory();
+	}
+
 	//Done
 	@GetMapping("api/car/{car_id}/velocities/100")
 	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
@@ -109,6 +118,8 @@ public class APIReadController {
 	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast1000Velocities(car_id);
 	}
+
+
 
 
 

@@ -11,6 +11,7 @@ import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
+
 @RestController
 public class APICreateController {
     
@@ -41,6 +42,9 @@ public class APICreateController {
     @Autowired
     private MotorHistoryService motorHistoryService;
 
+    @Autowired
+    private PneusHistoryService pneusHistoryService;
+
     //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
@@ -58,6 +62,8 @@ public class APICreateController {
     public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
         return pneusService.addPneus(pneus);
     }
+
+
 
     //-----------------------------REMOVER MAIS TARDE--------------------------------
     @PostMapping("api/velocity")
@@ -88,6 +94,11 @@ public class APICreateController {
     @PostMapping("api/motorHistory")
     public MotorHistory createMotorHistoryRecord (@Valid @RequestBody MotorHistory motorHistory) throws ResourceNotFoundException{
         return motorHistoryService.saveMotorHistory(motorHistory);
+    }
+
+    @PostMapping("api/pneusHistory")
+    public PneusHistory createPneusHistoryRecord (@Valid @RequestBody PneusHistory pneusHistory) throws ResourceNotFoundException{
+        return pneusHistoryService.savePneusHistory(pneusHistory);
     }
     // --------------------end -----------------
 
