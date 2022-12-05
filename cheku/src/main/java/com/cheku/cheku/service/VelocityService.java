@@ -24,7 +24,7 @@ public class VelocityService {
     @Autowired
     private CarRepository carRepository;
 
-    public List<HistoryVelocity> getAllVelocity() {
+    public List<SpeedHistory> getAllVelocity() {
         return velocityRepository.findAll();
     }
 
@@ -36,7 +36,7 @@ public class VelocityService {
         return velocityRepository.getLast1000byCarId(car_id); 
     }
 
-    public HistoryVelocity addVelocity(HistoryVelocity velocity) throws ResourceNotFoundException {
+    public SpeedHistory addVelocity(SpeedHistory velocity) throws ResourceNotFoundException {
         // if (carRepository.existsById(velocity.getCar().getId())){
         //     System.out.println("Carro existe");
         //     Car car = carRepository.findById(velocity.getCar().getId()).orElseThrow(() -> new ResourceNotFoundException("Car not found for this id :: " + velocity.getCar().getId()));

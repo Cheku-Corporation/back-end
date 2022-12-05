@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.HistoryVelocity;
+import com.cheku.cheku.model.SpeedHistory;
 import com.cheku.cheku.service.CarService;
 import com.cheku.cheku.service.VelocityService;
 
@@ -32,19 +32,23 @@ public class Receiver {
     //System.out.println("Received <" + msg + ">");
     // velocityStorage.addVelocity(msg);
     JSONObject j = new JSONObject(msg);
-    HistoryVelocity historyVelocity = new HistoryVelocity();
+    SpeedHistory historyVelocity = new SpeedHistory();
 
-    Car car = carService.getCar((long) 1);
-    historyVelocity.setCar(car);
+    System.out.println("Car exists? " + carService.existsById((long) 1));
+    if(carService.existsById((long) 1)) {
+      Car car = carService.getCar((long) 1);
+      historyVelocity.setCar(car);
 
-    historyVelocity.setGear(j.getInt("gear"));
-    historyVelocity.setVelocity(j.getDouble("velocity"));
-    historyVelocity.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
-    try {
-      velocityService.addVelocity(historyVelocity);
-    } catch (ResourceNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      historyVelocity.setGear(j.getInt("gear"));
+      historyVelocity.setVelocity(j.getDouble("velocity"));
+      historyVelocity.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
+
+      try {
+        velocityService.addVelocity(historyVelocity);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     latch.countDown();
