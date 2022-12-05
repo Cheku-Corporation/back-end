@@ -1,14 +1,10 @@
 package com.cheku.cheku.api;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.auxiliar_classes.Velocity;
@@ -80,7 +76,7 @@ public class APIReadController {
 	}
 	//Done (Should not be used!)
 	@GetMapping("api/velocities")
-	public List<HistoryVelocity> getCarVelocities() {
+	public List<Velocity_history> getCarVelocities() {
 		return velocityService.getAllVelocity();
 	}
 

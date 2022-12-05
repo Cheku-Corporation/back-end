@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.HistoryVelocity;
+import com.cheku.cheku.model.Velocity_history;
 import com.cheku.cheku.service.CarService;
 import com.cheku.cheku.service.VelocityService;
 
@@ -32,7 +32,7 @@ public class Receiver {
     //System.out.println("Received <" + msg + ">");
     // velocityStorage.addVelocity(msg);
     JSONObject j = new JSONObject(msg);
-    HistoryVelocity historyVelocity = new HistoryVelocity();
+    Velocity_history historyVelocity = new Velocity_history();
 
     Car car = carService.getCar((long) 1);
     historyVelocity.setCar(car);

@@ -26,12 +26,14 @@ public class CombustivelService {
             combustivel.setCar(car);
         }
         catch (Exception e){
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
         try {
             return combustivelRepository.save(combustivel);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving combustivel");
+            System.out.println("Error saving combustivel");
+            return null;
         }
     }
 }

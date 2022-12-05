@@ -25,12 +25,14 @@ public class AguaService {
             agua.setCar(car);
         }
         catch (Exception e){
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
         try {
             return aguaRepository.save(agua);
         } catch (Exception e) {
-           throw new RuntimeException("Error saving agua");
+            System.out.println("Error saving agua");
+            return null;
         }
     }
 }

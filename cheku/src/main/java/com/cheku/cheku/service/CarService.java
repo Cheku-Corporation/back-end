@@ -26,7 +26,8 @@ public class CarService {
     public Car addCar(Car car) {
         // verificar se não existe um carro com a mesma matricula
         if (carRepository.findByMatricula(car.getMatricula()) != null) {
-            throw new RuntimeException("Car already exists");
+            System.out.println"Car already exists");
+            return null;
         }
         // verificar se o motor existe
         try {
@@ -42,7 +43,8 @@ public class CarService {
                 motorRepository.findById(car.getMotor().getId());
                 car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
             } catch (Exception ex) {
-                throw new RuntimeException("Motor not found");
+                System.out.println("Motor not found");
+                return null;
             }
         }
         // verificar se os pneus existem
@@ -60,13 +62,15 @@ public class CarService {
                 car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
 
             } catch (Exception ex) {
-                throw new RuntimeException("Pneus not found");
+                System.out.println("Pneus not found");
+                return null;
             }
         }
         try {
             return carRepository.save(car);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving car");
+            System.out.println("Error saving car");
+            return null;
         }
     }
 
@@ -74,7 +78,8 @@ public class CarService {
         try{
             return carRepository.findById(id).get();
         } catch (Exception e) {
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
     }
 
@@ -92,7 +97,8 @@ public class CarService {
         try{
             carRepository.findById(car.getId()).get();
         } catch (Exception e) {
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
 
         // verificar se o motor existe
@@ -109,7 +115,8 @@ public class CarService {
                 motorRepository.findById(car.getMotor().getId());
                 car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
             } catch (Exception ex) {
-                throw new RuntimeException("Motor not found");
+                System.out.println("Motor not found");
+                return null;
             }
         }
         // verificar se os pneus existem
@@ -127,7 +134,8 @@ public class CarService {
                 car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
 
             } catch (Exception ex) {
-                throw new RuntimeException("Pneus not found");
+                System.out.println("Pneus not found");
+                return null;
             }
         }
         try {

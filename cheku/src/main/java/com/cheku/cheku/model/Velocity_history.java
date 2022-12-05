@@ -3,7 +3,7 @@ package com.cheku.cheku.model;
 import javax.persistence.*;
 
 import java.util.*;
-import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HistoryVelocity {
+public class Velocity_history {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

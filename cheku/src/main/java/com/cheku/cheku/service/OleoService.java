@@ -25,12 +25,14 @@ public class OleoService {
             oleo.setCar(car);
         }
         catch (Exception e){
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
         try {
             return oleoRepository.save(oleo);
         } catch (Exception e) {
-           throw new RuntimeException("Error saving oil");
+            System.out.println("Error saving oil");
+            return null;
         }
     }
 

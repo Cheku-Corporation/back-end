@@ -1,13 +1,10 @@
 package com.cheku.cheku.api;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.*;
@@ -61,7 +58,7 @@ public class APICreateController {
 
     //-----------------------------REMOVER MAIS TARDE--------------------------------
     @PostMapping("api/velocity")
-    public HistoryVelocity createVelocityRecord (@Valid @RequestBody HistoryVelocity velocity) throws ResourceNotFoundException{
+    public Velocity_history createVelocityRecord (@Valid @RequestBody Velocity_history velocity) throws ResourceNotFoundException{
         return velocityService.addVelocity(velocity);
     }
 
