@@ -76,7 +76,8 @@ public class APICreateController {
 
     //DONE
     @PostMapping("api/user")
-    public User createUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
+    public User createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
+        System.out.println("User: " + user.getEmail());
         return userService.addUser(user);
     }
 

@@ -29,10 +29,6 @@ public class User {
     private String name;
 
     @OneToMany()
-    @JoinColumn(name = "cars", referencedColumnName = "id")
-    private List<Car> carList = new ArrayList<>();
-
-    @OneToMany()
     @JoinColumn(name = "groups", referencedColumnName = "id")
     private List<Group> groupList = new ArrayList<>();
 
