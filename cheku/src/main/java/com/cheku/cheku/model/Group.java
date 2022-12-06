@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,17 +26,14 @@ public class Group {
     //lista de cars
     @OneToMany
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
-    private List<Car> carList;
+    private List<Car> carList = new ArrayList<>();
 
     //lista de users
     @OneToMany
     @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
-    private List<User> userList;
+    private List<User> userList = new ArrayList<>();
 
-    //colocar um user como admin
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "admin", nullable = false)
-    private User admin;
-
+    @Column(name = "admin", nullable = false)
+    private long admin;
 
 }

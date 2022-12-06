@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,10 +30,10 @@ public class User {
 
     @OneToMany()
     @JoinColumn(name = "cars", referencedColumnName = "id")
-    private List<Car> carList;
+    private List<Car> carList = new ArrayList<>();
 
     @OneToMany()
     @JoinColumn(name = "groups", referencedColumnName = "id")
-    private List<Group> groupList;
+    private List<Group> groupList = new ArrayList<>();
 
 }

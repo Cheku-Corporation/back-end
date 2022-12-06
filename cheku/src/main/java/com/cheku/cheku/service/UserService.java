@@ -4,6 +4,9 @@ import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -20,13 +23,17 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        try {
-            return userRepository.save(user);
-
-        } catch (Exception e) {
-            System.out.println("Error saving user :"+ e );
+    //check if user already exists
+        if(userRepository.findByEmail(user.getEmail()) != null){
+            System.out.println("User already exists");
             return null;
         }
-
+        try {
+            return userRepository.save(user);
+        } catch (Exception e) {
+            System.out.println("Error saving user");
+            return null;
+        }
     }
+
 }

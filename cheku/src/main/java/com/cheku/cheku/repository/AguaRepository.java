@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.cheku.cheku.model.*;
 
 public interface AguaRepository extends JpaRepository<Agua, Long>  {
-    public List<Agua> findByCar(Car car);
 }

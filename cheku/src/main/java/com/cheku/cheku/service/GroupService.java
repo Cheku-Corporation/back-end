@@ -22,6 +22,15 @@ public class GroupService {
     }
 
     public Group addGroup(Group group) {
+        //adicionar a lista de users
+        try {
+            userRepository.findById(group.getAdmin());
+            group.getUserList().add(userRepository.findById(group.getAdmin()).get());
+
+        } catch (Exception ex) {
+            System.out.println("User not found");
+            return null;
+        }
         //check if group already exists
         if(groupRepository.findByName(group.getName()) != null){
             System.out.println("Group already exists");
