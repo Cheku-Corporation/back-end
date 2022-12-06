@@ -15,10 +15,10 @@ public class User {
 
     //dados estaticos
     @Id
-    @Column(name = "id", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -27,7 +27,12 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
+    @OneToMany()
+    @JoinColumn(name = "cars", referencedColumnName = "id")
     private List<Car> carList;
+
+    @OneToMany()
+    @JoinColumn(name = "groups", referencedColumnName = "id")
+    private List<Group> groupList;
+
 }

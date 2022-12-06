@@ -22,13 +22,12 @@ public class GroupService {
     }
 
     public Group addGroup(Group group) {
+        //check if group already exists
+        if(groupRepository.findByName(group.getName()) != null){
+            System.out.println("Group already exists");
+            return null;
+        }
         try {
-            List<Car> cars = new ArrayList<>();
-            group.setCarList(cars);
-
-            List<User> users = new ArrayList<>();
-            group.setUsers(users);
-
             return groupRepository.save(group);
         } catch (Exception e) {
             System.out.println("Error saving group");

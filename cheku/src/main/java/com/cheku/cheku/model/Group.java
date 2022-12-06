@@ -1,6 +1,6 @@
 package com.cheku.cheku.model;
 
-
+import com.cheku.cheku.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,16 +27,15 @@ public class Group {
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
     private List<Car> carList;
 
-
     //lista de users
-    @OneToMany()
-    @JoinColumn(name = "users", referencedColumnName = "id", nullable = false)
-    private List<User> users;
+    @OneToMany
+    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
+    private List<User> userList;
 
-    //admin
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "admin", referencedColumnName = "id", nullable = false)
-//    private User admin;
+    //colocar um user como admin
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "admin", nullable = false)
+    private User admin;
 
 
 }

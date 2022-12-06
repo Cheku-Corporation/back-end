@@ -21,11 +21,10 @@ public class UserService {
 
     public User addUser(User user) {
         try {
-            User new_user =  userRepository.save(user);
-            return new_user;
+            return userRepository.save(user);
 
         } catch (Exception e) {
-            System.out.println("Error saving user");
+            System.out.println("Error saving user :"+ e );
             return null;
         }
 
