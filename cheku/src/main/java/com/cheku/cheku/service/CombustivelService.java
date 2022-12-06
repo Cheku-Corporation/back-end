@@ -21,13 +21,15 @@ public class CombustivelService {
     }
 
     public Combustivel addCombustivel(Combustivel combustivel) {
-        if(combustivel.getLiters() == null || combustivel.getLiters() < 0 || combustivel.getLiters() > 100){
+        if(combustivel.getLiters() == null || combustivel.getLiters() < 0 || combustivel.getLiters() > 1){
             System.out.println("Invalid Litter");
             return null;
         }
         try{
             Car car  = carRepository.findById(combustivel.getCar().getId()).get();
             combustivel.setCar(car);
+            Double liters = car.getCapacidadeDeposito() * combustivel.getPercentagem();
+            combustivel.setLiters(liters);
         }
         catch (Exception e){
             System.out.println("Car not found");

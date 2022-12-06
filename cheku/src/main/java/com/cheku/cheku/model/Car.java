@@ -30,6 +30,9 @@ public class Car {
     @Column(name = "matricula", nullable = false)
     private String matricula;
 
+    @Column(name = "capacidadeDeposito", nullable = false)
+    private Double capacidadeDeposito;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCar type;

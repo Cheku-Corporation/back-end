@@ -20,7 +20,7 @@ public class OleoService {
     }
 
     public Oleo save(Oleo oleo) {
-        if(oleo.getLiters() == null || oleo.getLiters() < 0 || oleo.getLiters() > 100){
+        if(oleo.getLiters() == null || oleo.getLiters() < 0 || oleo.getLiters() > 1){
             System.out.println("Invalid Liters");
             return null;
         }

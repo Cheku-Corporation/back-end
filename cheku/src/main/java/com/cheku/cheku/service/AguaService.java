@@ -20,7 +20,7 @@ public class AguaService {
     }
 
     public Agua save(Agua agua) {
-        if(agua.getLiters() == null || agua.getLiters() < 0 || agua.getLiters() > 100){
+        if(agua.getLiters() == null || agua.getLiters() < 0 || agua.getLiters() > 1){
             System.out.println("Invalid Liters");
             return null;
         }

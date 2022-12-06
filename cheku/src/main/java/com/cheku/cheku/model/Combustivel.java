@@ -20,6 +20,9 @@ public class Combustivel {
     @Column(name = "liters", nullable = false)
     private Double liters;
 
+    @Column(name = "percentagem", nullable = false)
+    private Double percentagem;
+
     @Column(name = "date", nullable = false)
     private Date date;
 
