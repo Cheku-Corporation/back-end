@@ -29,11 +29,11 @@ public class UserService {
 
         //criar um grupo para o user
         Group group = new Group();
-        if (groupRepository.findByName(user.getName()) != null) {
+        if (groupRepository.findByName(user.getGroup_private()) != null) {
             System.out.println("Group already exists");
             return null;
         }
-        group.setName(user.getName());
+        group.setName(user.getGroup_private());
         group.getUserList().add(user);
         try{
             User user1 = userRepository.save(user);

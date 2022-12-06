@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,7 +78,6 @@ public class APICreateController {
     //DONE
     @PostMapping("api/user")
     public User createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
-        System.out.println("User: " + user.getEmail());
         return userService.addUser(user);
     }
 

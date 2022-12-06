@@ -28,6 +28,9 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "group_private", nullable = false)
+    private String group_private;
+
     @OneToMany()
     @JoinColumn(name = "groups", referencedColumnName = "id")
     private List<Group> groupList = new ArrayList<>();
