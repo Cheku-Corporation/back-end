@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import com.cheku.cheku.model.*;
 
 public interface OleoRepository extends JpaRepository<Oleo, Long>  {
-    public List<Oleo> findByCar(Car car);
 }

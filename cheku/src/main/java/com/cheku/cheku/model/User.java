@@ -1,14 +1,10 @@
-package com.cheku.cheku.model.reafazer;
+package com.cheku.cheku.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,13 +21,13 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
-//
-//    //grupos
-//    @ManyToOne
-//    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-//    private Group group;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
+    private List<Car> carList;
 }

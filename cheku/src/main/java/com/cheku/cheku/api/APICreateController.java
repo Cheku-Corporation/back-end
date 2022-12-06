@@ -48,6 +48,14 @@ public class APICreateController {
     @Autowired
     private LuzesService luzesService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private GroupService groupService;
+
+
+
     //DONE
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
@@ -65,6 +73,19 @@ public class APICreateController {
     public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
         return pneusService.addPneus(pneus);
     }
+
+    //DONE
+    @PostMapping("api/user")
+    public User createUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
+        return userService.addUser(user);
+    }
+
+    @PostMapping("api/group")
+    public Group createGroup(@Valid @RequestBody Group group) throws ResourceNotFoundException {
+        return groupService.addGroup(group);
+    }
+
+
 
 
 

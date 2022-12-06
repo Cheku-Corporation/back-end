@@ -47,6 +47,12 @@ public class APIReadController {
 	@Autowired
 	private LuzesService luzesService;
 
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private GroupService groupService;
+
 
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
@@ -69,6 +75,16 @@ public class APIReadController {
 	@GetMapping("api/pneus")
 	public List<Pneus> getPneus() {
 		return pneusService.getAllPneus();
+	}
+
+	@GetMapping("api/users")
+	public List<User> getUsers() {
+		return userService.getAllUsers();
+	}
+
+	@GetMapping("api/groups")
+	public List<Group> getGroups(){
+		return groupService.getAllGroups();
 	}
 
 	//Done (Should not be used!)
