@@ -32,15 +32,6 @@ public class APICreateController {
     private LocalizationService localizationService;
 
     @Autowired
-    private CombustivelService combustivelService;
-
-    @Autowired
-    private OleoService oleoService;
-
-    @Autowired
-    private AguaService aguaService;
-
-    @Autowired
     private MotorHistoryService motorHistoryService;
 
     @Autowired
@@ -55,7 +46,8 @@ public class APICreateController {
     @Autowired
     private GroupService groupService;
 
-
+    @Autowired
+    private FluidService fluidService;
 
     //DONE
 	@PostMapping("api/car")
@@ -101,19 +93,17 @@ public class APICreateController {
         return localizationService.addLocalization(localization);
     }
 
-    @PostMapping("api/combustivel")
-    public Combustivel createCombustivelRecord (@Valid @RequestBody Combustivel combustivel) throws ResourceNotFoundException{
-        return combustivelService.addCombustivel(combustivel);
-    }
-
-    @PostMapping("api/oleo")
-    public Oleo createOleoRecord (@Valid @RequestBody Oleo oleo) throws ResourceNotFoundException{
-        return oleoService.save(oleo);
-    }
-
-    @PostMapping("api/agua")
-    public Agua createAguaRecord (@Valid @RequestBody Agua agua) throws ResourceNotFoundException{
-        return aguaService.save(agua);
+    @PostMapping("api/fluid")
+    public Fluid createFluidRecord (@Valid @RequestBody Fluid fluid) throws ResourceNotFoundException{
+        //Water and oil beetwen 0 and 1
+        if( (fluid.getWater() >= 0 && fluid.getWater() <= 1) && (fluid.getOil() >= 0 && fluid.getOil() <= 1) &&
+        fluid.getPercentagem() >= 0 && fluid.getPercentagem() <= 1){
+            fluid.setFuel(fluid.getPercentagem()* fluid.getCar().getTankCapacity());
+            return fluidService.addFluid(fluid);
+        }
+        else{
+            throw new ResourceNotFoundException("Water, oil and Percentagem must be beetwen 0 and 1");
+        }
     }
 
     @PostMapping("api/motorHistory")

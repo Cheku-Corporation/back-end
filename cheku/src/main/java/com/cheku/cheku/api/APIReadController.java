@@ -31,15 +31,6 @@ public class APIReadController {
 	private LocalizationService localizationService;
 
 	@Autowired
-	private CombustivelService combustivelService;
-
-	@Autowired
-	private OleoService oleoService;
-
-	@Autowired
-	private AguaService aguaService;
-
-	@Autowired
 	private MotorHistoryService motorHistoryService;
 
 	@Autowired
@@ -54,6 +45,8 @@ public class APIReadController {
 	@Autowired
 	private GroupService groupService;
 
+	@Autowired
+	private FluidService fluidService;
 
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
@@ -94,28 +87,13 @@ public class APIReadController {
 		return localizationService.getAllLocalizations();
 	}
 
-	//Done (Should not be used!)
-	@GetMapping("api/combustiveis")
-	public List<Combustivel> getCombustivel() {
-		return combustivelService.getAllCombustiveis();
-	}
+
 	//Done (Should not be used!)
 	@GetMapping("api/velocities")
 	public List<Velocity_history> getCarVelocities() {
 		return velocityService.getAllVelocity();
 	}
 
-	//Done (Should not be used!)
-	@GetMapping("api/oleos")
-	public List<Oleo> getOleo() {
-		return oleoService.getAllOleos();
-	}
-
-	//Done (Should not be used!)
-	@GetMapping("api/aguas")
-	public List<Agua> getAgua() {
-		return aguaService.getAllAguas();
-	}
 
 	@GetMapping("api/motorHistory")
 	public List<MotorHistory> getMotorHistory() {
@@ -130,6 +108,11 @@ public class APIReadController {
 	@GetMapping("api/Luzes")
 	public List<Luzes> getLuzes() {
 		return luzesService.getAllLuzes();
+	}
+
+	@GetMapping("api/fluids")
+	public List<Fluid> getFluids() {
+		return fluidService.getAllFluids();
 	}
 
 	//Done

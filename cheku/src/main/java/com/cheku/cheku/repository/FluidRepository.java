@@ -1,10 +1,10 @@
 package com.cheku.cheku.repository;
 
-import java.util.List;
-
+import com.cheku.cheku.model.Fluid;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.cheku.cheku.model.*;
 
-public interface OleoRepository extends JpaRepository<Oleo, Long>  {
+
+@Repository
+public interface FluidRepository extends JpaRepository<Fluid, Long> {
 }

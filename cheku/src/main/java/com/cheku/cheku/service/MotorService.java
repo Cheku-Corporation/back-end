@@ -31,4 +31,18 @@ public class MotorService {
             return null;
         }
     }
+
+    public Boolean deleteMotor(Long id) {
+        try {
+            motorRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error deleting motor");
+            return false;
+        }
+    }
+
+    public Motor getMotor(Long id) {
+        return motorRepository.findById(id).get();
+    }
 }
