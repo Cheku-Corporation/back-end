@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.auxiliar_classes.ProcessedUser;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class UserService {
     @Autowired
     private GroupRepository groupRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<ProcessedUser> getAllUsers() {
+        return userRepository.getAllbyNameEmail();
     }
 
     public User addUser(User user) {

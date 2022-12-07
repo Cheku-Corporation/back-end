@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cheku.cheku.auxiliar_classes.ProcessedUser;
 import com.cheku.cheku.auxiliar_classes.Velocity;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
@@ -78,7 +79,7 @@ public class APIReadController {
 	}
 
 	@GetMapping("api/users")
-	public List<User> getUsers() {
+	public List<ProcessedUser> getUsers() {
 		return userService.getAllUsers();
 	}
 
