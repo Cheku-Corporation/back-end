@@ -14,7 +14,7 @@ import com.cheku.cheku.service.CarService;
 import com.cheku.cheku.service.VelocityService;
 
 @Component
-public class Receiver {
+public class Velocity {
 
   // @Autowired
   // private VelocityStorage velocityStorage;
@@ -34,7 +34,7 @@ public class Receiver {
     JSONObject j = new JSONObject(msg);
     SpeedHistory historyVelocity = new SpeedHistory();
 
-    System.out.println("Car exists? " + carService.existsById((long) 1));
+    //System.out.println("Car exists? " + carService.existsById((long) 1));
     if(carService.existsById((long) 1)) {
       Car car = carService.getCar((long) 1);
       historyVelocity.setCar(car);
