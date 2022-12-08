@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.MotorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ public class MotorService {
     }
 
     //Done
-    public Motor addMotor(Motor motor) {
+    public Motor addMotor(Motor motor)  throws ResourceNotFoundException {
 
         // verificar se não existe um motor com o mesmo parâmetro
         if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
+            //throw new ResourceNotFoundException("Motor already exists");
+            System.out.println("Motor already exists");
             return null;
         }
         try {
@@ -29,16 +32,7 @@ public class MotorService {
         } catch (Exception e) {
             System.out.println("Error saving motor");
             return null;
-        }
-    }
-
-    public Boolean deleteMotor(Long id) {
-        try {
-            motorRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error deleting motor");
-            return false;
+            //throw new ResourceNotFoundException("Error saving motor");
         }
     }
 

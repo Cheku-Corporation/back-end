@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 
+import com.cheku.cheku.auxiliar_classes.NamesGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,7 +78,7 @@ public class APIReadController {
 	}
 
 	@GetMapping("api/groups")
-	public List<Group> getGroups(){
+	public List<NamesGroup> getGroups(){
 		return groupService.getAllGroups();
 	}
 
@@ -126,6 +127,8 @@ public class APIReadController {
 	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast1000Velocities(car_id);
 	}
+
+
 
 
 

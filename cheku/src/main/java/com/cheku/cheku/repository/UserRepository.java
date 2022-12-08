@@ -16,4 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT name, email FROM users", nativeQuery = true)
     List<ProcessedUser> getAllbyNameEmail();
+
+    @Query(value = "SELECT name, email FROM users where email = email and name = name LIMIT 1", nativeQuery = true)
+    ProcessedUser getUserbyNameEmail(String email, String name);
+
 }

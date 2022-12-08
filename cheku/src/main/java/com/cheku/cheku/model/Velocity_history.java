@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "historyVelocity")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "historyVelocity")
 public class Velocity_history {
 
     @Id

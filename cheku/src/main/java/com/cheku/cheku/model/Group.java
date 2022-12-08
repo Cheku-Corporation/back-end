@@ -1,6 +1,6 @@
 package com.cheku.cheku.model;
 
-import com.cheku.cheku.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,17 +23,28 @@ public class Group {
     private String name;
 
 
+    @JsonIgnore
     //lista de cars
     @OneToMany
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
     private List<Car> carList = new ArrayList<>();
 
     //lista de users
+    @JsonIgnore
     @OneToMany
     @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     private List<User> userList = new ArrayList<>();
 
     @Column(name = "admin", nullable = false)
     private long admin;
+
+
+    public void addUser(User user) {
+        userList.add(user);
+    }
+
+    public void addCar(Car car) {
+        carList.add(car);
+    }
 
 }

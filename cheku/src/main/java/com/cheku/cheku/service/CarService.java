@@ -2,6 +2,7 @@ package com.cheku.cheku.service;
 
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.CarRepository;
+import com.cheku.cheku.repository.GroupRepository;
 import com.cheku.cheku.repository.MotorRepository;
 import com.cheku.cheku.repository.PneusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class CarService {
 
     @Autowired
     private PneusRepository pneusRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     public List<Car> getAllCars() {
         return carRepository.findAll();

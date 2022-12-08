@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.auxiliar_classes.NamesGroup;
 import com.cheku.cheku.auxiliar_classes.ProcessedUser;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -21,36 +23,38 @@ public class UserService {
         return userRepository.getAllbyNameEmail();
     }
 
-    public User addUser(User user) {
+    public ProcessedUser addUser(User user) {
     //check if user already exists
         if(userRepository.findByEmail(user.getEmail()) != null){
             System.out.println("User already exists");
+            throw new RuntimeException("User already exists");
+        }
+        //check if group exists
+        if(groupRepository.findByName(user.getGroup_private()) != null){
+            System.out.println("Group already exist");
             return null;
         }
 
-        //criar um grupo para o user
+        //create group
         Group group = new Group();
-        if (groupRepository.findByName(user.getGroup_private()) != null) {
-            System.out.println("Group already exists");
-            return null;
-        }
         group.setName(user.getGroup_private());
-        group.getUserList().add(user);
-        try{
-            User user1 = userRepository.save(user);
-            try{
-                group.setAdmin(user1.getId());
+
+
+        try {
+            User new_user = userRepository.save(user);
+            try {
+                group.setAdmin(new_user.getId());
+                group.getUserList().add(new_user);
+                new_user.getGroupList().add(group);
                 groupRepository.save(group);
-                user1.getGroupList().add(group);
-                return userRepository.save(user1);
-            } catch (Exception e){
+                return userRepository.getUserbyNameEmail(user.getEmail(), user.getName());
+            } catch (Exception e) {
                 System.out.println("Error saving group");
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error saving User ");
+            System.out.println("Error saving user, "+ e);
             return null;
         }
-
     }
 }
