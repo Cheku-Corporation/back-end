@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Table(name = "speed_history")
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "historyVelocity")
-public class Velocity_history {
+public class SpeedHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

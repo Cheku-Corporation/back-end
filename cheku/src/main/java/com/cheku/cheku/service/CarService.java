@@ -78,6 +78,10 @@ public class CarService {
         }
     }
 
+    public boolean existsById(Long id) {
+        return carRepository.existsById(id);
+    }
+
     public Car getCar(Long id) {
         try{
             return carRepository.findById(id).get();

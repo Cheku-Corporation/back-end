@@ -118,7 +118,7 @@ public class APIReadController {
 
 	//Done (Should not be used!)
 	@GetMapping("api/velocities")
-	public List<Velocity_history> getCarVelocities() {
+	public List<SpeedHistory> getCarVelocities() {
 		return velocityService.getAllVelocity();
 	}
 
@@ -142,14 +142,4 @@ public class APIReadController {
 	public List<Fluid> getFluids() {
 		return fluidService.getAllFluids();
 	}
-
-
-
-
-
-
-
-
-
-
 }

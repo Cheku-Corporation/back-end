@@ -100,7 +100,7 @@ public class APICreateController {
 
     //-----------------------------REMOVER MAIS TARDE--------------------------------
     @PostMapping("api/velocity")
-    public Velocity_history createVelocityRecord (@Valid @RequestBody Velocity_history velocity) throws ResourceNotFoundException{
+    public SpeedHistory createVelocityRecord (@Valid @RequestBody SpeedHistory velocity) throws ResourceNotFoundException{
         return velocityService.addVelocity(velocity);
     }
 
