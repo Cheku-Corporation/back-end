@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
@@ -40,11 +39,35 @@ public class Group {
 
 
     public void addUser(User user) {
+        //verificar se o user ja existe
+        if (userList.contains(user)) {
+            return;
+        }
         userList.add(user);
     }
 
     public void addCar(Car car) {
+        //verificar se o car ja existe
+        if (carList.contains(car)) {
+            return;
+        }
         carList.add(car);
+    }
+
+    public void removeUser(User user) {
+        //verificar se o user ja existe
+        if (!userList.contains(user)) {
+            return;
+        }
+        userList.remove(user);
+    }
+
+    public void removeCar(Car car) {
+        //verificar se o car ja existe
+        if (!carList.contains(car)) {
+            return;
+        }
+        carList.remove(car);
     }
 
 }

@@ -11,19 +11,10 @@ import java.util.List;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
-    User findByName(String name);
+    Group findByName(String name);
+    List<Group> findAll();
 
     Group findById(long id);
-
-    @Query(value = "SELECT name FROM groups where admin = id", nativeQuery = true)
-    List<String> getAllbyNameString(long id);
-
-    @Query(value = "SELECT name FROM groups", nativeQuery = true)
-    List<NamesGroup> getAllbyNameString();
-
-    @Query(value = "SELECT name FROM groups where name = name LIMIT 1", nativeQuery = true)
-    NamesGroup getGroupbyNameString(String name);
-
 
 
 }

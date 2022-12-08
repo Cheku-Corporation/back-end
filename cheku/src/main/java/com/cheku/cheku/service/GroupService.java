@@ -21,16 +21,16 @@ public class GroupService {
     @Autowired
     private CarRepository carRepository;
 
-    public List<NamesGroup> getAllGroups() {
-        return groupRepository.getAllbyNameString();
+    public List<Group> getAllGroups() {
+        return groupRepository.findAll();
     }
 
-    public NamesGroup addGroup(Group group) {
+    public Group addGroup(Group group) {
 
         //check if group already exists
         if(groupRepository.findByName(group.getName()) != null){
             System.out.println("Group already exists");
-            throw new RuntimeException("Group already exists");
+            return null;
         }
 
         //check if user exists
@@ -39,17 +39,11 @@ public class GroupService {
             return null;
         }
 
-        try {
-            //Criar o group
-            long id = group.getAdmin();
-            userRepository.findById(id).get().getGroupList().add(group);
-            group.getUserList().add(userRepository.findById(id).get());
-            groupRepository.save(group);
-            return groupRepository.getGroupbyNameString(group.getName());
-        } catch (Exception e) {
-            System.out.println("Error creating group");
-            throw new RuntimeException("Error creating group");
-        }
+        long id = group.getAdmin();
+        userRepository.findById(id).get().getGroupList().add(group);
+        group.getUserList().add(userRepository.findById(id).get());
+        groupRepository.save(group);
+        return groupRepository.save(group);
     }
 
     public List<Car> addCarToGroup(Long group_id, Long car_id) {
@@ -60,7 +54,7 @@ public class GroupService {
         }
 
         //check if car exists
-        if(userRepository.findById(car_id) == null){
+        if(carRepository.findById(car_id) == null){
             System.out.println("Car does not exist");
             return null;
         }
@@ -77,4 +71,5 @@ public class GroupService {
     private List<Car> ListCarInGroup(Long group_id) {
         return groupRepository.findById(group_id).get().getCarList();
     }
+
 }

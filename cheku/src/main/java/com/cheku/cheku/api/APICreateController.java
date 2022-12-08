@@ -16,6 +16,7 @@ import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -54,7 +55,7 @@ public class APICreateController {
     @Autowired
     private FluidService fluidService;
 
-    //DONE
+    //(REMOVER EM PRINCIPIO)
 	@PostMapping("api/car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
         return carService.addCar(car);
@@ -74,19 +75,25 @@ public class APICreateController {
 
     //DONE
     @PostMapping("api/user")
-    public ProcessedUser createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
+    public User createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
         return userService.addUser(user);
     }
 
+    //DONE
     @PostMapping("api/group")
-    public NamesGroup createGroup(@Valid @RequestBody Group group) {
+    public Group createGroup(@Valid @RequestBody Group group) {
         return groupService.addGroup(group);
     }
 
-    @PostMapping("api/group/{group_id}/car/{car_id}")
-    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long car_id) throws ResourceNotFoundException {
-        return groupService.addCarToGroup(group_id, car_id);
+    @PostMapping("api/group/{group_id}/car")
+    public List<Car> addCarToGroup(@PathVariable Long group_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
+        Car new_car = carService.addCar(car);
+        if (new_car == null){
+            return null;
+        }
+        return groupService.addCarToGroup(group_id, new_car.getId());
     }
+
 
 
 

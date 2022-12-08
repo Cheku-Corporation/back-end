@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
@@ -64,6 +62,10 @@ public class Car {
 
 
     public void addGroup(Group group) {
+        // verificar se o grupo já existe
+        if (groupList.contains(group)) {
+            return;
+        }
         groupList.add(group);
     }
 

@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.getAllbyNameEmail();
     }
 
-    public ProcessedUser addUser(User user) {
+    public User addUser(User user) {
     //check if user already exists
         if(userRepository.findByEmail(user.getEmail()) != null){
             System.out.println("User already exists");
@@ -47,7 +47,7 @@ public class UserService {
                 group.getUserList().add(new_user);
                 new_user.getGroupList().add(group);
                 groupRepository.save(group);
-                return userRepository.getUserbyNameEmail(user.getEmail(), user.getName());
+                return userRepository.save(new_user);
             } catch (Exception e) {
                 System.out.println("Error saving group");
                 return null;

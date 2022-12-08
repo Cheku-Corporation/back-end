@@ -78,7 +78,7 @@ public class APIReadController {
 	}
 
 	@GetMapping("api/groups")
-	public List<NamesGroup> getGroups(){
+	public List<Group> getGroups(){
 		return groupService.getAllGroups();
 	}
 
