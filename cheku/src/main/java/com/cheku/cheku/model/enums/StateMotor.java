@@ -1,5 +1,5 @@
 package com.cheku.cheku.model.enums;
 
-public enum StatusMotor {
+public enum StateMotor {
     ON, OFF
 }

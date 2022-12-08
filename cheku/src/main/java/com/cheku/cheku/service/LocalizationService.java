@@ -28,12 +28,14 @@ public class LocalizationService {
             localization.setCar(car);
         }
         catch (Exception e){
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
         try {
             return localizationRepository.save(localization);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving localization");
+            System.out.println("Error saving localization");
+            return null;
         }
     }
 

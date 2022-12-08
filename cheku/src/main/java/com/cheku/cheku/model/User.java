@@ -1,14 +1,12 @@
 package com.cheku.cheku.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,19 +17,24 @@ public class User {
 
     //dados estaticos
     @Id
-    @Column(name = "id", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @JsonIgnore
+
     @Column(name = "password", nullable = false)
     private String password;
 
-//
-//    //grupos
-//    @ManyToOne
-//    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-//    private Group group;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "group_private", nullable = false)
+    private String group_private;
+
+    @OneToMany()
+    @JoinColumn(name = "groups", referencedColumnName = "id")
+    private List<Group> groupList = new ArrayList<>();
+
 }

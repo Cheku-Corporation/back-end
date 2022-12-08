@@ -4,24 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.Date;
+import com.cheku.cheku.model.enums.StateLuzes;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "oleo")
-public class Oleo {
+@Table(name = "luzes")
+public class Luzes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "liters", nullable = false)
-    private Double liters;
-
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(name = "state", nullable = false)
+    private StateLuzes state;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "car_id", nullable = true)

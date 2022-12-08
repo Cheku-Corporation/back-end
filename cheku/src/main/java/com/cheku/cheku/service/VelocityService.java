@@ -3,16 +3,11 @@ package com.cheku.cheku.service;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cheku.cheku.auxiliar_classes.Velocity;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

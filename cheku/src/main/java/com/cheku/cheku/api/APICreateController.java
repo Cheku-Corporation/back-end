@@ -1,18 +1,20 @@
 package com.cheku.cheku.api;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
+
+import java.util.List;
+
 
 @RestController
 public class APICreateController {
@@ -33,19 +35,22 @@ public class APICreateController {
     private LocalizationService localizationService;
 
     @Autowired
-    private CombustivelService combustivelService;
+    private MotorHistoryService motorHistoryService;
 
     @Autowired
-    private OleoService oleoService;
+    private PneusHistoryService pneusHistoryService;
 
     @Autowired
-    private AguaService aguaService;
+    private LuzesService luzesService;
 
-    //DONE
-	@PostMapping("api/car")
-    public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
-        return carService.addCar(car);
-	}
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private GroupService groupService;
+
+    @Autowired
+    private FluidService fluidService;
 
     //DONE
     @PostMapping("api/motor")
@@ -59,6 +64,40 @@ public class APICreateController {
         return pneusService.addPneus(pneus);
     }
 
+    //DONE
+    @PostMapping("api/user")
+    public User createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
+        return userService.addUser(user);
+    }
+
+    //DONE
+    @PostMapping("api/group")
+    public Group createGroup(@Valid @RequestBody Group group) {
+        return groupService.addGroup(group);
+    }
+
+    @PostMapping("api/user/{user_id}/group/{group_id}/car")
+    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
+        //verificar que o user é o dono do grupo
+        if(!groupService.verifyAdmin(user_id, group_id)){
+            throw new ResourceNotFoundException("User is not admin of the group");
+        }
+
+        //criar o carro
+        Car new_car = carService.addCar(car);
+        if (new_car == null){
+            throw new ResourceNotFoundException("Car already exists");
+        }
+
+        //adicionar o carro ao grupo
+        return groupService.addCarToGroup(group_id, new_car.getId());
+    }
+
+
+
+
+
+
     //-----------------------------REMOVER MAIS TARDE--------------------------------
     @PostMapping("api/velocity")
     public SpeedHistory createVelocityRecord (@Valid @RequestBody SpeedHistory velocity) throws ResourceNotFoundException{
@@ -70,20 +109,34 @@ public class APICreateController {
         return localizationService.addLocalization(localization);
     }
 
-    @PostMapping("api/combustivel")
-    public Combustivel createCombustivelRecord (@Valid @RequestBody Combustivel combustivel) throws ResourceNotFoundException{
-        return combustivelService.addCombustivel(combustivel);
+    @PostMapping("api/fluid")
+    public Fluid createFluidRecord (@Valid @RequestBody Fluid fluid) throws ResourceNotFoundException{
+        //Water and oil beetwen 0 and 1
+        if( (fluid.getWater() >= 0 && fluid.getWater() <= 1) && (fluid.getOil() >= 0 && fluid.getOil() <= 1) &&
+        fluid.getPercentagem() >= 0 && fluid.getPercentagem() <= 1){
+            fluid.setFuel(fluid.getPercentagem()* fluid.getCar().getTankCapacity());
+            return fluidService.addFluid(fluid);
+        }
+        else{
+            throw new ResourceNotFoundException("Water, oil and Percentagem must be beetwen 0 and 1");
+        }
     }
 
-    @PostMapping("api/oleo")
-    public Oleo createOleoRecord (@Valid @RequestBody Oleo oleo) throws ResourceNotFoundException{
-        return oleoService.save(oleo);
+    @PostMapping("api/motorHistory")
+    public MotorHistory createMotorHistoryRecord (@Valid @RequestBody MotorHistory motorHistory) throws ResourceNotFoundException{
+        return motorHistoryService.saveMotorHistory(motorHistory);
     }
 
-    @PostMapping("api/agua")
-    public Agua createAguaRecord (@Valid @RequestBody Agua agua) throws ResourceNotFoundException{
-        return aguaService.save(agua);
+    @PostMapping("api/pneusHistory")
+    public PneusHistory createPneusHistoryRecord (@Valid @RequestBody PneusHistory pneusHistory) throws ResourceNotFoundException{
+        return pneusHistoryService.savePneusHistory(pneusHistory);
     }
+
+    @PostMapping("api/luzes")
+    public Luzes createLuzesRecord (@Valid @RequestBody Luzes luzes) throws ResourceNotFoundException{
+        return luzesService.save(luzes);
+    }
+
     // --------------------end -----------------
 
 }

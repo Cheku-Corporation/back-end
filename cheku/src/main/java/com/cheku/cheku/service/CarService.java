@@ -2,6 +2,7 @@ package com.cheku.cheku.service;
 
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.CarRepository;
+import com.cheku.cheku.repository.GroupRepository;
 import com.cheku.cheku.repository.MotorRepository;
 import com.cheku.cheku.repository.PneusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class CarService {
     @Autowired
     private PneusRepository pneusRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
     public List<Car> getAllCars() {
         return carRepository.findAll();
     }
@@ -26,7 +30,8 @@ public class CarService {
     public Car addCar(Car car) {
         // verificar se não existe um carro com a mesma matricula
         if (carRepository.findByMatricula(car.getMatricula()) != null) {
-            throw new RuntimeException("Car already exists");
+            System.out.println("Car already exists");
+            return null;
         }
         // verificar se o motor existe
         try {
@@ -42,7 +47,8 @@ public class CarService {
                 motorRepository.findById(car.getMotor().getId());
                 car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
             } catch (Exception ex) {
-                throw new RuntimeException("Motor not found");
+                System.out.println("Motor not found");
+                return null;
             }
         }
         // verificar se os pneus existem
@@ -60,22 +66,29 @@ public class CarService {
                 car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
 
             } catch (Exception ex) {
-                throw new RuntimeException("Pneus not found");
+                System.out.println("Pneus not found");
+                return null;
             }
         }
         try {
             return carRepository.save(car);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving car");
+            System.out.println("Error saving car");
+            return null;
         }
-    }
-
-    public Car getCar(Long id) {
-        return carRepository.findById(id).get();
     }
 
     public boolean existsById(Long id) {
         return carRepository.existsById(id);
+    }
+
+    public Car getCar(Long id) {
+        try{
+            return carRepository.findById(id).get();
+        } catch (Exception e) {
+            System.out.println("Car not found");
+            return null;
+        }
     }
 
     public String deleteCar(Long id) {
@@ -92,7 +105,8 @@ public class CarService {
         try{
             carRepository.findById(car.getId()).get();
         } catch (Exception e) {
-            throw new RuntimeException("Car not found");
+            System.out.println("Car not found");
+            return null;
         }
 
         // verificar se o motor existe
@@ -109,7 +123,8 @@ public class CarService {
                 motorRepository.findById(car.getMotor().getId());
                 car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
             } catch (Exception ex) {
-                throw new RuntimeException("Motor not found");
+                System.out.println("Motor not found");
+                return null;
             }
         }
         // verificar se os pneus existem
@@ -127,13 +142,31 @@ public class CarService {
                 car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
 
             } catch (Exception ex) {
-                throw new RuntimeException("Pneus not found");
+                System.out.println("Pneus not found");
+                return null;
             }
         }
         try {
             return carRepository.save(car);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving car");
+            System.out.println("Error saving car");
+            return null;
         }
     }
+
+    public String deleteGroup(Long user_id, Long group_id) {
+        try {
+            Group group = groupRepository.findById(group_id).get();
+            if (group.getAdmin() == user_id) {
+                groupRepository.deleteById(group_id);
+                return "Grupo eliminado com sucesso";
+            } else {
+                return "Não tem permissões para eliminar este grupo";
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao apagar grupo");
+            return "Erro ao apagar grupo";
+        }
+    }
+
 }

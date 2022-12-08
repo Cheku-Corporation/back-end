@@ -28,7 +28,8 @@ public class PneusService {
         try {
             return pneusRepository.save(pneus);
         } catch (Exception e) {
-            throw new RuntimeException("Error saving pneus");
+            System.out.println("Error saving pneus");
+            return null;
         }
     }
 }

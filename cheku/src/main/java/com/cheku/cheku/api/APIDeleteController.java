@@ -1,7 +1,6 @@
 package com.cheku.cheku.api;
 
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.cheku.cheku.service.*;
@@ -13,8 +12,27 @@ public class APIDeleteController {
     @Autowired
     private CarService carService;
 
-    @DeleteMapping("api/car/{car_id}")
-    public String  deleteCar(@PathVariable Long car_id) {
-         return carService.deleteCar(car_id);
+    @Autowired
+    private GroupService groupService;
+
+    @DeleteMapping("api/user/{user_id}/group/{group_id}/car/{car_id}")
+    public String  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id, @PathVariable Long car_id) {
+        //verificar se o user_id é o admin do grupo
+        if (groupService.verifyAdmin(user_id, group_id)) {
+            carService.deleteCar(car_id);
+            return "Carro apagado com sucesso";
+        }
+        return "Não tem permissões para apagar o carro";
+    }
+
+    @DeleteMapping("api/user/{user_id}/group/{group_id}")
+    public void  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id) throws RuntimeException {
+        //verificar se o user_id é o admin do grupo
+        if (groupService.verifyAdmin(user_id, group_id)) {
+            groupService.deleteGroup(group_id);
+        }
+        else{
+            throw new RuntimeException("Não tem permissões para apagar o grupo");
+        }
     }
 }

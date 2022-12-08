@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
 @Data
@@ -27,12 +29,22 @@ public class Car {
     @Column(name = "year", nullable = false)
     private int year;
 
+    @Size(min = 8, max = 8)
     @Column(name = "matricula", nullable = false)
     private String matricula;
+
+    @Column(name = "TankCapacity", nullable = false)
+    private Double tankCapacity;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCar type;
+
+    @Column(name = "dateofinspection", nullable = false)
+    private Date dateofinspection;
+
+    @Column(name = "dateofinsurance", nullable = false)
+    private Date dateofinsurance;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "motor", nullable = false)
@@ -41,8 +53,21 @@ public class Car {
     @ManyToOne(optional = false)
     @JoinColumn(name = "pneus", nullable = false)
     private Pneus pneus;
-//
-//    @ManyToOne(optional = true)
-//    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-//    private User user;
+
+    @ManyToMany
+    @JoinTable(name = "car_user",
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private List<Group> groupList = new ArrayList<>();
+
+
+    public void addGroup(Group group) {
+        // verificar se o grupo já existe
+        if (groupList.contains(group)) {
+            return;
+        }
+        groupList.add(group);
+    }
+
+
 }

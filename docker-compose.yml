@@ -1,5 +1,3 @@
-# run sprint boot an initlialize mysql container
-
 version: "3.9"
 
 services:

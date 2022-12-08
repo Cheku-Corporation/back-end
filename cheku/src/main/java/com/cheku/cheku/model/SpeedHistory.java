@@ -3,7 +3,7 @@ package com.cheku.cheku.model;
 import javax.persistence.*;
 
 import java.util.*;
-import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
