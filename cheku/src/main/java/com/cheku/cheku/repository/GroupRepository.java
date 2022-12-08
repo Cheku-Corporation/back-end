@@ -1,6 +1,5 @@
 package com.cheku.cheku.repository;
 
-import com.cheku.cheku.auxiliar_classes.NamesGroup;
 import com.cheku.cheku.model.Group;
 import com.cheku.cheku.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

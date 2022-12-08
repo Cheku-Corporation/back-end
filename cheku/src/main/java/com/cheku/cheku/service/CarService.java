@@ -149,4 +149,20 @@ public class CarService {
             return null;
         }
     }
+
+    public String deleteGroup(Long user_id, Long group_id) {
+        try {
+            Group group = groupRepository.findById(group_id).get();
+            if (group.getAdmin() == user_id) {
+                groupRepository.deleteById(group_id);
+                return "Grupo eliminado com sucesso";
+            } else {
+                return "Não tem permissões para eliminar este grupo";
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao apagar grupo");
+            return "Erro ao apagar grupo";
+        }
+    }
+
 }

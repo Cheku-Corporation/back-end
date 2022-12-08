@@ -2,7 +2,6 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 
-import com.cheku.cheku.auxiliar_classes.NamesGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,34 +53,62 @@ public class APIReadController {
 		return carservice.getAllCars();
 	}
 
-
+	//Done
 	@GetMapping("api/car/{car_id}")
 	public Car getCar(@PathVariable Long car_id) {
 		return carservice.getCar(car_id);
 	}
 
+	//@GetMapping("api/group/{group_id}/cars")
 
+
+	//Done
 	@GetMapping("api/motors")
 	public List<Motor> getMotors() {
 		return motorservice.getAllMotors();
 	}
 
 
+	//Done
 	@GetMapping("api/pneus")
 	public List<Pneus> getPneus() {
 		return pneusService.getAllPneus();
 	}
 
+	//Done
 	@GetMapping("api/users")
 	public List<ProcessedUser> getUsers() {
 		return userService.getAllUsers();
 	}
 
+	//Done
 	@GetMapping("api/groups")
 	public List<Group> getGroups(){
 		return groupService.getAllGroups();
 	}
 
+	//Done
+	@GetMapping("api/users/{user_id}/groups")
+	public List<Group> getUserGroups(@PathVariable Long user_id){
+		return groupService.getUserGroups(user_id);
+	}
+
+
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/100")
+	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast100Velocities(car_id);
+	}
+
+	//Done
+	@GetMapping("api/car/{car_id}/velocities/1000")
+	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
+		return velocityService.getLast1000Velocities(car_id);
+	}
+
+
+	// --------------------------------------------------------------------------------------------------------------
 	//Done (Should not be used!)
 	@GetMapping("api/localizations")
 	public List<Localization> getLocalizations() {
@@ -116,17 +143,6 @@ public class APIReadController {
 		return fluidService.getAllFluids();
 	}
 
-	//Done
-	@GetMapping("api/car/{car_id}/velocities/100")
-	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
-		return velocityService.getLast100Velocities(car_id);
-	}
-
-	//Done
-	@GetMapping("api/car/{car_id}/velocities/1000")
-	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
-		return velocityService.getLast1000Velocities(car_id);
-	}
 
 
 

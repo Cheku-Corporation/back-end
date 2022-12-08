@@ -2,9 +2,7 @@ package com.cheku.cheku.api;
 
 import javax.validation.Valid;
 
-import com.cheku.cheku.auxiliar_classes.NamesGroup;
-import com.cheku.cheku.auxiliar_classes.ProcessedUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +14,6 @@ import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -55,12 +52,6 @@ public class APICreateController {
     @Autowired
     private FluidService fluidService;
 
-    //(REMOVER EM PRINCIPIO)
-	@PostMapping("api/car")
-    public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
-        return carService.addCar(car);
-	}
-
     //DONE
     @PostMapping("api/motor")
     public Motor createMotor(@Valid @RequestBody Motor motor) throws ResourceNotFoundException {
@@ -85,12 +76,20 @@ public class APICreateController {
         return groupService.addGroup(group);
     }
 
-    @PostMapping("api/group/{group_id}/car")
-    public List<Car> addCarToGroup(@PathVariable Long group_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
+    @PostMapping("api/user/{user_id}/group/{group_id}/car")
+    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
+        //verificar que o user é o dono do grupo
+        if(!groupService.verifyAdmin(user_id, group_id)){
+            throw new ResourceNotFoundException("User is not admin of the group");
+        }
+
+        //criar o carro
         Car new_car = carService.addCar(car);
         if (new_car == null){
-            return null;
+            throw new ResourceNotFoundException("Car already exists");
         }
+
+        //adicionar o carro ao grupo
         return groupService.addCarToGroup(group_id, new_car.getId());
     }
 

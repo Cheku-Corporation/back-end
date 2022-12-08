@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.cheku.cheku.model.Car;
 import com.cheku.cheku.service.CarService;
 
+import javax.validation.Valid;
 
 
 @RestController
@@ -24,6 +25,13 @@ public class APIUpdateController {
     @PutMapping("api/car")
     public Car updateCar(@RequestBody Car car) {
         return carService.updateCar(car);
+    }
+
+
+    //ALTERAR AINDA
+    @PutMapping("api/group/{group_id}/car")
+    public Car updateCar(@PathVariable Long group_id, @Valid @RequestBody Car car) {
+        return updateCar(car);
     }
 
 }

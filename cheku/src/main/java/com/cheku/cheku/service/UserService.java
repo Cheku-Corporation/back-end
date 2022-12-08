@@ -1,6 +1,5 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.NamesGroup;
 import com.cheku.cheku.auxiliar_classes.ProcessedUser;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
