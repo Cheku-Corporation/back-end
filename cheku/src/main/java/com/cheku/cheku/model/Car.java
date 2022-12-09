@@ -54,9 +54,13 @@ public class Car {
     @JoinColumn(name = "pneus", nullable = false)
     private Pneus pneus;
 
-    @OneToMany()
-    @JoinColumn(name = "group", referencedColumnName = "id")
-    private Group group;
+    //    @ManyToMany
+//    @JoinTable(name = "car_user",
+//            joinColumns = @JoinColumn(name = "car_id"),
+//            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group ;
 
 
 //    public void addGroup(Group group) {

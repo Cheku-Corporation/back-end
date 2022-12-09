@@ -34,12 +34,12 @@ public class User {
     private String group_private;
 
 
+    //    @OneToMany()
+    //    @JoinColumn(name = "groups", referencedColumnName = "id")
     @ManyToMany()
-    @JoinTable(
-            name = "users_groups",
+    @JoinTable(name = "user_group",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groupList = new ArrayList<>();
 
 }
