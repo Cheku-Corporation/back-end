@@ -33,8 +33,13 @@ public class User {
     @Column(name = "group_private", nullable = false)
     private String group_private;
 
-    @OneToMany()
-    @JoinColumn(name = "groups", referencedColumnName = "id")
+
+    @ManyToMany()
+    @JoinTable(
+            name = "users_groups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
     private List<Group> groupList = new ArrayList<>();
 
 }

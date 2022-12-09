@@ -54,20 +54,18 @@ public class Car {
     @JoinColumn(name = "pneus", nullable = false)
     private Pneus pneus;
 
-    @ManyToMany
-    @JoinTable(name = "car_user",
-            joinColumns = @JoinColumn(name = "car_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Group> groupList = new ArrayList<>();
+    @OneToMany()
+    @JoinColumn(name = "group", referencedColumnName = "id")
+    private Group group;
 
 
-    public void addGroup(Group group) {
-        // verificar se o grupo já existe
-        if (groupList.contains(group)) {
-            return;
-        }
-        groupList.add(group);
-    }
+//    public void addGroup(Group group) {
+//        // verificar se o grupo já existe
+//        if (groupList.contains(group)) {
+//            return;
+//        }
+//        groupList.add(group);
+//    }
 
 
 }
