@@ -33,9 +33,6 @@ public class Fluid {
     @Column(name = "water", nullable = false)
     private Double water;
 
-    @Column(name = "percentagem", nullable = false)
-    private Double percentagem;
-
     @NotNull(message = "Date is required")
     @Column(name = "date", nullable = false)
     private Date date;

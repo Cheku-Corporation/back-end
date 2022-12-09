@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.model.Fluid;
 import com.cheku.cheku.repository.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class FluidService {
         }
     }
 
-    public List<Fluid> getAllFluids() {
-        return fluidRepository.findAll();
+    public List<SimpleFluid> getAllFluids() {
+        return fluidRepository.getAll();
     }
 
     public Fluid getFluid(Long id) {

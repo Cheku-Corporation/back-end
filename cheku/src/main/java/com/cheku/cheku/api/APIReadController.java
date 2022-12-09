@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.auxiliar_classes.ProcessedUser;
+import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.auxiliar_classes.Velocity;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
@@ -139,7 +140,7 @@ public class APIReadController {
 	}
 
 	@GetMapping("api/fluids")
-	public List<Fluid> getFluids() {
+	public List<SimpleFluid> getFluids() {
 		return fluidService.getAllFluids();
 	}
 }
