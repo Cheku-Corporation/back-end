@@ -16,13 +16,12 @@ import java.util.*;
 public class CarModel {
 
     //Atributos estaticos
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name = "brand", nullable = false)
     private String brand;
 
+    //Primary Key é o model
+    @Id
     @Column(name = "model", nullable = false)
     private String model;
 

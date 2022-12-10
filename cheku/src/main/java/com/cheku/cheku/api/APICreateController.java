@@ -20,7 +20,7 @@ import java.util.List;
 public class APICreateController {
 
     @Autowired
-	private VelocityService velocityService;
+    private VelocityService velocityService;
 
     @Autowired
     private LocalizationService localizationService;
@@ -45,7 +45,7 @@ public class APICreateController {
 
     //DONE
     @PostMapping("api/user")
-    public User createUser(@Valid @RequestBody User user ) throws ResourceNotFoundException {
+    public User createUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
         return userService.addUser(user);
     }
 
@@ -56,10 +56,19 @@ public class APICreateController {
     }
 
     @PostMapping("api/car")
-    public Car createCar(@Valid @RequestBody Car car) throws  ResourceNotFoundException{
-        return carService.addCar(car);
-    }
+    public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
 
+        // verificar se não existe um carro com a mesma matricula
+        if (carService.existsByMatricula(car.getMatricula())) {
+            System.out.println("Car already exists");
+            throw new ResourceNotFoundException("Car already exists");
+        }
+        try {
+            return carService.addCar(car);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Error saving car");
+        }
+    }
 //    @PostMapping("api/user/{user_id}/group/{group_id}/car")
 //    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
 //        //verificar que o user é o dono do grupo

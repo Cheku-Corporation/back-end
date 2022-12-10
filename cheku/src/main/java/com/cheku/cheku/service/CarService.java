@@ -5,6 +5,8 @@ import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,28 +31,20 @@ public class CarService {
     }
 
     public Car addCar(Car car) throws ResourceNotFoundException {
-        // verificar se não existe um carro com a mesma matricula
-        if (carRepository.findByMatricula(car.getMatricula()) != null) {
-            System.out.println("Car already exists");
-            throw new ResourceNotFoundException("Car already exists");
-        }
+
         // verificar se o grupo existe
-        else if (groupRepository.findById(car.getGroup().getId()) == null) {
+        if (groupRepository.findById(car.getGroup().getId()) == null) {
             System.out.println("The group doesn't exist");
             throw new ResourceNotFoundException("The group doesn't exist");
         }
         // verificar se model existe
-        else if (carModelRepository.findById(car.getModel().getId()) == null) {
+        if (carModelRepository.findByModel(car.getModel().getModel()) == null) {
             System.out.println("The car model doesn't exist");
             throw new ResourceNotFoundException("The car model doesn't exist");
         }
-
-        try {
-            car.setModel();
-            return carRepository.save(car);
-        }catch (Exception e){
-            throw new ResourceNotFoundException("The car model doesn't exist");
-        }
+        car.setModel(carModelRepository.findByModel(car.getModel().getModel()));
+        car.setGroup(groupRepository.findById(car.getGroup().getId()).get());
+        return carRepository.save(car);
     }
 
     public Car getCar(Long id) throws ResourceNotFoundException {
@@ -62,5 +56,7 @@ public class CarService {
     }
 
 
-
+    public boolean existsByMatricula(String matricula) {
+        return carRepository.existsByMatricula(matricula);
+    }
 }

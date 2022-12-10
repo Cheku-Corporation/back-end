@@ -34,6 +34,6 @@ public class Car {
     private Group group ;
 
     @ManyToOne
-    @JoinColumn(name = "model_id", nullable = false)
+    @JoinColumn(name = "model_id", nullable = false, referencedColumnName = "model")
     private CarModel model;
 }
