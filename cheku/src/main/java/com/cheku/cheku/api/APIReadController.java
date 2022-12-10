@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +57,7 @@ public class APIReadController {
 
 	//Done
 	@GetMapping("api/car/{car_id}")
-	public Car getCar(@PathVariable Long car_id) {
+	public Car getCar(@PathVariable Long car_id) throws ResourceNotFoundException {
 		return carservice.getCar(car_id);
 	}
 

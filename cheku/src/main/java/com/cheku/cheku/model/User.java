@@ -30,12 +30,6 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "group_private", nullable = false)
-    private String group_private;
-
-
-    //    @OneToMany()
-    //    @JoinColumn(name = "groups", referencedColumnName = "id")
     @ManyToMany()
     @JoinTable(name = "user_group",
             joinColumns = @JoinColumn(name = "user_id"),

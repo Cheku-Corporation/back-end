@@ -3,6 +3,7 @@ package com.cheku.cheku.rabbitmq;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class Fluids {
 
     private CountDownLatch latch = new CountDownLatch(1);
 
-    public void receiveMessage(byte[] message) {
+    public void receiveMessage(byte[] message) throws ResourceNotFoundException {
         String msg = new String(message);
         System.out.println("Received Fluid <" + msg + ">");
         // velocityStorage.addVelocity(msg);

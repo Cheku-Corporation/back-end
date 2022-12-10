@@ -19,19 +19,14 @@ public class APIUpdateController {
 	// 	return qs.get((int)(Math.random()*(qs.size() + 1 )));
 	// }
 
-    @Autowired
-    private CarService carService;
-
-    @PutMapping("api/car")
-    public Car updateCar(@RequestBody Car car) {
-        return carService.updateCar(car);
-    }
-
-
-    //ALTERAR AINDA
-    @PutMapping("api/group/{group_id}/car")
-    public Car updateCar(@PathVariable Long group_id, @Valid @RequestBody Car car) {
-        return updateCar(car);
-    }
+//    @Autowired
+//    private CarService carService;
+//
+//
+//    //ALTERAR AINDA
+//    @PutMapping("api/group/{group_id}/car")
+//    public Car updateCar(@PathVariable Long group_id, @Valid @RequestBody Car car) {
+//        return updateCar(car);
+//    }
 
 }

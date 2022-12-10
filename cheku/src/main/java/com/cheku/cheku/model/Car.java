@@ -1,6 +1,5 @@
 package com.cheku.cheku.model;
 
-import com.cheku.cheku.model.enums.TypeCar;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,56 +19,21 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "brand", nullable = false)
-    private String brand;
-
-    @Column(name = "model", nullable = false)
-    private String model;
-
-    @Column(name = "year", nullable = false)
-    private int year;
-
     @Size(min = 8, max = 8)
-    @Column(name = "matricula", nullable = false)
+    @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    @Column(name = "TankCapacity", nullable = false)
-    private Double tankCapacity;
-
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TypeCar type;
-
-    @Column(name = "dateofinspection", nullable = false)
+    @Column(name = "dateofinspection", nullable = true)
     private Date dateofinspection;
 
-    @Column(name = "dateofinsurance", nullable = false)
+    @Column(name = "dateofinsurance", nullable = true)
     private Date dateofinsurance;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "motor", nullable = false)
-    private Motor motor;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "pneus", nullable = false)
-    private Pneus pneus;
-
-    //    @ManyToMany
-//    @JoinTable(name = "car_user",
-//            joinColumns = @JoinColumn(name = "car_id"),
-//            inverseJoinColumns = @JoinColumn(name = "group_id"))
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)
     private Group group ;
 
-
-//    public void addGroup(Group group) {
-//        // verificar se o grupo já existe
-//        if (groupList.contains(group)) {
-//            return;
-//        }
-//        groupList.add(group);
-//    }
-
-
+    @ManyToOne
+    @JoinColumn(name = "model_id", nullable = false)
+    private CarModel model;
 }

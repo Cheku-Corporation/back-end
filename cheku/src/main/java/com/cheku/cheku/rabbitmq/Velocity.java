@@ -27,7 +27,7 @@ public class Velocity {
 
   private CountDownLatch latch = new CountDownLatch(1);
 
-  public void receiveMessage(byte[] message) {
+  public void receiveMessage(byte[] message) throws ResourceNotFoundException {
     String msg = new String(message);
     //System.out.println("Received <" + msg + ">");
     // velocityStorage.addVelocity(msg);

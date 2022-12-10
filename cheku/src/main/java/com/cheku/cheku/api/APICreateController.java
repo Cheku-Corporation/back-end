@@ -18,18 +18,9 @@ import java.util.List;
 
 @RestController
 public class APICreateController {
-    
-    @Autowired
-	private CarService carService;
-
-    @Autowired
-    private MotorService motorService;
 
     @Autowired
 	private VelocityService velocityService;
-
-    @Autowired
-    private PneusService pneusService;
 
     @Autowired
     private LocalizationService localizationService;
@@ -49,17 +40,8 @@ public class APICreateController {
     @Autowired
     private GroupService groupService;
 
-    //DONE
-    @PostMapping("api/motor")
-    public Motor createMotor(@Valid @RequestBody Motor motor) throws ResourceNotFoundException {
-        return motorService.addMotor(motor);
-    }
-
-    //DONE
-    @PostMapping("api/pneus")
-    public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
-        return pneusService.addPneus(pneus);
-    }
+    @Autowired
+    private CarService carService;
 
     //DONE
     @PostMapping("api/user")
@@ -73,22 +55,22 @@ public class APICreateController {
         return groupService.addGroup(group);
     }
 
-    @PostMapping("api/user/{user_id}/group/{group_id}/car")
-    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
-        //verificar que o user é o dono do grupo
-        if(!groupService.verifyAdmin(user_id, group_id)){
-            throw new ResourceNotFoundException("User is not admin of the group");
-        }
-
-        //criar o carro
-        Car new_car = carService.addCar(car);
-        if (new_car == null){
-            throw new ResourceNotFoundException("Car already exists");
-        }
-
-        //adicionar o carro ao grupo
-        return groupService.addCarToGroup(group_id, new_car.getId());
+    @PostMapping("api/car")
+    public Car createCar(@Valid @RequestBody Car car) throws  ResourceNotFoundException{
+        return carService.addCar(car);
     }
+
+//    @PostMapping("api/user/{user_id}/group/{group_id}/car")
+//    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
+//        //verificar que o user é o dono do grupo
+//        if(!groupService.verifyAdmin(user_id, group_id)){
+//            throw new ResourceNotFoundException("User is not admin of the group");
+//        }
+//        //criar o carro
+//        Car new_car = carService.addCar(car);
+//        //adicionar o carro ao grupo
+//        return groupService.addCarToGroup(group_id, new_car.getId());
+//    }
 
 
 
