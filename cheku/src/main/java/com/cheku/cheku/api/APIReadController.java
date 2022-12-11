@@ -50,6 +50,9 @@ public class APIReadController {
 	@Autowired
 	private FluidService fluidService;
 
+	@Autowired
+	private NotificationService notificationService;
+
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
 		return carservice.getAllCars();
@@ -143,5 +146,10 @@ public class APIReadController {
 	@GetMapping("api/fluids")
 	public List<SimpleFluid> getFluids() {
 		return fluidService.getAllFluids();
+	}
+
+	@GetMapping("api/car/{car_id}/notifications")
+	public List<Notification> getCarNotifications(@PathVariable Long car_id) {
+		return notificationService.getAllNotifications();
 	}
 }
