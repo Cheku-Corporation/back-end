@@ -122,4 +122,12 @@ public class GroupService {
         groupRepository.save(group);
         userRepository.save(user);
     }
+
+    public boolean findGroupByName(String groupName) {
+        return groupRepository.findByGroupName(groupName) != null;
+    }
+
+    public boolean findGroupById(long parseLong) {
+        return groupRepository.findById(parseLong) != null;
+    }
 }

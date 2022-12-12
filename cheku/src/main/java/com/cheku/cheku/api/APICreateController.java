@@ -62,33 +62,47 @@ public class APICreateController {
         return ResponseEntity.ok(groupService.createGroup(group));
     }
 
-    @PostMapping("Register")
-    public ResponseEntity<User> createRegister(@RequestBody String data) throws JsonProcessingException {
+    @PostMapping("register")
+    public void createRegister(@RequestBody String data) throws JsonProcessingException {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+            //verificar se é criar ou entrar num grupo
+            String groupId = mapper.readTree(data).get("groupId").asText();
+            String groupName = mapper.readTree(data).get("groupName").asText();
 
-        //Criar um new user
-        UserCreateRequest user = mapper.readValue(data,UserCreateRequest.class);
-        System.out.println(user);
-        userService.createUser(user);
+            //verificar se o grupo existe
+            if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
+                throw new RuntimeException("The group already exists");
+            }
 
-        //verificar se é criar ou entrar num grupo
-        String groupID  = mapper.readTree(data).get("groupID").asText();
-        if(groupID.isEmpty() ){
-            //criar grupo
-            System.out.println("Criar grupo");
-            Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
-            GroupCreateRequest group = mapper.readValue(data,GroupCreateRequest.class);
-            group.setAdmin(admin.get().getId());
-            groupService.createGroup(group);
-        }else{
-            System.out.println("Entrar num grupo");
-            //entrar num grupo
-            Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
-            groupService.addUserToGroup(user1.get().getId(),Long.parseLong(groupID));
-        }
-        return ResponseEntity.ok().build();
+            if (!groupId.isEmpty() && groupService.findGroupById(Long.parseLong(groupId))) {
+                throw new RuntimeException("The group not exists");
+            }
+
+            if (groupId.isEmpty() && !groupName.isEmpty()) {
+
+                //Criar um new user
+                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(user);
+
+                //criar grupo
+                Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
+                GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
+                group.setAdmin(admin.get().getId());
+                groupService.createGroup(group);
+            } else if (!groupId.isEmpty() && groupName.isEmpty()) {
+
+                //Criar um new user
+                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(user);
+
+                //entrar num grupo
+                Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
+                groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+            } else {
+                throw new RuntimeException("Erro ao criar o registo");
+            }
     }
 
 
