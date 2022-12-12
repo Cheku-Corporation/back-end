@@ -1,7 +1,9 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.request.GroupCreateRequest;
 import com.cheku.cheku.repository.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +26,22 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    public Group addGroup(Group group) {
+    public Group createGroup(GroupCreateRequest group) {
+        Optional<ApiUser> user = userRepository.findById(group.getAdmin());
+        if (!user.isPresent()) {
+            throw new RuntimeException("User not found");
+        }
 
         //check if group already exists
         if(groupRepository.findByName(group.getName()) != null){
-            System.out.println("Group already exists");
-            return null;
+            throw new RuntimeException("Group already exists");
         }
 
-        //check if user exists
-        if(userRepository.findById(group.getAdmin()) == null){
-            System.out.println("User does not exist");
-            return null;
-        }
-
-        long id = group.getAdmin();
-        userRepository.findById(id).get().getGroupList().add(group);
-        group.getUserList().add(userRepository.findById(id).get());
-        groupRepository.save(group);
-        return groupRepository.save(group);
+        Group groupToCreate = new Group();
+        BeanUtils.copyProperties(group, groupToCreate);
+        groupToCreate.setAdmin(user.get().getId());
+        groupToCreate.addUser(user.get());
+        return groupRepository.save(groupToCreate);
     }
 
     public List<Car> addCarToGroup(Long group_id, Long car_id) {

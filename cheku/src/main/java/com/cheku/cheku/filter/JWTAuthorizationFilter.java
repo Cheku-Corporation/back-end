@@ -47,17 +47,25 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(AuthenticationConfigConstants.HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(AuthenticationConfigConstants.SECRET.getBytes()))
+            DecodedJWT verify = JWT.require(Algorithm.HMAC512(AuthenticationConfigConstants.SECRET.getBytes()))
                     .build()
-                    .verify(token.replace(AuthenticationConfigConstants.TOKEN_PREFIX, ""))
-                    .getSubject();
+                    .verify(token.replace(AuthenticationConfigConstants.TOKEN_PREFIX, ""));
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            String username = verify.getSubject();
+            String role = verify.getClaim("role").asString();
+
+            if (username != null) {
+                return new UsernamePasswordAuthenticationToken(username, null, getAuthorities(role));
             }
             return null;
         }
         return null;
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        System.out.println("ROLE: " + role);
+        System.out.println("ROLE: " + Arrays.asList(new SimpleGrantedAuthority(role)));
+        return Arrays.asList(new SimpleGrantedAuthority(role));
     }
 
 }

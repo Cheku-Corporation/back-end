@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/api")
 public class APICreateController {
 
     @Autowired
@@ -44,19 +46,19 @@ public class APICreateController {
     private CarService carService;
 
     //DONE
-    @PostMapping("api/user")
+    @PostMapping("user")
     public ResponseEntity createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
         userService.createUser(user);
         return ResponseEntity.ok().build();
     }
 
     //DONE
-    @PostMapping("api/group")
-    public Group createGroup(@Valid @RequestBody Group group) {
-        return groupService.addGroup(group);
+    @PostMapping("group")
+    public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupCreateRequest group) {
+        return ResponseEntity.ok(groupService.createGroup(group));
     }
 
-    @PostMapping("api/car")
+    @PostMapping("car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
 
         // verificar se não existe um carro com a mesma matricula

@@ -24,9 +24,12 @@ public class ApiUser {
 
     @Column(name = "password", nullable = false)
     private String password;
-//
+
 //    @Column(name = "name", nullable = false)
 //    private String name;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @ManyToMany()
     @JoinTable(name = "user_group",

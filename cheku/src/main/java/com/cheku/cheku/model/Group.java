@@ -1,14 +1,14 @@
 package com.cheku.cheku.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "groups")
@@ -30,19 +30,16 @@ public class Group {
 
     //lista de users
     @JsonIgnore
-//    @OneToMany
-//    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     @ManyToMany(mappedBy = "groupList")
     private List<ApiUser> userList = new ArrayList<>();
 
     @Column(name = "admin", nullable = false)
     private long admin;
 
-
     public void addUser(ApiUser user) {
         //verificar se o user ja existe
         if (userList.contains(user)) {
-            return;
+            throw new RuntimeException("User already exists");
         }
         userList.add(user);
     }
@@ -50,7 +47,7 @@ public class Group {
     public void addCar(Car car) {
         //verificar se o car ja existe
         if (carList.contains(car)) {
-            return;
+            throw new RuntimeException("Carro já existe");
         }
         carList.add(car);
     }
@@ -58,7 +55,7 @@ public class Group {
     public void removeUser(ApiUser user) {
         //verificar se o user ja existe
         if (!userList.contains(user)) {
-            return;
+            throw new RuntimeException("User não existe");
         }
         userList.remove(user);
     }
@@ -66,7 +63,7 @@ public class Group {
     public void removeCar(Car car) {
         //verificar se o car ja existe
         if (!carList.contains(car)) {
-            return;
+            throw new RuntimeException("Carro não existe");
         }
         carList.remove(car);
     }

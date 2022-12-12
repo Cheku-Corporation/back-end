@@ -40,6 +40,7 @@ public class UserService {
         }
         user.setEmail(userCreateRequest.getEmail());
         user.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
+        user.setRole(userCreateRequest.getRole());
         userRepository.save(user);
     }
 
