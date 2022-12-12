@@ -1,39 +1,50 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.ProcessedUser;
-import com.cheku.cheku.exception.ResourceNotFoundException;
-import com.cheku.cheku.model.*;
-import com.cheku.cheku.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cheku.cheku.model.ApiUser;
+import com.cheku.cheku.model.request.UserCreateRequest;
+import com.cheku.cheku.repository.UserRepository;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import com.cheku.cheku.auxiliar_classes.ProcessedUser;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
-import java.util.Set;
+
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private GroupRepository groupRepository;
+    public ApiUser readUserByEmail (String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
+    public void createUser(UserCreateRequest userCreateRequest) {
+        ApiUser user = new ApiUser();
+        Optional<ApiUser> byEmail = userRepository.findByEmail(userCreateRequest.getEmail());
+        if (byEmail.isPresent()) {
+            throw new RuntimeException("Usuário já registrado. Por favor, use um nome de usuário diferente.");
+        }
+        user.setEmail(userCreateRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
+        userRepository.save(user);
+    }
 
     public List<ProcessedUser> getAllUsers() {
         return userRepository.getAllbyNameEmail();
     }
 
-    public User addUser(User user) throws ResourceNotFoundException {
-    //check if user already exists
-        if(userRepository.findByEmail(user.getEmail()) != null){
-            System.out.println("User already exists");
-            throw new ResourceNotFoundException("User already exists");
-        }
-        try {
-            return userRepository.save(user);
-        } catch (Exception e) {
-            System.out.println("Error saving user");
-            throw new ResourceNotFoundException("Error saving user");
-        }
-    }
 }

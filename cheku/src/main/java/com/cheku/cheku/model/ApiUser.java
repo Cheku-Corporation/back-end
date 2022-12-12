@@ -1,19 +1,17 @@
 package com.cheku.cheku.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class ApiUser {
 
     //dados estaticos
     @Id
@@ -26,9 +24,9 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "name", nullable = false)
-    private String name;
+//
+//    @Column(name = "name", nullable = false)
+//    private String name;
 
     @ManyToMany()
     @JoinTable(name = "user_group",

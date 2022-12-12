@@ -2,14 +2,14 @@ package com.cheku.cheku.api;
 
 import javax.validation.Valid;
 
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.request.*;
 import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
@@ -45,8 +45,9 @@ public class APICreateController {
 
     //DONE
     @PostMapping("api/user")
-    public User createUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
-        return userService.addUser(user);
+    public ResponseEntity createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
+        userService.createUser(user);
+        return ResponseEntity.ok().build();
     }
 
     //DONE

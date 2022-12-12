@@ -33,13 +33,13 @@ public class Group {
 //    @OneToMany
 //    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     @ManyToMany(mappedBy = "groupList")
-    private List<User> userList = new ArrayList<>();
+    private List<ApiUser> userList = new ArrayList<>();
 
     @Column(name = "admin", nullable = false)
     private long admin;
 
 
-    public void addUser(User user) {
+    public void addUser(ApiUser user) {
         //verificar se o user ja existe
         if (userList.contains(user)) {
             return;
@@ -55,7 +55,7 @@ public class Group {
         carList.add(car);
     }
 
-    public void removeUser(User user) {
+    public void removeUser(ApiUser user) {
         //verificar se o user ja existe
         if (!userList.contains(user)) {
             return;
