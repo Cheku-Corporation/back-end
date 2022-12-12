@@ -63,7 +63,7 @@ public class APICreateController {
     }
 
     @PostMapping("register")
-    public void createRegister(@RequestBody String data) throws JsonProcessingException {
+    public String createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -91,6 +91,7 @@ public class APICreateController {
                 GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
                 group.setAdmin(admin.get().getId());
                 groupService.createGroup(group);
+                return "Group created";
             } else if (!groupId.isEmpty() && groupName.isEmpty()) {
 
                 //Criar um new user
@@ -100,9 +101,11 @@ public class APICreateController {
                 //entrar num grupo
                 Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+                return "User added to group";
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
             }
+            return "Erro ao criar o registo";
     }
 
 
