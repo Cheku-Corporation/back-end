@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<ApiUser, Long> {
     @Query(value = "SELECT name, email FROM users where email = email and name = name LIMIT 1", nativeQuery = true)
     ProcessedUser getUserbyNameEmail(String email, String name);
 
+    long findIdByEmail(String email);
 }

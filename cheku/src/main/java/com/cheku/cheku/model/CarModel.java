@@ -15,8 +15,6 @@ import java.util.*;
 @Table(name = "model_car")
 public class CarModel {
 
-    //Atributos estaticos
-
     @Column(name = "brand", nullable = false)
     private String brand;
 

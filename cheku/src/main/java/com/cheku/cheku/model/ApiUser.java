@@ -21,12 +21,11 @@ public class ApiUser {
     @Column(name = "email", nullable = false)
     private String email;
 
-
     @Column(name = "password", nullable = false)
     private String password;
 
-//    @Column(name = "name", nullable = false)
-//    private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "role", nullable = false)
     private String role;
@@ -37,4 +36,11 @@ public class ApiUser {
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groupList = new ArrayList<>();
 
+    public void addGroup(Group groupToCreate) {
+        //verificar se o grupo ja existe
+        if (groupList.contains(groupToCreate)) {
+            throw new RuntimeException("Grupo já existe");
+        }
+        groupList.add(groupToCreate);
+    }
 }

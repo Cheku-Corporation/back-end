@@ -41,11 +41,18 @@ public class UserService {
         user.setEmail(userCreateRequest.getEmail());
         user.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
         user.setRole(userCreateRequest.getRole());
+        user.setName(userCreateRequest.getName());
         userRepository.save(user);
     }
 
     public List<ProcessedUser> getAllUsers() {
         return userRepository.getAllbyNameEmail();
     }
+
+    //getUserByEmail
+    public Optional<ApiUser> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 
 }

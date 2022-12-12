@@ -33,7 +33,7 @@ public class GroupService {
         }
 
         //check if group already exists
-        if(groupRepository.findByName(group.getName()) != null){
+        if(groupRepository.findByGroupName(group.getGroupName()) != null){
             throw new RuntimeException("Group already exists");
         }
 
@@ -41,6 +41,7 @@ public class GroupService {
         BeanUtils.copyProperties(group, groupToCreate);
         groupToCreate.setAdmin(user.get().getId());
         groupToCreate.addUser(user.get());
+        user.get().addGroup(groupToCreate);
         return groupRepository.save(groupToCreate);
     }
 
@@ -99,5 +100,26 @@ public class GroupService {
         }
 
         return userRepository.findById(user_id).get().getGroupList();
+    }
+
+    public void addUserToGroup(Long idUser, long idGroup) {
+        //check if user exists
+        if(userRepository.findById(idUser) == null){
+            System.out.println("User does not exist");
+            return;
+        }
+
+        //check if group exists
+        if(groupRepository.findById(idGroup) == null){
+            System.out.println("Group does not exist");
+            return;
+        }
+
+        Group group = groupRepository.findById(idGroup).get();
+        ApiUser user = userRepository.findById(idUser).get();
+        group.addUser(user);
+        user.addGroup(group);
+        groupRepository.save(group);
+        userRepository.save(user);
     }
 }

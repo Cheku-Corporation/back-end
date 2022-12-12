@@ -2,6 +2,10 @@ package com.cheku.cheku.api;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +18,7 @@ import com.cheku.cheku.model.request.*;
 import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -47,7 +51,7 @@ public class APICreateController {
 
     //DONE
     @PostMapping("user")
-    public ResponseEntity createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
         userService.createUser(user);
         return ResponseEntity.ok().build();
     }
@@ -57,6 +61,37 @@ public class APICreateController {
     public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupCreateRequest group) {
         return ResponseEntity.ok(groupService.createGroup(group));
     }
+
+    @PostMapping("Register")
+    public ResponseEntity<User> createRegister(@RequestBody String data) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+
+        //Criar um new user
+        UserCreateRequest user = mapper.readValue(data,UserCreateRequest.class);
+        System.out.println(user);
+        userService.createUser(user);
+
+        //verificar se é criar ou entrar num grupo
+        String groupID  = mapper.readTree(data).get("groupID").asText();
+        if(groupID.isEmpty() ){
+            //criar grupo
+            System.out.println("Criar grupo");
+            Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
+            GroupCreateRequest group = mapper.readValue(data,GroupCreateRequest.class);
+            group.setAdmin(admin.get().getId());
+            groupService.createGroup(group);
+        }else{
+            System.out.println("Entrar num grupo");
+            //entrar num grupo
+            Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
+            groupService.addUserToGroup(user1.get().getId(),Long.parseLong(groupID));
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
 
     @PostMapping("car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {

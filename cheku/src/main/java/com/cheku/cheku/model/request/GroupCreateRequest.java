@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class GroupCreateRequest {
-    private String name;
+    private String groupName;
     private long admin;
+
 
 }
