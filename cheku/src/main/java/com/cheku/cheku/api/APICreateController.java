@@ -105,7 +105,6 @@ public class APICreateController {
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
             }
-            return "Erro ao criar o registo";
     }
 
 
