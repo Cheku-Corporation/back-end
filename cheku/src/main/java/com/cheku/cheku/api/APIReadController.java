@@ -2,7 +2,6 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 import com.cheku.cheku.exception.ResourceNotFoundException;
-import com.cheku.cheku.model.dto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,6 @@ public class APIReadController {
 
 	@Autowired
 	private CarService carservice;
-
-	@Autowired
-	private MotorService motorservice;
-
-	@Autowired
-	private PneusService pneusService;
 
 	@Autowired
 	private LocalizationService localizationService;
@@ -57,10 +50,8 @@ public class APIReadController {
 	@Autowired
 	private NotificationService notificationService;
 
-	@GetMapping("api/cars")
-	public List<Car> getCars() {
-		return carservice.getAllCars();
-	}
+	@Autowired
+	private CarModelService carModelService;
 
 	@GetMapping("api/trips")
 	public List<Trip> getTrips() {
@@ -72,24 +63,31 @@ public class APIReadController {
 		return localizationService.getAll();
 	}
 
-	//Done
 	@GetMapping("api/car/{car_id}")
 	public Car getCar(@PathVariable Long car_id) throws ResourceNotFoundException {
 		return carservice.getCar(car_id);
 	}
 
-	//@GetMapping("api/group/{group_id}/cars")
+	@GetMapping("api/group/cars")
+	public List<Car> getCars(@RequestBody String data) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		Long groupId = mapper.readTree(data).get("groupId").asLong();
 
+		//verificar se o grupo existe
+		System.out.println("Group id: " + groupService.findGroupById(groupId));
+		if (!groupService.findGroupById(groupId)) {
+			throw new RuntimeException("The group does not exist");
+		}
 
-
-	@GetMapping("api/users")
-	public List<UserDTO> getUsers() {
-		return userService.getAllUsers();
+		try {
+			return groupService.ListCarInGroup(groupId);
+		} catch (Exception e) {
+			throw new RuntimeException("Error getting cars");
+		}
 	}
-
-	@GetMapping("api/groups")
-	public List<Group> getGroups(){
-		return groupService.getAllGroups();
+	@GetMapping("api/carModels")
+	public List<CarModel> getCarModels() {
+		return carModelService.getAllCarModels();
 	}
 
 

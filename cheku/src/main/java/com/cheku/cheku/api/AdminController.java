@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +22,20 @@ public class AdminController {
 
     @Autowired
     private PneusService pneusService;
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private GroupService groupService;
+
+    @Autowired
+    private UserService userService;
 
 
-    //DONE
     @PostMapping("motor")
     public Motor createMotor(@Valid @RequestBody Motor motor) throws ResourceNotFoundException {
         return motorService.addMotor(motor);
     }
 
-    //DONE
     @PostMapping("pneus")
     public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
         return pneusService.addPneus(pneus);
@@ -40,16 +46,30 @@ public class AdminController {
         return carModelService.createCarModel(car);
     }
 
-    //Done
 	@GetMapping("motors")
 	public List<Motor> getMotors() {
 		return motorService.getAllMotors();
 	}
 
-	//Done
 	@GetMapping("pneus")
 	public List<Pneus> getPneus() {
 		return pneusService.getAllPneus();
 	}
+
+    @GetMapping("cars")
+    public List<Car> getCars() {
+        return carService.getAllCars();
+    }
+    @GetMapping("users")
+    public List<UserDTO> getUsers() {
+        return userService.getAllUsers();
+    }
+    @GetMapping("groups")
+    public List<Group> getGroups(){
+        return groupService.getAllGroups();
+    }
+
+
+
 
 }

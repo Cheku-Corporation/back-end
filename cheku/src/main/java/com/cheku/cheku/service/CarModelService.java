@@ -20,7 +20,7 @@ public class CarModelService {
     private PneusRepository pneusRepository;
 
 
-     public List<CarModel> getAllCars() {
+     public List<CarModel> getAllCarModels() {
           return carModelRepository.findAll();
      }
 
@@ -45,5 +45,6 @@ public class CarModelService {
             throw new ResourceNotFoundException("Error saving car");
          }
      }
+
 }
 

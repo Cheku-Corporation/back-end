@@ -42,6 +42,11 @@ public class CarService {
         try{
             car.setGroup(groupRepository.findById(car.getGroup().getId()).get());
             car.setCarModel(carModelRepository.findByModel(car.getCarModel().getModel()));
+            carRepository.save(car);
+            //adicionar o carro ao grupo
+            Group group = groupRepository.findById(car.getGroup().getId()).get();
+            group.addCar(car);
+            groupRepository.save(group);
             return carRepository.save(car);
         } catch (Exception e) {
             throw new RuntimeException("Error saving car");
@@ -59,5 +64,6 @@ public class CarService {
     public boolean existsByMatricula(String matricula) {
         return carRepository.existsByMatricula(matricula);
     }
+
 
 }

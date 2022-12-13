@@ -79,7 +79,7 @@ public class GroupService {
         groupRepository.deleteById(group_id);
     }
 
-    private List<Car> ListCarInGroup(Long group_id) {
+    public List<Car> ListCarInGroup(Long group_id) {
         return groupRepository.findById(group_id).get().getCarList();
     }
 

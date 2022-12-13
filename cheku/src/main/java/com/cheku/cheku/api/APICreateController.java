@@ -113,17 +113,5 @@ public class APICreateController {
 
     }
 
-    
-//    @PostMapping("api/user/{user_id}/group/{group_id}/car")
-//    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
-//        //verificar que o user é o dono do grupo
-//        if(!groupService.verifyAdmin(user_id, group_id)){
-//            throw new ResourceNotFoundException("User is not admin of the group");
-//        }
-//        //criar o carro
-//        Car new_car = carService.addCar(car);
-//        //adicionar o carro ao grupo
-//        return groupService.addCarToGroup(group_id, new_car.getId());
-//    }
 }
 
