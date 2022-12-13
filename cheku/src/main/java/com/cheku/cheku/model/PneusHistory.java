@@ -1,15 +1,15 @@
 package com.cheku.cheku.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "pneus_history")
+@Table(name = "tires_history")
 public class PneusHistory {
 
         @Id
@@ -17,15 +17,15 @@ public class PneusHistory {
         private Long id;
 
         @Column(name = "date", nullable = false)
-        private String date;
+        private Date date;
 
-        @Column(name = "temperatura", nullable = false)
-        private Double temperatura;
+        @Column(name = "temperature", nullable = false)
+        private Double temperature;
 
-        @Column(name = "pressao", nullable = false)
-        private Double pressao;
+        @Column(name = "pressure", nullable = false)
+        private Double pressure;
 
         @ManyToOne(optional = true)
-        @JoinColumn(name = "car_id", nullable = true)
-        private Car car;
+        @JoinColumn(name = "trip_id", nullable = true)
+        private Trip trip;
 }

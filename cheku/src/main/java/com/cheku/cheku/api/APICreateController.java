@@ -32,13 +32,10 @@ public class APICreateController {
     private LocalizationService localizationService;
 
     @Autowired
-    private MotorHistoryService motorHistoryService;
-
-    @Autowired
     private PneusHistoryService pneusHistoryService;
 
     @Autowired
-    private LuzesService luzesService;
+    private LightsService luzesService;
 
     @Autowired
     private UserService userService;
@@ -49,27 +46,15 @@ public class APICreateController {
     @Autowired
     private CarService carService;
 
-    //DONE
-    @PostMapping("user")
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
-        userService.createUser(user);
-        return ResponseEntity.ok().build();
-    }
-
-    //DONE
-    @PostMapping("group")
-    public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupCreateRequest group) {
-        return ResponseEntity.ok(groupService.createGroup(group));
-    }
-
     @PostMapping("register")
-    public void createRegister(@RequestBody String data) throws JsonProcessingException {
+    public String createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
             //verificar se é criar ou entrar num grupo
             String groupId = mapper.readTree(data).get("groupId").asText();
             String groupName = mapper.readTree(data).get("groupName").asText();
+
 
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
@@ -91,6 +76,7 @@ public class APICreateController {
                 GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
                 group.setAdmin(admin.get().getId());
                 groupService.createGroup(group);
+                return "Group created";
             } else if (!groupId.isEmpty() && groupName.isEmpty()) {
 
                 //Criar um new user
@@ -100,6 +86,7 @@ public class APICreateController {
                 //entrar num grupo
                 Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+                return "User added to group";
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
             }
@@ -121,6 +108,13 @@ public class APICreateController {
             throw new ResourceNotFoundException("Error saving car");
         }
     }
+
+    // //adiconar user a group
+    // @PostMapping("api/user/{user_id}/group")
+    // public Group addUser(@Valid @RequestBody String name) throws ResourceNotFoundException{
+
+    // }
+    
 //    @PostMapping("api/user/{user_id}/group/{group_id}/car")
 //    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
 //        //verificar que o user é o dono do grupo
@@ -132,39 +126,5 @@ public class APICreateController {
 //        //adicionar o carro ao grupo
 //        return groupService.addCarToGroup(group_id, new_car.getId());
 //    }
-
-
-
-
-
-
-    //-----------------------------REMOVER MAIS TARDE--------------------------------
-    @PostMapping("api/velocity")
-    public SpeedHistory createVelocityRecord (@Valid @RequestBody SpeedHistory velocity) throws ResourceNotFoundException{
-        return velocityService.addVelocity(velocity);
-    }
-
-    @PostMapping("api/localization")
-    public Localization createLocalizationRecord (@Valid @RequestBody Localization localization) throws ResourceNotFoundException{
-        return localizationService.addLocalization(localization);
-    }
-
-    @PostMapping("api/motorHistory")
-    public MotorHistory createMotorHistoryRecord (@Valid @RequestBody MotorHistory motorHistory) throws ResourceNotFoundException{
-        return motorHistoryService.saveMotorHistory(motorHistory);
-    }
-
-    @PostMapping("api/pneusHistory")
-    public PneusHistory createPneusHistoryRecord (@Valid @RequestBody PneusHistory pneusHistory) throws ResourceNotFoundException{
-        return pneusHistoryService.savePneusHistory(pneusHistory);
-    }
-
-    @PostMapping("api/luzes")
-    public Luzes createLuzesRecord (@Valid @RequestBody Luzes luzes) throws ResourceNotFoundException{
-        return luzesService.save(luzes);
-    }
-
-    // --------------------end -----------------
-
 }
 

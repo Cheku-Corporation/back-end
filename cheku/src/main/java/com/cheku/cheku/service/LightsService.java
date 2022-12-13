@@ -7,26 +7,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LuzesService {
+public class LightsService {
     @Autowired
     private LuzesRepository luzesRepository;
 
     @Autowired
     private CarRepository carRepository;
 
-    public List<Luzes> getAllLuzes() {
+    public List<LightsHistory> getAllLuzes() {
         return luzesRepository.findAll();
     }
 
-    public Luzes save(Luzes luzes) {
-        try{
-            Car car  = carRepository.findById(luzes.getCar().getId()).get();
-            luzes.setCar(car);
-        }
-        catch (Exception e){
-            System.out.println("Car not found");
-            return null;
-        }
+    public LightsHistory save(LightsHistory luzes) {
         try {
             return luzesRepository.save(luzes);
         } catch (Exception e) {

@@ -35,4 +35,7 @@ public class APIDeleteController {
             throw new RuntimeException("Não tem permissões para apagar o grupo");
         }
     }
+
+    //remover e user de group
+    //remover um carro 
 }

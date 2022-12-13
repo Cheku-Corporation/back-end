@@ -37,7 +37,6 @@ public class ChekuApplication implements WebMvcConfigurer {
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-
   
   public static void main(String[] args) {
     SpringApplication.run(ChekuApplication.class, args);

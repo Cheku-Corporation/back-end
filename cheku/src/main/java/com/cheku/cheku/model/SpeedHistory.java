@@ -31,10 +31,10 @@ public class SpeedHistory {
     @Column(name = "date", nullable = false)
     private Date date;
 
-//    @Column(name = "RPM", nullable = false)
-//    private Double RPM;
+   @Column(name = "RPM", nullable = false)
+   private Double RPM;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "car_id", nullable = true)
-    private Car car;
+    @JoinColumn(name = "trip_id", nullable = true)
+    private Trip trip;
 }

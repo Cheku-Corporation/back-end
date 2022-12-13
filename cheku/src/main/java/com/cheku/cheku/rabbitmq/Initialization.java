@@ -11,18 +11,18 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 
 import org.springframework.context.annotation.Bean;
 
-import com.cheku.cheku.rabbitmq.Velocity;
-import com.cheku.cheku.rabbitmq.Fluids;
 
 @Configuration
 public class Initialization {
 
-    static final String topicExchangeName = "";
+  static final String topicExchangeName = "";
 
   static final String queueName1 = "velocities";
   static final String queueName2 = "fluids";
-  static final String queueName3 = "location";
-  static final String queueName4 = "miscelaneous";
+  static final String queueName3 = "coordinates";
+  static final String queueName4 = "motor_status";
+  static final String queueName5 = "lights_status";
+  static final String queueName6 = "tires_status";
 
   @Bean
   Queue queue1() {
@@ -45,10 +45,19 @@ public class Initialization {
   }
 
   @Bean
+  Queue queue5() {
+    return new Queue(queueName4, false);
+  }
+
+  @Bean
+  Queue queue6() {
+    return new Queue(queueName4, false);
+  }
+
+  @Bean
   TopicExchange exchange() {
     return new TopicExchange(topicExchangeName);
   }
-
 
   @Bean
   Binding binding1(Queue queue1, TopicExchange exchange) {
@@ -68,6 +77,16 @@ public class Initialization {
   @Bean
   Binding binding4(Queue queue4, TopicExchange exchange) {
     return BindingBuilder.bind(queue4).to(exchange).with(queueName4);
+  }
+
+  @Bean
+  Binding binding5(Queue queue5, TopicExchange exchange) {
+    return BindingBuilder.bind(queue5).to(exchange).with(queueName5);
+  }
+
+  @Bean
+  Binding binding6(Queue queue6, TopicExchange exchange) {
+    return BindingBuilder.bind(queue6).to(exchange).with(queueName6);
   }
 
   @Bean
@@ -91,12 +110,72 @@ public class Initialization {
   }
 
   @Bean
+  SimpleMessageListenerContainer container3(ConnectionFactory connectionFactory,
+      MessageListenerAdapter listenerAdapter3) {
+    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.setQueueNames(queueName3);
+    container.setMessageListener(listenerAdapter3);
+    return container;
+  }
+
+  @Bean
+  SimpleMessageListenerContainer container4(ConnectionFactory connectionFactory,
+      MessageListenerAdapter listenerAdapter4) {
+    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.setQueueNames(queueName4);
+    container.setMessageListener(listenerAdapter4);
+    return container;
+  }
+
+  @Bean
+  SimpleMessageListenerContainer container5(ConnectionFactory connectionFactory,
+      MessageListenerAdapter listenerAdapter5) {
+    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.setQueueNames(queueName5);
+    container.setMessageListener(listenerAdapter5);
+    return container;
+  }
+
+  @Bean
+  SimpleMessageListenerContainer container6(ConnectionFactory connectionFactory,
+      MessageListenerAdapter listenerAdapter6) {
+    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.setQueueNames(queueName6);
+    container.setMessageListener(listenerAdapter6);
+    return container;
+  }
+
+  @Bean
   MessageListenerAdapter listenerAdapter1(Velocity receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 
   @Bean
   MessageListenerAdapter listenerAdapter2(Fluids receiver) {
+    return new MessageListenerAdapter(receiver, "receiveMessage");
+  }
+  
+  @Bean
+  MessageListenerAdapter listenerAdapter3(Coordinates receiver) {
+    return new MessageListenerAdapter(receiver, "receiveMessage");
+  }
+
+  @Bean
+  MessageListenerAdapter listenerAdapter4(MotorStatus receiver) {
+    return new MessageListenerAdapter(receiver, "receiveMessage");
+  }
+
+  @Bean
+  MessageListenerAdapter listenerAdapter5(LightsStatus receiver) {
+    return new MessageListenerAdapter(receiver, "receiveMessage");
+  }
+
+  @Bean
+  MessageListenerAdapter listenerAdapter6(TiresStatus receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 }

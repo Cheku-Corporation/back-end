@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -18,15 +17,15 @@ public class Localization {
     private Long id;
 
     @Column(name = "latitude", nullable = false)
-    private String latitude;
+    private Double latitude;
 
     @Column(name = "longitude", nullable = false)
-    private String longitude;
+    private Double longitude;
 
     @Column(name = "date", nullable = false)
     private Date date;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "car_id", nullable = true)
-    private Car car;
+    @JoinColumn(name = "trip_id", nullable = true)
+    private Trip trip;
 }

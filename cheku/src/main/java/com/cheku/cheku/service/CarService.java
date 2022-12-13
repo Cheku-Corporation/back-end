@@ -6,7 +6,7 @@ import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+
 import java.util.List;
 
 @Service
@@ -16,12 +16,6 @@ public class CarService {
 
     @Autowired
     private CarModelRepository carModelRepository;
-
-    @Autowired
-    private MotorRepository motorRepository;
-
-    @Autowired
-    private PneusRepository pneusRepository;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -54,7 +48,6 @@ public class CarService {
     public Boolean existsById(Long id) {
         return carRepository.existsById(id);
     }
-
 
     public boolean existsByMatricula(String matricula) {
         return carRepository.existsByMatricula(matricula);

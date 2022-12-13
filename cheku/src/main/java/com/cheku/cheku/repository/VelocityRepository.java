@@ -16,4 +16,7 @@ public interface VelocityRepository extends JpaRepository<SpeedHistory, Long> {
 
     @Query(value = "SELECT velocity, gear, date FROM speed_history LIMIT 1000", nativeQuery = true)
     List<Velocity> getLast1000byCarId(Long car_id);
+
+    @Query(value = "SELECT * FROM speed_history ORDER BY date DESC LIMIT 1", nativeQuery = true)
+    SpeedHistory getLast(Long car_id);
 }
