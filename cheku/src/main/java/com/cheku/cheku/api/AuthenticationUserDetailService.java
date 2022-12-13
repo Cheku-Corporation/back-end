@@ -26,7 +26,6 @@ public class AuthenticationUserDetailService implements UserDetailsService {
         if (apiUser == null) {
             throw new UsernameNotFoundException(email);
         }
-        //System.out.println("User: " + apiUser.getEmail() + " Role: " + apiUser.getRole());
         return new org.springframework.security.core.userdetails.User(apiUser.getEmail(),
                 apiUser.getPassword(), getAuthorities(apiUser.getRole()));
     }

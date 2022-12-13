@@ -45,6 +45,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public ApiUser getCurrentUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
     public List<ProcessedUser> getAllUsers() {
         return userRepository.getAllbyNameEmail();
     }
@@ -58,4 +62,5 @@ public class UserService {
     public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
     }
+
 }

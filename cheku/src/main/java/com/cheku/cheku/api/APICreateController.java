@@ -8,10 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.model.request.*;
@@ -55,7 +52,6 @@ public class APICreateController {
             String groupId = mapper.readTree(data).get("groupId").asText();
             String groupName = mapper.readTree(data).get("groupName").asText();
 
-
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
                 throw new RuntimeException("The group already exists");
@@ -86,6 +82,7 @@ public class APICreateController {
                 //entrar num grupo
                 Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+
                 return "User added to group";
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
@@ -96,24 +93,14 @@ public class APICreateController {
 
     @PostMapping("car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
-
         // verificar se não existe um carro com a mesma matricula
         if (carService.existsByMatricula(car.getMatricula())) {
             System.out.println("Car already exists");
             throw new ResourceNotFoundException("Car already exists");
         }
-        try {
-            return carService.addCar(car);
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Error saving car");
-        }
+        return carService.addCar(car);
     }
 
-    // //adiconar user a group
-    // @PostMapping("api/user/{user_id}/group")
-    // public Group addUser(@Valid @RequestBody String name) throws ResourceNotFoundException{
-
-    // }
     
 //    @PostMapping("api/user/{user_id}/group/{group_id}/car")
 //    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {

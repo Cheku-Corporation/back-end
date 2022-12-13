@@ -1,5 +1,6 @@
 package com.cheku.cheku.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class ApiUser {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 

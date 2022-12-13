@@ -63,8 +63,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        System.out.println("ROLE: " + role);
-        System.out.println("ROLE: " + Arrays.asList(new SimpleGrantedAuthority(role)));
         return Arrays.asList(new SimpleGrantedAuthority(role));
     }
 

@@ -28,17 +28,19 @@ public class CarService {
 
         // verificar se o grupo existe
         if (groupRepository.findById(car.getGroup().getId()) == null) {
-            System.out.println("The group doesn't exist");
             throw new ResourceNotFoundException("The group doesn't exist");
         }
         // verificar se model existe
         if (carModelRepository.findByModel(car.getModel().getModel()) == null) {
-            System.out.println("The car model doesn't exist");
             throw new ResourceNotFoundException("The car model doesn't exist");
         }
-        car.setModel(carModelRepository.findByModel(car.getModel().getModel()));
-        car.setGroup(groupRepository.findById(car.getGroup().getId()).get());
-        return carRepository.save(car);
+        try{
+            car.setGroup(groupRepository.findById(car.getGroup().getId()).get());
+            car.setModel(carModelRepository.findByModel(car.getModel().getModel()));
+            return carRepository.save(car);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Error saving car");
+        }
     }
 
     public Car getCar(Long id) throws ResourceNotFoundException {

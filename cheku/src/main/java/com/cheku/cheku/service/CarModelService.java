@@ -27,17 +27,14 @@ public class CarModelService {
      public CarModel createCarModel(CarModel car) throws ResourceNotFoundException {
          //verificar se não existe um carModel com os mesmos dados
          if (carModelRepository.findByBrandAndModelAndYearAndTankCapacityAndTypeAndMotorAndPneus(car.getBrand(), car.getModel(), car.getYear(), car.getTankCapacity(), car.getType(), car.getMotor(), car.getPneus()) != null) {
-           System.out.println("The Model car already exists");
            throw new ResourceNotFoundException("The Model car already exists");
          }
          //verificar se o motor existe
          else if (motorRepository.findById(car.getMotor().getId()) == null) {
-           System.out.println("The motor doesn't exist");
            throw new ResourceNotFoundException("The motor doesn't exist");
          }
-            //verificar se os pneus existem
+         //verificar se os pneus existem
          else if (pneusRepository.findById(car.getPneus().getId()) == null) {
-           System.out.println("The pneus doesn't exist");
            throw new ResourceNotFoundException("The pneus doesn't exist");
          }
          try{
@@ -45,8 +42,7 @@ public class CarModelService {
              car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
              return carModelRepository.save(car);
          } catch (Exception e) {
-           System.out.println("Error saving car");
-           throw new ResourceNotFoundException("Error saving car");
+            throw new ResourceNotFoundException("Error saving car");
          }
      }
 }
