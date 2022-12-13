@@ -5,8 +5,6 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
-import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +55,7 @@ public class APICreateController {
                 throw new RuntimeException("The group already exists");
             }
 
-            if (!groupId.isEmpty() && groupService.findGroupById(Long.parseLong(groupId))) {
+            if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
                 throw new RuntimeException("The group not exists");
             }
 
@@ -91,6 +89,7 @@ public class APICreateController {
 
 
 
+    //validar se o user é admin do grupo
     @PostMapping("car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
         // verificar se não existe um carro com a mesma matricula

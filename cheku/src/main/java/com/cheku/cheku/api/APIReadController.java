@@ -1,16 +1,14 @@
 package com.cheku.cheku.api;
 
 import java.util.List;
-
 import com.cheku.cheku.exception.ResourceNotFoundException;
+import com.cheku.cheku.model.dto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.cheku.cheku.auxiliar_classes.LiveStatus;
-import com.cheku.cheku.auxiliar_classes.ProcessedUser;
-import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.auxiliar_classes.UserNotification;
 import com.cheku.cheku.auxiliar_classes.Velocity;
 import com.cheku.cheku.auxiliar_classes.LiveStatus.LiveStatusBuilder;
@@ -85,7 +83,7 @@ public class APIReadController {
 
 
 	@GetMapping("api/users")
-	public List<ProcessedUser> getUsers() {
+	public List<UserDTO> getUsers() {
 		return userService.getAllUsers();
 	}
 
@@ -94,13 +92,9 @@ public class APIReadController {
 		return groupService.getAllGroups();
 	}
 
-	@GetMapping("api/users/{user_id}/groups")
-	public List<Group> getUserGroups(@PathVariable Long user_id){
-		return groupService.getUserGroups(user_id);
-	}
 
 	@GetMapping("api/current_user")
-	public ApiUser getCurrentUser(@RequestBody String data) throws JsonProcessingException {
+	public Object getCurrentUser(@RequestBody String data) throws JsonProcessingException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String email = mapper.readTree(data).get("email").asText();

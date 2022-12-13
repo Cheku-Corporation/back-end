@@ -42,7 +42,7 @@ public class GroupService {
         BeanUtils.copyProperties(group, groupToCreate);
         groupToCreate.setAdmin(user.get().getId());
         groupToCreate.addUser(user.get());
-        user.get().addGroup(groupToCreate);
+        user.get().setGroup(groupToCreate);
         return groupRepository.save(groupToCreate);
     }
 
@@ -63,7 +63,7 @@ public class GroupService {
         Group group = groupRepository.findById(idGroup).get();
         ApiUser user = userRepository.findById(idUser).get();
         group.addUser(user);
-        user.addGroup(group);
+        user.setGroup(group);
         groupRepository.save(group);
         userRepository.save(user);
     }
@@ -79,14 +79,6 @@ public class GroupService {
         groupRepository.deleteById(group_id);
     }
 
-    public List<Group> getUserGroups(Long user_id) {
-        //check if user exists
-        if(userRepository.findById(user_id) == null){
-            System.out.println("User does not exist");
-            return null;
-        }
-        return userRepository.findById(user_id).get().getGroupList();
-    }
     private List<Car> ListCarInGroup(Long group_id) {
         return groupRepository.findById(group_id).get().getCarList();
     }

@@ -1,6 +1,7 @@
 package com.cheku.cheku.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ public class ApiUser {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -32,17 +32,8 @@ public class ApiUser {
     @Column(name = "role", nullable = false)
     private String role;
 
-    @ManyToMany()
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Group> groupList = new ArrayList<>();
+    @ManyToOne()
+    @JoinColumn(name = "group_id")
+    private Group group;
 
-    public void addGroup(Group groupToCreate) {
-        //verificar se o grupo ja existe
-        if (groupList.contains(groupToCreate)) {
-            throw new RuntimeException("Grupo já existe");
-        }
-        groupList.add(groupToCreate);
-    }
 }

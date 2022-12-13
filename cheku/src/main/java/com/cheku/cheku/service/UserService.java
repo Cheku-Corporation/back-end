@@ -1,16 +1,19 @@
 package com.cheku.cheku.service;
 
+import org.modelmapper.ModelMapper;
 import com.cheku.cheku.model.ApiUser;
+import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.model.request.UserCreateRequest;
 import com.cheku.cheku.repository.UserRepository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import com.cheku.cheku.auxiliar_classes.ProcessedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -24,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Autowired
+    private ModelMapper modelMapper;
     @Autowired
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -45,19 +50,30 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public ApiUser getCurrentUser(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
-    }
+    //dados de user
+    // retornar apenas nome e email, id, groupName, groupID
+    public UserDTO getCurrentUser(String email) throws JsonProcessingException {
+        ApiUser user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-    public List<ProcessedUser> getAllUsers() {
-        return userRepository.getAllbyNameEmail();
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+        return userDTO;
+
+    }
+    public List<UserDTO> getAllUsers() {
+        List<ApiUser> users = userRepository.findAll();
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (ApiUser user : users) {
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            userDTOs.add(userDTO);
+        }
+        return userDTOs;
     }
 
     //getUserByEmail
     public Optional<ApiUser> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
 
     public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
