@@ -23,11 +23,11 @@ public class Car {
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    @Column(name = "dateofinspection", nullable = true)
-    private Date dateofinspection;
+    @Column(name = "inpectionDate", nullable = false)
+    private Date inpectionDate;
 
-    @Column(name = "dateofinsurance", nullable = true)
-    private Date dateofinsurance;
+    @Column(name = "insuranceDate", nullable = false)
+    private Date insuranceDate;
 
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)

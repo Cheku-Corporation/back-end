@@ -2,21 +2,27 @@ package com.cheku.cheku.api;
 
 import javax.validation.Valid;
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.request.*;
 import com.cheku.cheku.service.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/api")
 public class APICreateController {
 
     @Autowired
@@ -41,18 +47,66 @@ public class APICreateController {
     private CarService carService;
 
     //DONE
-    @PostMapping("api/user")
-    public User createUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
-        return userService.addUser(user);
+    @PostMapping("user")
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
+        userService.createUser(user);
+        return ResponseEntity.ok().build();
     }
 
     //DONE
-    @PostMapping("api/group")
-    public Group createGroup(@Valid @RequestBody Group group) {
-        return groupService.addGroup(group);
+    @PostMapping("group")
+    public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupCreateRequest group) {
+        return ResponseEntity.ok(groupService.createGroup(group));
     }
 
-    @PostMapping("api/car")
+    @PostMapping("register")
+    public String createRegister(@RequestBody String data) throws JsonProcessingException {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            //verificar se é criar ou entrar num grupo
+            String groupId = mapper.readTree(data).get("groupId").asText();
+            String groupName = mapper.readTree(data).get("groupName").asText();
+
+            //verificar se o grupo existe
+            if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
+                throw new RuntimeException("The group already exists");
+            }
+
+            if (!groupId.isEmpty() && groupService.findGroupById(Long.parseLong(groupId))) {
+                throw new RuntimeException("The group not exists");
+            }
+
+            if (groupId.isEmpty() && !groupName.isEmpty()) {
+
+                //Criar um new user
+                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(user);
+
+                //criar grupo
+                Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
+                GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
+                group.setAdmin(admin.get().getId());
+                groupService.createGroup(group);
+                return "Group created";
+            } else if (!groupId.isEmpty() && groupName.isEmpty()) {
+
+                //Criar um new user
+                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(user);
+
+                //entrar num grupo
+                Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
+                groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+                return "User added to group";
+            } else {
+                throw new RuntimeException("Erro ao criar o registo");
+            }
+    }
+
+
+
+    @PostMapping("car")
     public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
 
         // verificar se não existe um carro com a mesma matricula

@@ -1,7 +1,9 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.request.GroupCreateRequest;
 import com.cheku.cheku.repository.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,25 +25,23 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    public Group addGroup(Group group) {
+    public Group createGroup(GroupCreateRequest group) {
+        Optional<ApiUser> user = userRepository.findById(group.getAdmin());
+        if (!user.isPresent()) {
+            throw new RuntimeException("User not found");
+        }
 
         //check if group already exists
-        if(groupRepository.findByName(group.getName()) != null){
-            System.out.println("Group already exists");
-            return null;
+        if(groupRepository.findByGroupName(group.getGroupName()) != null){
+            throw new RuntimeException("Group already exists");
         }
 
-        //check if user exists
-        if(userRepository.findById(group.getAdmin()) == null){
-            System.out.println("User does not exist");
-            return null;
-        }
-
-        long id = group.getAdmin();
-        userRepository.findById(id).get().getGroupList().add(group);
-        group.getUserList().add(userRepository.findById(id).get());
-        groupRepository.save(group);
-        return groupRepository.save(group);
+        Group groupToCreate = new Group();
+        BeanUtils.copyProperties(group, groupToCreate);
+        groupToCreate.setAdmin(user.get().getId());
+        groupToCreate.addUser(user.get());
+        user.get().addGroup(groupToCreate);
+        return groupRepository.save(groupToCreate);
     }
 
     public List<Car> addCarToGroup(Long group_id, Long car_id) {
@@ -99,5 +99,34 @@ public class GroupService {
         }
 
         return userRepository.findById(user_id).get().getGroupList();
+    }
+
+    public void addUserToGroup(Long idUser, long idGroup) {
+        //check if user exists
+        if(userRepository.findById(idUser) == null){
+            System.out.println("User does not exist");
+            return;
+        }
+
+        //check if group exists
+        if(groupRepository.findById(idGroup) == null){
+            System.out.println("Group does not exist");
+            return;
+        }
+
+        Group group = groupRepository.findById(idGroup).get();
+        ApiUser user = userRepository.findById(idUser).get();
+        group.addUser(user);
+        user.addGroup(group);
+        groupRepository.save(group);
+        userRepository.save(user);
+    }
+
+    public boolean findGroupByName(String groupName) {
+        return groupRepository.findByGroupName(groupName) != null;
+    }
+
+    public boolean findGroupById(long parseLong) {
+        return groupRepository.findById(parseLong) != null;
     }
 }

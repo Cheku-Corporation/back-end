@@ -1,19 +1,17 @@
 package com.cheku.cheku.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class ApiUser {
 
     //dados estaticos
     @Id
@@ -23,12 +21,14 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @ManyToMany()
     @JoinTable(name = "user_group",
@@ -36,4 +36,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groupList = new ArrayList<>();
 
+    public void addGroup(Group groupToCreate) {
+        //verificar se o grupo ja existe
+        if (groupList.contains(groupToCreate)) {
+            throw new RuntimeException("Grupo já existe");
+        }
+        groupList.add(groupToCreate);
+    }
 }
