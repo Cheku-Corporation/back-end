@@ -1,6 +1,7 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.auxiliar_classes.ProcessedUser;
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,38 +23,17 @@ public class UserService {
         return userRepository.getAllbyNameEmail();
     }
 
-    public User addUser(User user) {
+    public User addUser(User user) throws ResourceNotFoundException {
     //check if user already exists
         if(userRepository.findByEmail(user.getEmail()) != null){
             System.out.println("User already exists");
-            throw new RuntimeException("User already exists");
+            throw new ResourceNotFoundException("User already exists");
         }
-        //check if group exists
-        if(groupRepository.findByName(user.getGroup_private()) != null){
-            System.out.println("Group already exist");
-            return null;
-        }
-
-        //create group
-        Group group = new Group();
-        group.setName(user.getGroup_private());
-
-
         try {
-            User new_user = userRepository.save(user);
-            try {
-                group.setAdmin(new_user.getId());
-                group.getUserList().add(new_user);
-                new_user.getGroupList().add(group);
-                groupRepository.save(group);
-                return userRepository.save(new_user);
-            } catch (Exception e) {
-                System.out.println("Error saving group");
-                return null;
-            }
+            return userRepository.save(user);
         } catch (Exception e) {
-            System.out.println("Error saving user, "+ e);
-            return null;
+            System.out.println("Error saving user");
+            throw new ResourceNotFoundException("Error saving user");
         }
     }
 }

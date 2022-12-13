@@ -23,20 +23,36 @@ public class MotorService {
 
         // verificar se não existe um motor com o mesmo parâmetro
         if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
-            //throw new ResourceNotFoundException("Motor already exists");
-            System.out.println("Motor already exists");
-            return null;
+            throw new ResourceNotFoundException("Motor already exists");
         }
         try {
             return motorRepository.save(motor);
         } catch (Exception e) {
-            System.out.println("Error saving motor");
-            return null;
-            //throw new ResourceNotFoundException("Error saving motor");
+            throw new ResourceNotFoundException("Error saving motor");
         }
     }
 
     public Motor getMotor(Long id) {
         return motorRepository.findById(id).get();
+    }
+
+    public Motor updateMotor(Long id, Motor motor) throws ResourceNotFoundException {
+        Motor motor1 = motorRepository.findById(id).get();
+        if (motor1 == null) {
+            throw new ResourceNotFoundException("Motor not found");
+        }
+        motor1.setCilindrada(motor.getCilindrada());
+        motor1.setModelo(motor.getModelo());
+        motor1.setPotencia(motor.getPotencia());
+        motorRepository.save(motor1);
+        return motor1;
+    }
+
+    public void deleteMotor(Long id) throws ResourceNotFoundException {
+        Motor motor = motorRepository.findById(id).get();
+        if (motor == null) {
+            throw new ResourceNotFoundException("Motor not found");
+        }
+        motorRepository.delete(motor);
     }
 }

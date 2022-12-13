@@ -15,15 +15,15 @@ public class APIDeleteController {
     @Autowired
     private GroupService groupService;
 
-    @DeleteMapping("api/user/{user_id}/group/{group_id}/car/{car_id}")
-    public String  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id, @PathVariable Long car_id) {
-        //verificar se o user_id é o admin do grupo
-        if (groupService.verifyAdmin(user_id, group_id)) {
-            carService.deleteCar(car_id);
-            return "Carro apagado com sucesso";
-        }
-        return "Não tem permissões para apagar o carro";
-    }
+//    @DeleteMapping("api/user/{user_id}/group/{group_id}/car/{car_id}")
+//    public String  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id, @PathVariable Long car_id) {
+//        //verificar se o user_id é o admin do grupo
+//        if (groupService.verifyAdmin(user_id, group_id)) {
+//            carService.deleteCar(car_id);
+//            return "Carro apagado com sucesso";
+//        }
+//        return "Não tem permissões para apagar o carro";
+//    }
 
     @DeleteMapping("api/user/{user_id}/group/{group_id}")
     public void  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id) throws RuntimeException {
@@ -35,4 +35,7 @@ public class APIDeleteController {
             throw new RuntimeException("Não tem permissões para apagar o grupo");
         }
     }
+
+    //remover e user de group
+    //remover um carro 
 }

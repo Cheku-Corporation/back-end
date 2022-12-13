@@ -30,8 +30,9 @@ public class Group {
 
     //lista de users
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
+//    @OneToMany
+//    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
+    @ManyToMany(mappedBy = "groupList")
     private List<User> userList = new ArrayList<>();
 
     @Column(name = "admin", nullable = false)
@@ -69,5 +70,4 @@ public class Group {
         }
         carList.remove(car);
     }
-
 }

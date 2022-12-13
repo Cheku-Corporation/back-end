@@ -1,6 +1,6 @@
 package com.cheku.cheku.model.enums;
 
-public enum StateLuzes {
+public enum LightState {
     MIN,
     MAX,
     AVG,

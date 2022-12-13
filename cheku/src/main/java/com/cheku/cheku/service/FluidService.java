@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.model.Fluid;
 import com.cheku.cheku.repository.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,7 @@ public class FluidService {
     @Autowired
     private FluidRepository fluidRepository;
 
-    @Autowired
-    private CarService carService;
-
     public Fluid addFluid(Fluid fluid) {
-        try {
-            carService.getCar(fluid.getCar().getId());
-            fluid.setCar(carService.getCar(fluid.getCar().getId()));
-        } catch (Exception e) {
-            System.out.println("Car not found");
-            return null;
-        }
         try{
             return fluidRepository.save(fluid);
         } catch (Exception e) {
@@ -32,8 +23,8 @@ public class FluidService {
         }
     }
 
-    public List<Fluid> getAllFluids() {
-        return fluidRepository.findAll();
+    public List<SimpleFluid> getAllFluids() {
+        return fluidRepository.getAll();
     }
 
     public Fluid getFluid(Long id) {

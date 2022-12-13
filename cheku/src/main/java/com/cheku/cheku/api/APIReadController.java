@@ -2,13 +2,19 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cheku.cheku.auxiliar_classes.LiveStatus;
 import com.cheku.cheku.auxiliar_classes.ProcessedUser;
+import com.cheku.cheku.auxiliar_classes.SimpleFluid;
+import com.cheku.cheku.auxiliar_classes.UserNotification;
 import com.cheku.cheku.auxiliar_classes.Velocity;
+import com.cheku.cheku.auxiliar_classes.LiveStatus.LiveStatusBuilder;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 
@@ -31,13 +37,10 @@ public class APIReadController {
 	private LocalizationService localizationService;
 
 	@Autowired
-	private MotorHistoryService motorHistoryService;
-
-	@Autowired
 	private PneusHistoryService pneusHistoryService;
 
 	@Autowired
-	private LuzesService luzesService;
+	private LightsService luzesService;
 
 	@Autowired
 	private UserService userService;
@@ -48,98 +51,95 @@ public class APIReadController {
 	@Autowired
 	private FluidService fluidService;
 
+	@Autowired
+	private TripService tripService;
+
+	@Autowired
+	private PneusHistoryService tireService;
+
+	@Autowired
+	private NotificationService notificationService;
+
 	@GetMapping("api/cars")
 	public List<Car> getCars() {
 		return carservice.getAllCars();
 	}
 
+	@GetMapping("api/trips")
+	public List<Trip> getTrips() {
+		return tripService.getAll();
+	}
+
+	@GetMapping("api/localizations")
+	public List<Localization> getLocs() {
+		return localizationService.getAll();
+	}
+
 	//Done
 	@GetMapping("api/car/{car_id}")
-	public Car getCar(@PathVariable Long car_id) {
+	public Car getCar(@PathVariable Long car_id) throws ResourceNotFoundException {
 		return carservice.getCar(car_id);
 	}
 
 	//@GetMapping("api/group/{group_id}/cars")
 
 
-	//Done
-	@GetMapping("api/motors")
-	public List<Motor> getMotors() {
-		return motorservice.getAllMotors();
-	}
 
-
-	//Done
-	@GetMapping("api/pneus")
-	public List<Pneus> getPneus() {
-		return pneusService.getAllPneus();
-	}
-
-	//Done
 	@GetMapping("api/users")
 	public List<ProcessedUser> getUsers() {
 		return userService.getAllUsers();
 	}
 
-	//Done
 	@GetMapping("api/groups")
 	public List<Group> getGroups(){
 		return groupService.getAllGroups();
 	}
 
-	//Done
 	@GetMapping("api/users/{user_id}/groups")
 	public List<Group> getUserGroups(@PathVariable Long user_id){
 		return groupService.getUserGroups(user_id);
 	}
 
-
-
-	//Done
 	@GetMapping("api/car/{car_id}/velocities/100")
 	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast100Velocities(car_id);
 	}
 
-	//Done
 	@GetMapping("api/car/{car_id}/velocities/1000")
 	public List<Velocity> get1000CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast1000Velocities(car_id);
 	}
 
-
-	// --------------------------------------------------------------------------------------------------------------
-	//Done (Should not be used!)
-	@GetMapping("api/localizations")
-	public List<Localization> getLocalizations() {
-		return localizationService.getAllLocalizations();
+	@GetMapping("api/car/{car_id}/notifications")
+	public List<UserNotification> getCarNotifications(@PathVariable Long car_id) {
+		return notificationService.getAllNotifications(car_id);
 	}
 
-
-	//Done (Should not be used!)
-	@GetMapping("api/velocities")
-	public List<SpeedHistory> getCarVelocities() {
-		return velocityService.getAllVelocity();
+	@GetMapping("api/lasttrip")
+	public List<Trip> getLastTripInfo(@RequestParam(value = "carid") Long car_id) {
+		return null;
 	}
 
-
-	@GetMapping("api/motorHistory")
-	public List<MotorHistory> getMotorHistory() {
-		return motorHistoryService.getAllMotorHistory();
+	@GetMapping("api/lastweek")
+	public List<Trip> getLastWeekTripInfo(@RequestParam(value = "carid") Long car_id) {
+		return null;
 	}
 
-	@GetMapping("api/pneusHistory")
-	public List<PneusHistory> getPneusHistory() {
-		return pneusHistoryService.getAllPneusHistory();
+	@GetMapping("api/lastmonth")
+	public List<Trip> getLastMonthTripInfo(@RequestParam(value = "carid") Long car_id) {
+		return null;
 	}
 
-	@GetMapping("api/Luzes")
-	public List<Luzes> getLuzes() {
-		return luzesService.getAllLuzes();
-	}
-
-	@GetMapping("api/fluids")
-	public List<Fluid> getFluids() {
-		return fluidService.getAllFluids();
+	@GetMapping("api/live")
+	public LiveStatus getLive(@RequestParam(value = "carid") Long car_id) {
+		LiveStatus ls = new LiveStatusBuilder()
+			.setSpeed(velocityService.getLastVelocity(car_id))
+			.setGear(velocityService.getLastVelocity(car_id))
+			.setRPM(velocityService.getLastVelocity(car_id))
+			//.setTiresPressure(tireService.getLastTireState(car_id))
+			//.setTiresTemperature(tireService.getLastTireState(car_id))
+			.setTotalDistance(tripService.getCarCurrentTrip(car_id))
+			.build();
+		return ls;
 	}
 }

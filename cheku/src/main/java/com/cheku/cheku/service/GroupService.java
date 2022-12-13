@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GroupService {
@@ -61,7 +60,7 @@ public class GroupService {
         Group group = groupRepository.findById(group_id).get();
         Car car = carRepository.findById(car_id).get();
         group.getCarList().add(car);
-        car.getGroupList().add(group);
+        car.setGroup(group);
         groupRepository.save(group);
         carRepository.save(car);
         return ListCarInGroup(group_id);
