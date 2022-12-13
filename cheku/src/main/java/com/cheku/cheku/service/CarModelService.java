@@ -5,6 +5,8 @@ import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,9 +22,15 @@ public class CarModelService {
     private PneusRepository pneusRepository;
 
 
-     public List<CarModel> getAllCarModels() {
-          return carModelRepository.findAll();
+     public List<String> getAllCarModels() {
+          List<CarModel> cars = carModelRepository.findAll();
+          List<String> carModels = new ArrayList<>();
+            for (CarModel car : cars) {
+                carModels.add(car.getModel());
+            }
+            return carModels;
      }
+
 
      public CarModel createCarModel(CarModel car) throws ResourceNotFoundException {
          //verificar se não existe um carModel com os mesmos dados

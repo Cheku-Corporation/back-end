@@ -86,10 +86,9 @@ public class APIReadController {
 		}
 	}
 	@GetMapping("api/carModels")
-	public List<CarModel> getCarModels() {
+	public List<String> getCarModels() {
 		return carModelService.getAllCarModels();
 	}
-
 
 	@GetMapping("api/current_user")
 	public Object getCurrentUser(@RequestBody String data) throws JsonProcessingException {
