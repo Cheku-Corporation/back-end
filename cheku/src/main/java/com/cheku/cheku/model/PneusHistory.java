@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "pneus_history")
+@Table(name = "tires_history")
 public class PneusHistory {
 
         @Id
@@ -19,11 +19,11 @@ public class PneusHistory {
         @Column(name = "date", nullable = false)
         private String date;
 
-        @Column(name = "temperatura", nullable = false)
-        private Double temperatura;
+        @Column(name = "temperature", nullable = false)
+        private Double temperature;
 
-        @Column(name = "pressao", nullable = false)
-        private Double pressao;
+        @Column(name = "pressure", nullable = false)
+        private Double pressure;
 
         @ManyToOne(optional = true)
         @JoinColumn(name = "car_id", nullable = true)

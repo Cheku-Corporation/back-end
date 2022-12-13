@@ -19,13 +19,16 @@ public class Notification  {
    private Long id;
 
    @Column(name = "priority", nullable = false)
-   private int priority;
+   private Integer priority;
 
    @Column(name = "subject", nullable = false)
    private String subject;
 
    @Column(name = "message", nullable = false)
    private String message;
+
+   @Column(name = "type", nullable = false)
+   private String type;
 
    // @Column(name = "date", nullable = false)
    // private Date date;

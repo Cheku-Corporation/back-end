@@ -70,5 +70,4 @@ public class Group {
         }
         carList.remove(car);
     }
-
 }

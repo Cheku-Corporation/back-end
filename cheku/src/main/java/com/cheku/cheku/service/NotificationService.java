@@ -1,6 +1,8 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.auxiliar_classes.SimpleFluid;
+import com.cheku.cheku.auxiliar_classes.UserNotification;
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Fluid;
 import com.cheku.cheku.model.Notification;
 import com.cheku.cheku.repository.FluidRepository;
@@ -21,7 +23,11 @@ public class NotificationService {
     @Autowired
     private CarService carService;
 
-    public List<Notification> getAllNotifications() {
-        return notificationRespository.findAll();
+    public List<UserNotification> getAllNotifications(Long car_id) {
+        return notificationRespository.getAllNotifications(car_id);
+    }
+
+    public Notification addNotification(Notification notification) throws ResourceNotFoundException {
+        return notificationRespository.save(notification);
     }
 }

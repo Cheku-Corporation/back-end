@@ -7,9 +7,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Entity
 @Data
@@ -38,7 +35,7 @@ public class Fluid {
     private Date date;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "car_id", nullable = true)
-    private Car car;
+    @JoinColumn(name = "trip_id", nullable = true)
+    private Trip trip;
 
 }

@@ -26,13 +26,10 @@ public class APICreateController {
     private LocalizationService localizationService;
 
     @Autowired
-    private MotorHistoryService motorHistoryService;
-
-    @Autowired
     private PneusHistoryService pneusHistoryService;
 
     @Autowired
-    private LuzesService luzesService;
+    private LightsService luzesService;
 
     @Autowired
     private UserService userService;
@@ -69,6 +66,13 @@ public class APICreateController {
             throw new ResourceNotFoundException("Error saving car");
         }
     }
+
+    // //adiconar user a group
+    // @PostMapping("api/user/{user_id}/group")
+    // public Group addUser(@Valid @RequestBody String name) throws ResourceNotFoundException{
+
+    // }
+    
 //    @PostMapping("api/user/{user_id}/group/{group_id}/car")
 //    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
 //        //verificar que o user é o dono do grupo
@@ -80,39 +84,5 @@ public class APICreateController {
 //        //adicionar o carro ao grupo
 //        return groupService.addCarToGroup(group_id, new_car.getId());
 //    }
-
-
-
-
-
-
-    //-----------------------------REMOVER MAIS TARDE--------------------------------
-    @PostMapping("api/velocity")
-    public SpeedHistory createVelocityRecord (@Valid @RequestBody SpeedHistory velocity) throws ResourceNotFoundException{
-        return velocityService.addVelocity(velocity);
-    }
-
-    @PostMapping("api/localization")
-    public Localization createLocalizationRecord (@Valid @RequestBody Localization localization) throws ResourceNotFoundException{
-        return localizationService.addLocalization(localization);
-    }
-
-    @PostMapping("api/motorHistory")
-    public MotorHistory createMotorHistoryRecord (@Valid @RequestBody MotorHistory motorHistory) throws ResourceNotFoundException{
-        return motorHistoryService.saveMotorHistory(motorHistory);
-    }
-
-    @PostMapping("api/pneusHistory")
-    public PneusHistory createPneusHistoryRecord (@Valid @RequestBody PneusHistory pneusHistory) throws ResourceNotFoundException{
-        return pneusHistoryService.savePneusHistory(pneusHistory);
-    }
-
-    @PostMapping("api/luzes")
-    public Luzes createLuzesRecord (@Valid @RequestBody Luzes luzes) throws ResourceNotFoundException{
-        return luzesService.save(luzes);
-    }
-
-    // --------------------end -----------------
-
 }
 

@@ -15,17 +15,7 @@ public class FluidService {
     @Autowired
     private FluidRepository fluidRepository;
 
-    @Autowired
-    private CarService carService;
-
     public Fluid addFluid(Fluid fluid) {
-        try {
-            carService.getCar(fluid.getCar().getId());
-            fluid.setCar(carService.getCar(fluid.getCar().getId()));
-        } catch (Exception e) {
-            System.out.println("Car not found");
-            return null;
-        }
         try{
             return fluidRepository.save(fluid);
         } catch (Exception e) {
