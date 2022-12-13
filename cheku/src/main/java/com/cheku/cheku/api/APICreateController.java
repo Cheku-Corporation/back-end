@@ -45,7 +45,12 @@ public class APICreateController {
     public String createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
+            if (data.contains("ADMIN")){
+                //criar user
+                UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(userCreateRequest);
+                return "Admin created";
+            }
             //verificar se é criar ou entrar num grupo
             String groupId = mapper.readTree(data).get("groupId").asText();
             String groupName = mapper.readTree(data).get("groupName").asText();
@@ -58,6 +63,7 @@ public class APICreateController {
             if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
                 throw new RuntimeException("The group not exists");
             }
+
 
             if (groupId.isEmpty() && !groupName.isEmpty()) {
 
@@ -88,16 +94,23 @@ public class APICreateController {
     }
 
 
-
-    //validar se o user é admin do grupo
     @PostMapping("car")
-    public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
+    public Car createCar(@Valid @RequestBody String data) throws ResourceNotFoundException, JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Car car = mapper.readValue(data, Car.class);
+        String userId = mapper.readTree(data).get("userId").asText();
+
+
         // verificar se não existe um carro com a mesma matricula
         if (carService.existsByMatricula(car.getMatricula())) {
-            System.out.println("Car already exists");
             throw new ResourceNotFoundException("Car already exists");
         }
-        return carService.addCar(car);
+        //validação que o user é admin
+        return carService.addCar(car, Long.parseLong(userId));
+
     }
 
     

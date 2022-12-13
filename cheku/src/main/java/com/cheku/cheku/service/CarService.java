@@ -24,27 +24,32 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public Car addCar(Car car) throws ResourceNotFoundException {
+    public Car addCar(Car car,long userId)  {
 
         // verificar se o grupo existe
         if (groupRepository.findById(car.getGroup().getId()) == null) {
-            throw new ResourceNotFoundException("The group doesn't exist");
+            throw new RuntimeException("The group doesn't exist");
+        }
+        Long adminId = groupRepository.findById(car.getGroup().getId()).get().getAdmin();
+        if (adminId != userId) {
+            throw new RuntimeException("User is not admin");
         }
         // verificar se model existe
-        if (carModelRepository.findByModel(car.getModel().getModel()) == null) {
-            throw new ResourceNotFoundException("The car model doesn't exist");
+        if (carModelRepository.findByModel(car.getCarModel().getModel()) == null) {
+            throw new RuntimeException("The car model doesn't exist");
         }
+
         try{
             car.setGroup(groupRepository.findById(car.getGroup().getId()).get());
-            car.setModel(carModelRepository.findByModel(car.getModel().getModel()));
+            car.setCarModel(carModelRepository.findByModel(car.getCarModel().getModel()));
             return carRepository.save(car);
         } catch (Exception e) {
-            throw new ResourceNotFoundException("Error saving car");
+            throw new RuntimeException("Error saving car");
         }
     }
 
     public Car getCar(Long id) throws ResourceNotFoundException {
-        return carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
+        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
     }
 
     public Boolean existsById(Long id) {
@@ -54,4 +59,5 @@ public class CarService {
     public boolean existsByMatricula(String matricula) {
         return carRepository.existsByMatricula(matricula);
     }
+
 }
