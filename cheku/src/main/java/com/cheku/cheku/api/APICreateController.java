@@ -46,19 +46,6 @@ public class APICreateController {
     @Autowired
     private CarService carService;
 
-    //DONE
-    @PostMapping("user")
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest user) throws ResourceNotFoundException {
-        userService.createUser(user);
-        return ResponseEntity.ok().build();
-    }
-
-    //DONE
-    @PostMapping("group")
-    public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupCreateRequest group) {
-        return ResponseEntity.ok(groupService.createGroup(group));
-    }
-
     @PostMapping("register")
     public String createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
@@ -67,6 +54,7 @@ public class APICreateController {
             //verificar se é criar ou entrar num grupo
             String groupId = mapper.readTree(data).get("groupId").asText();
             String groupName = mapper.readTree(data).get("groupName").asText();
+
 
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
