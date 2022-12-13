@@ -1,6 +1,7 @@
 package com.cheku.cheku.config;
 
 import com.cheku.cheku.api.AuthenticationUserDetailService;
+import com.cheku.cheku.filter.JWTAuthenticationEntryPoint;
 import com.cheku.cheku.filter.JWTAuthenticationFilter;
 import com.cheku.cheku.filter.JWTAuthorizationFilter;
 
@@ -27,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(new JWTAuthenticationEntryPoint())
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
