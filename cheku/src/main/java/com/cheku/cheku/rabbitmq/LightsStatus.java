@@ -6,9 +6,10 @@ import java.util.concurrent.CountDownLatch;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
 import com.cheku.cheku.model.LightsHistory;
+import com.cheku.cheku.model.Trip;
+import com.cheku.cheku.model.enums.LightState;
 import com.cheku.cheku.service.CarService;
 import com.cheku.cheku.service.LightsService;
-import com.cheku.cheku.service.PneusHistoryService;
 import com.cheku.cheku.service.TripService;
 
 import org.json.JSONObject;
@@ -32,22 +33,16 @@ public class LightsStatus {
     public void receiveMessage(byte[] message) throws ResourceNotFoundException {
         String msg = new String(message);
         System.out.println("Received Light <" + msg + ">");
-        // velocityStorage.addVelocity(msg);
+
         JSONObject j = new JSONObject(msg);
         if(carService.existsById((long) 1)) {
             Car car = carService.getCar((long) 1);
+            Trip trip = tripService.getCarCurrentTrip(car.getId());
             LightsHistory lights = new LightsHistory(); 
-            lights.setCar(car);
-            //lights.setLatitude(j.getString("current_fuel"));
-            //lights.setLongitude(j.getString("current_oil")); 
-            //lights.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
-      
-            try {
-                lightsService.getAllLuzes();
-            } catch (Exception e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
-            }
+            lights.setTrip(trip);
+            lights.setState(LightState.valueOf( j.getString("lights")));
+            lights.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
+            lightsService.save(lights);
         }
         latch.countDown();
     }

@@ -5,9 +5,9 @@ import java.util.concurrent.CountDownLatch;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.LightsHistory;
+import com.cheku.cheku.model.PneusHistory;
+import com.cheku.cheku.model.Trip;
 import com.cheku.cheku.service.CarService;
-import com.cheku.cheku.service.LightsService;
 import com.cheku.cheku.service.PneusHistoryService;
 import com.cheku.cheku.service.TripService;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class TiresStatus {
     
     @Autowired
-    private PneusHistoryService pneusService;
+    private PneusHistoryService tiresService;
 
     @Autowired
     private TripService tripService;
@@ -32,22 +32,17 @@ public class TiresStatus {
     public void receiveMessage(byte[] message) throws ResourceNotFoundException {
         String msg = new String(message);
         System.out.println("Received Tire <" + msg + ">");
-        // velocityStorage.addVelocity(msg);
+
         JSONObject j = new JSONObject(msg);
         if(carService.existsById((long) 1)) {
             Car car = carService.getCar((long) 1);
-            LightsHistory lights = new LightsHistory(); 
-            lights.setCar(car);
-            //lights.setLatitude(j.getString("current_fuel"));
-            //lights.setLongitude(j.getString("current_oil")); 
-            //lights.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
-      
-            try {
-                //lightsService.getAllLuzes();
-            } catch (Exception e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
-            }
+            Trip trip = tripService.getCarCurrentTrip(car.getId());
+            PneusHistory tire = new PneusHistory(); 
+            tire.setTrip(trip);
+            tire.setPressure(j.getDouble("tires_pressure"));
+            tire.setTemperature(j.getDouble("tires_temperature"));
+            tire.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
+            tiresService.savePneusHistory(tire);
         }
         latch.countDown();
     }

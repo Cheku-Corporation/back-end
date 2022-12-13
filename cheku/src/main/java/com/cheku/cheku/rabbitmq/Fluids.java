@@ -55,7 +55,7 @@ public class Fluids {
         Notification not = new Notification();
         not.setPriority(2);
         not.setSubject("Low Fuel");
-        not.setMessage("Your car only has " + fluid.getFuel() + " left!");
+        not.setMessage("Your car has only " + (fluid.getFuel() * 10) + "% fuel left!");
         not.setType("fuel");
         not.setCar(car);
         notificationService.addNotification(not);

@@ -136,8 +136,8 @@ public class APIReadController {
 			.setSpeed(velocityService.getLastVelocity(car_id))
 			.setGear(velocityService.getLastVelocity(car_id))
 			.setRPM(velocityService.getLastVelocity(car_id))
-			// .setTiresPressure(tireService.getLastTireState(car_id))
-			// .setTiresTemperature(tireService.getLastTireState(car_id))
+			//.setTiresPressure(tireService.getLastTireState(car_id))
+			//.setTiresTemperature(tireService.getLastTireState(car_id))
 			.setTotalDistance(tripService.getCarCurrentTrip(car_id))
 			.build();
 		return ls;

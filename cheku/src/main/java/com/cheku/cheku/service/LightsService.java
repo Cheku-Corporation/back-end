@@ -19,14 +19,6 @@ public class LightsService {
     }
 
     public LightsHistory save(LightsHistory luzes) {
-        try{
-            Car car  = carRepository.findById(luzes.getCar().getId()).get();
-            luzes.setCar(car);
-        }
-        catch (Exception e){
-            System.out.println("Car not found");
-            return null;
-        }
         try {
             return luzesRepository.save(luzes);
         } catch (Exception e) {

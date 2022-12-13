@@ -1,9 +1,9 @@
 package com.cheku.cheku.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Data
@@ -17,7 +17,7 @@ public class PneusHistory {
         private Long id;
 
         @Column(name = "date", nullable = false)
-        private String date;
+        private Date date;
 
         @Column(name = "temperature", nullable = false)
         private Double temperature;
@@ -26,6 +26,6 @@ public class PneusHistory {
         private Double pressure;
 
         @ManyToOne(optional = true)
-        @JoinColumn(name = "car_id", nullable = true)
-        private Car car;
+        @JoinColumn(name = "trip_id", nullable = true)
+        private Trip trip;
 }

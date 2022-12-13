@@ -26,6 +26,7 @@ public class PneusHistoryService {
             return pneusHistoryRepository.save(pneusHistory);
         } catch (Exception e) {
             System.out.println("Error saving pneusHistory");
+            e.printStackTrace();
             return null;
         }
     }

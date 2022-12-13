@@ -5,11 +5,8 @@ import java.util.concurrent.CountDownLatch;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.LightsHistory;
 import com.cheku.cheku.model.Trip;
 import com.cheku.cheku.service.CarService;
-import com.cheku.cheku.service.LightsService;
-import com.cheku.cheku.service.PneusHistoryService;
 import com.cheku.cheku.service.TripService;
 
 import org.json.JSONObject;

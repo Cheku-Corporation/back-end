@@ -3,8 +3,11 @@ package com.cheku.cheku.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 import javax.persistence.*;
-import com.cheku.cheku.model.enums.StateLuzes;
+import com.cheku.cheku.model.enums.LightState;
 
 @Entity
 @Data
@@ -18,10 +21,12 @@ public class LightsHistory {
     private Long id;
 
     @Column(name = "state", nullable = false)
-    private StateLuzes state;
+    private LightState state;
 
+    @Column(name = "date", nullable = false)
+    private Date date;
+    
     @ManyToOne(optional = true)
-    @JoinColumn(name = "car_id", nullable = true)
-    private Car car;
-
+    @JoinColumn(name = "trip_id", nullable = true)
+    private Trip trip;
 }

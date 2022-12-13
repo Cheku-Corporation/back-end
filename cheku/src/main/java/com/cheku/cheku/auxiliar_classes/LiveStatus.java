@@ -3,7 +3,7 @@ package com.cheku.cheku.auxiliar_classes;
 import com.cheku.cheku.model.PneusHistory;
 import com.cheku.cheku.model.SpeedHistory;
 import com.cheku.cheku.model.Trip;
-import com.cheku.cheku.model.enums.StateLuzes;
+import com.cheku.cheku.model.enums.LightState;
 
 public class LiveStatus {
     
@@ -13,7 +13,7 @@ public class LiveStatus {
     private int currentGear;
     private Double relativeDistance;
     private Double totalDistance;
-    private StateLuzes lightsState;
+    private LightState lightsState;
     private Double tiresPressure;
     private Double tiresTemperature;
 
@@ -44,7 +44,7 @@ public class LiveStatus {
         return currentGear;
     }
 
-    public StateLuzes getLightdsState() {
+    public LightState getLightdsState() {
         return lightsState;
     }
 
@@ -72,7 +72,7 @@ public class LiveStatus {
         private int currentGear;
         private Double relativeDistance;
         private Double totalDistance;
-        private StateLuzes lightsState;
+        private LightState lightsState;
         private Double tiresPressure;
         private Double tiresTemperature;
     
@@ -103,6 +103,7 @@ public class LiveStatus {
         }
 
         public LiveStatusBuilder setTiresTemperature(PneusHistory tire) {
+            System.out.println("tire temperature: " + tire.getTemperature());
             tiresTemperature = tire.getTemperature();
             return this;
         }
