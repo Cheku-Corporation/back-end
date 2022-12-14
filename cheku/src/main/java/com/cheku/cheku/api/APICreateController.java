@@ -122,7 +122,8 @@ public class APICreateController {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         Car car = mapper.readValue(data, Car.class);
-        String userId = mapper.readTree(data).get("userId").asText();
+        Long userId = mapper.readTree(data).get("userId").asLong();
+        System.out.println(car);
 
 
         // verificar se não existe um carro com a mesma matricula
@@ -130,7 +131,7 @@ public class APICreateController {
             throw new ResourceNotFoundException("Car already exists");
         }
         //validação que o user é admin
-        return carService.addCar(car, Long.parseLong(userId));
+        return carService.addCar(car, userId);
 
     }
 

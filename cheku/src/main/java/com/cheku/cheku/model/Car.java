@@ -23,8 +23,8 @@ public class Car {
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    @Column(name = "inpectionDate", nullable = false)
-    private Date inpectionDate;
+    @Column(name = "inspectionDate", nullable = false)
+    private Date inspectionDate;
 
     @Column(name = "insuranceDate", nullable = false)
     private Date insuranceDate;
