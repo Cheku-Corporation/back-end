@@ -62,11 +62,17 @@ public class APICreateController {
 
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
-                throw new RuntimeException("The group already exists");
+                Object response = new Object() {
+                    public final String error = "The group already exists";
+                };
+                return response;
             }
 
             if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
-                throw new RuntimeException("The group not exists");
+                Object response = new Object() {
+                    public final String error = "The group not exists";
+                };
+                return response;
             }
 
 
