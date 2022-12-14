@@ -2,7 +2,10 @@ package com.cheku.cheku.service;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.dto.CarModelDTO;
+import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.repository.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,8 @@ import java.util.List;
 
 @Service
 public class CarModelService {
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private CarModelRepository carModelRepository;
@@ -22,11 +27,13 @@ public class CarModelService {
     private PneusRepository pneusRepository;
 
 
-     public List<String> getAllCarModels() {
+     public List<CarModelDTO> getAllCarModels() {
           List<CarModel> cars = carModelRepository.findAll();
-          List<String> carModels = new ArrayList<>();
+          List<CarModelDTO> carModels = new ArrayList<>();
             for (CarModel car : cars) {
-                carModels.add(car.getModel());
+                CarModelDTO carModelDTO =  modelMapper.map(car, CarModelDTO.class);
+                carModels.add(carModelDTO);
+
             }
             return carModels;
      }

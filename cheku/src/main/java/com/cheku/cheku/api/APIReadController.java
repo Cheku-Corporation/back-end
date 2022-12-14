@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 import com.cheku.cheku.exception.ResourceNotFoundException;
+import com.cheku.cheku.model.dto.CarModelDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class APIReadController {
 		}
 	}
 	@GetMapping("api/carModels")
-	public List<String> getCarModels() {
+	public List<CarModelDTO> getCarModels() {
 		return carModelService.getAllCarModels();
 	}
 
