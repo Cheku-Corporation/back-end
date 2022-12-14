@@ -123,7 +123,6 @@ public class APICreateController {
 
         Car car = mapper.readValue(data, Car.class);
         Long userId = mapper.readTree(data).get("userId").asLong();
-        System.out.println(car);
 
 
         // verificar se não existe um carro com a mesma matricula
