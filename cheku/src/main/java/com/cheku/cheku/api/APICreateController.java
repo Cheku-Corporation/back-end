@@ -1,5 +1,6 @@
 package com.cheku.cheku.api;
 
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,14 +43,18 @@ public class APICreateController {
     private CarService carService;
 
     @PostMapping("register")
-    public String createRegister(@RequestBody String data) throws JsonProcessingException {
+    public Object createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             if (data.contains("ADMIN")){
                 //criar user
                 UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
                 userService.createUser(userCreateRequest);
-                return "Admin created";
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "Admin created";
+                };
+                return response;
             }
             //verificar se é criar ou entrar num grupo
             String groupId = mapper.readTree(data).get("groupId").asText();
@@ -76,7 +81,12 @@ public class APICreateController {
                 GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
                 group.setAdmin(admin.get().getId());
                 groupService.createGroup(group);
-                return "Group created";
+                //returnar json success
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "Group created";
+                };
+                return response;
             } else if (!groupId.isEmpty() && groupName.isEmpty()) {
 
                 //Criar um new user
@@ -87,7 +97,12 @@ public class APICreateController {
                 Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
 
-                return "User added to group";
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "User added to group";
+                };
+                return response;
+
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
             }
