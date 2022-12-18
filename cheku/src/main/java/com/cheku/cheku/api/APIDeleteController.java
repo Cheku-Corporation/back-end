@@ -4,6 +4,7 @@ package com.cheku.cheku.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.cheku.cheku.service.*;
+import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
 
 @RestController
@@ -14,6 +15,9 @@ public class APIDeleteController {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private TripService tripService;
 
 //    @DeleteMapping("api/user/{user_id}/group/{group_id}/car/{car_id}")
 //    public String  deleteCar(@PathVariable Long user_id, @PathVariable Long group_id, @PathVariable Long car_id) {
@@ -38,4 +42,9 @@ public class APIDeleteController {
 
     //remover e user de group
     //remover um carro 
+
+    @DeleteMapping("api/trips")
+    public void  deleteTrips() throws ResourceNotFoundException {
+        tripService.deleteTrips();
+    }
 }

@@ -25,9 +25,6 @@ public class APICreateController {
     private VelocityService velocityService;
 
     @Autowired
-    private LocalizationService localizationService;
-
-    @Autowired
     private PneusHistoryService pneusHistoryService;
 
     @Autowired

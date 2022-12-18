@@ -36,7 +36,7 @@ public class Fluids {
 
   public void receiveMessage(byte[] message) throws ResourceNotFoundException {
     String msg = new String(message);
-    // System.out.println("Received Fluid <" + msg + ">");
+    System.out.println("Received Fluid <" + msg + ">");
 
     JSONObject j = new JSONObject(msg);
     if (carService.existsById((long) 1)) {

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MotorStatus {
+public class CarStatus {
     
     @Autowired
     private TripService tripService;
@@ -26,7 +26,7 @@ public class MotorStatus {
 
     public void receiveMessage(byte[] message) throws ResourceNotFoundException {
         String msg = new String(message);
-        System.out.println("Received Motor <" + msg + ">");
+        System.out.println("Received Car Status <" + msg + ">");
         JSONObject j = new JSONObject(msg);
         if(carService.existsById((long) 1)) {
             Car car = carService.getCar((long) 1);
@@ -35,6 +35,8 @@ public class MotorStatus {
                 trip.setCar(car);
                 trip.setStartTime(new Date((long) (j.getDouble("timestamp") * 1000)));
                 trip.setTraveledDistance(0.0);
+                trip.setStartLatitude(((Double)j.getDouble("latitude")));
+                trip.setStartLongitude(((Double)j.getDouble("longitude")));
                 System.out.println( tripService.getCarCurrentTripNumber(car.getId()) );
                 if(tripService.getCarCurrentTripNumber(car.getId()) == null) {
                     trip.setNumber(Long.parseLong("1"));
@@ -47,12 +49,14 @@ public class MotorStatus {
                     e.printStackTrace();
                 }
                 //System.out.println("New trip" + trip);
+
             } else if(j.getString("motor_status").compareTo("OFF") == 0) {
             
                 System.out.println( tripService.getCarCurrentTripNumber(car.getId()) );
                 Long tripNumber = tripService.getCarCurrentTripNumber(car.getId());
                 Trip trip = tripService.getTripWithCarAndNumber(car.getId(), tripNumber);
-                trip.setEndTime(new Date((long) (j.getDouble("timestamp") * 1000)));
+                tripService.finishTrip(trip.getId(), (long) (j.getDouble("timestamp") * 1000), 
+                            ((Double)j.getDouble("latitude")), ((Double)j.getDouble("longitude")));
                 System.out.println("Finish");
             }
         } 
