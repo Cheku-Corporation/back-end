@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.cheku.cheku.config.AuthenticationConfigConstants;
 import com.cheku.cheku.model.ApiUser;
+import com.cheku.cheku.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,8 +41,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),
                             creds.getPassword(),
-                            new ArrayList<>())
-            );
+                            new ArrayList<>()));
+
         } catch (IOException e) {
             throw new RuntimeException("Falha ao tentar autenticar usuário");
         }

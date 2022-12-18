@@ -15,14 +15,13 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class Initialization {
 
-  static final String topicExchangeName = "";
+  static final String topicExchangeName = "car";
 
   static final String queueName1 = "velocities";
   static final String queueName2 = "fluids";
-  static final String queueName3 = "coordinates";
-  static final String queueName4 = "motor_status";
-  static final String queueName5 = "lights_status";
-  static final String queueName6 = "tires_status";
+  static final String queueName3 = "car_status";
+  static final String queueName4 = "lights_status";
+  static final String queueName5 = "tires_status";
 
   @Bean
   Queue queue1() {
@@ -46,11 +45,6 @@ public class Initialization {
 
   @Bean
   Queue queue5() {
-    return new Queue(queueName4, false);
-  }
-
-  @Bean
-  Queue queue6() {
     return new Queue(queueName4, false);
   }
 
@@ -82,11 +76,6 @@ public class Initialization {
   @Bean
   Binding binding5(Queue queue5, TopicExchange exchange) {
     return BindingBuilder.bind(queue5).to(exchange).with(queueName5);
-  }
-
-  @Bean
-  Binding binding6(Queue queue6, TopicExchange exchange) {
-    return BindingBuilder.bind(queue6).to(exchange).with(queueName6);
   }
 
   @Bean
@@ -140,16 +129,6 @@ public class Initialization {
   }
 
   @Bean
-  SimpleMessageListenerContainer container6(ConnectionFactory connectionFactory,
-      MessageListenerAdapter listenerAdapter6) {
-    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-    container.setConnectionFactory(connectionFactory);
-    container.setQueueNames(queueName6);
-    container.setMessageListener(listenerAdapter6);
-    return container;
-  }
-
-  @Bean
   MessageListenerAdapter listenerAdapter1(Velocity receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
@@ -160,22 +139,17 @@ public class Initialization {
   }
   
   @Bean
-  MessageListenerAdapter listenerAdapter3(Coordinates receiver) {
+  MessageListenerAdapter listenerAdapter3(CarStatus receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 
   @Bean
-  MessageListenerAdapter listenerAdapter4(MotorStatus receiver) {
+  MessageListenerAdapter listenerAdapter4(LightsStatus receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 
   @Bean
-  MessageListenerAdapter listenerAdapter5(LightsStatus receiver) {
-    return new MessageListenerAdapter(receiver, "receiveMessage");
-  }
-
-  @Bean
-  MessageListenerAdapter listenerAdapter6(TiresStatus receiver) {
+  MessageListenerAdapter listenerAdapter5(TiresStatus receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
 }

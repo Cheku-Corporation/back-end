@@ -13,7 +13,7 @@ import com.cheku.cheku.model.enums.LightState;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "luzes")
+@Table(name = "lights")
 public class LightsHistory {
 
     @Id

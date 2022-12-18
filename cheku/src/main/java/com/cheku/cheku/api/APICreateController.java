@@ -1,17 +1,13 @@
 package com.cheku.cheku.api;
 
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
-import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.model.request.*;
@@ -29,9 +25,6 @@ public class APICreateController {
     private VelocityService velocityService;
 
     @Autowired
-    private LocalizationService localizationService;
-
-    @Autowired
     private PneusHistoryService pneusHistoryService;
 
     @Autowired
@@ -47,23 +40,38 @@ public class APICreateController {
     private CarService carService;
 
     @PostMapping("register")
-    public String createRegister(@RequestBody String data) throws JsonProcessingException {
+    public Object createRegister(@RequestBody String data) throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
+            if (data.contains("ADMIN")){
+                //criar user
+                UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
+                userService.createUser(userCreateRequest);
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "Admin created";
+                };
+                return response;
+            }
             //verificar se é criar ou entrar num grupo
             String groupId = mapper.readTree(data).get("groupId").asText();
             String groupName = mapper.readTree(data).get("groupName").asText();
 
-
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
-                throw new RuntimeException("The group already exists");
+                Object response = new Object() {
+                    public final String error = "The group already exists";
+                };
+                return response;
             }
 
-            if (!groupId.isEmpty() && groupService.findGroupById(Long.parseLong(groupId))) {
-                throw new RuntimeException("The group not exists");
+            if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
+                Object response = new Object() {
+                    public final String error = "The group not exists";
+                };
+                return response;
             }
+
 
             if (groupId.isEmpty() && !groupName.isEmpty()) {
 
@@ -76,7 +84,12 @@ public class APICreateController {
                 GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
                 group.setAdmin(admin.get().getId());
                 groupService.createGroup(group);
-                return "Group created";
+                //returnar json success
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "Group created";
+                };
+                return response;
             } else if (!groupId.isEmpty() && groupName.isEmpty()) {
 
                 //Criar um new user
@@ -86,45 +99,37 @@ public class APICreateController {
                 //entrar num grupo
                 Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
-                return "User added to group";
+
+                Object response = new Object() {
+                    public final String success = "true";
+                    public final String message = "User added to group";
+                };
+                return response;
+
             } else {
                 throw new RuntimeException("Erro ao criar o registo");
             }
     }
 
 
-
     @PostMapping("car")
-    public Car createCar(@Valid @RequestBody Car car) throws ResourceNotFoundException {
+    public Car createCar(@Valid @RequestBody String data) throws ResourceNotFoundException, JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Car car = mapper.readValue(data, Car.class);
+        Long userId = mapper.readTree(data).get("userId").asLong();
+
 
         // verificar se não existe um carro com a mesma matricula
         if (carService.existsByMatricula(car.getMatricula())) {
-            System.out.println("Car already exists");
             throw new ResourceNotFoundException("Car already exists");
         }
-        try {
-            return carService.addCar(car);
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Error saving car");
-        }
+        //validação que o user é admin
+        return carService.addCar(car, userId);
+
     }
 
-    // //adiconar user a group
-    // @PostMapping("api/user/{user_id}/group")
-    // public Group addUser(@Valid @RequestBody String name) throws ResourceNotFoundException{
-
-    // }
-    
-//    @PostMapping("api/user/{user_id}/group/{group_id}/car")
-//    public List<Car> addCarToGroup(@PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
-//        //verificar que o user é o dono do grupo
-//        if(!groupService.verifyAdmin(user_id, group_id)){
-//            throw new ResourceNotFoundException("User is not admin of the group");
-//        }
-//        //criar o carro
-//        Car new_car = carService.addCar(car);
-//        //adicionar o carro ao grupo
-//        return groupService.addCarToGroup(group_id, new_car.getId());
-//    }
 }
 

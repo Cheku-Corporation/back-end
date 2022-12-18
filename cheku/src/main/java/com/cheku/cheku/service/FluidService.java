@@ -15,6 +15,9 @@ public class FluidService {
     @Autowired
     private FluidRepository fluidRepository;
 
+    @Autowired
+    private TripService tripService;
+
     public Fluid addFluid(Fluid fluid) {
         try{
             return fluidRepository.save(fluid);
@@ -25,6 +28,21 @@ public class FluidService {
 
     public List<SimpleFluid> getAllFluids() {
         return fluidRepository.getAll();
+    }
+
+    public Double getLastOilPercentage(Long car_id) {
+        Long trip_id = tripService.getCarCurrentTrip(car_id).getId();
+        return fluidRepository.getLast(trip_id).getOil() * 100;
+    }
+
+    public Double getLastWaterPercentage(Long car_id) {
+        Long trip_id = tripService.getCarCurrentTrip(car_id).getId();
+        return fluidRepository.getLast(trip_id).getWater() * 100;
+    }
+
+    public Double getLastFuelInLiters(Long car_id) {
+        Long trip_id = tripService.getCarCurrentTrip(car_id).getId();
+        return fluidRepository.getLast(trip_id).getFuel() * 100;
     }
 
     public Fluid getFluid(Long id) {

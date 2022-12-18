@@ -30,7 +30,8 @@ public class Group {
 
     //lista de users
     @JsonIgnore
-    @ManyToMany(mappedBy = "groupList")
+    @OneToMany
+    @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     private List<ApiUser> userList = new ArrayList<>();
 
     @Column(name = "admin", nullable = false)

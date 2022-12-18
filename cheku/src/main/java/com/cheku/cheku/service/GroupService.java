@@ -26,6 +26,7 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
+    //create group
     public Group createGroup(GroupCreateRequest group) {
         Optional<ApiUser> user = userRepository.findById(group.getAdmin());
         if (!user.isPresent()) {
@@ -41,33 +42,44 @@ public class GroupService {
         BeanUtils.copyProperties(group, groupToCreate);
         groupToCreate.setAdmin(user.get().getId());
         groupToCreate.addUser(user.get());
-        user.get().addGroup(groupToCreate);
+        user.get().setGroup(groupToCreate);
         return groupRepository.save(groupToCreate);
     }
 
-    public List<Car> addCarToGroup(Long group_id, Long car_id) {
+    //add user to group
+    public void addUserToGroup(Long idUser, long idGroup) {
+        //check if user exists
+        if(userRepository.findById(idUser) == null){
+            System.out.println("User does not exist");
+            return;
+        }
+
         //check if group exists
-        if(groupRepository.findById(group_id) == null){
+        if(groupRepository.findById(idGroup) == null){
             System.out.println("Group does not exist");
-            return null;
+            return;
         }
 
-        //check if car exists
-        if(carRepository.findById(car_id) == null){
-            System.out.println("Car does not exist");
-            return null;
-        }
-
-        Group group = groupRepository.findById(group_id).get();
-        Car car = carRepository.findById(car_id).get();
-        group.getCarList().add(car);
-        car.setGroup(group);
+        Group group = groupRepository.findById(idGroup).get();
+        ApiUser user = userRepository.findById(idUser).get();
+        group.addUser(user);
+        user.setGroup(group);
         groupRepository.save(group);
-        carRepository.save(car);
-        return ListCarInGroup(group_id);
+        userRepository.save(user);
     }
 
-    private List<Car> ListCarInGroup(Long group_id) {
+    public boolean findGroupByName(String groupName) {
+        return groupRepository.findByGroupName(groupName) != null;
+    }
+
+    public boolean findGroupById(long parseLong) {
+        return groupRepository.findById(parseLong) != null;
+    }
+    public void deleteGroup(Long group_id) {
+        groupRepository.deleteById(group_id);
+    }
+
+    public List<Car> ListCarInGroup(Long group_id) {
         return groupRepository.findById(group_id).get().getCarList();
     }
 
@@ -88,46 +100,5 @@ public class GroupService {
 
     }
 
-    public void deleteGroup(Long group_id) {
-        groupRepository.deleteById(group_id);
-    }
 
-    public List<Group> getUserGroups(Long user_id) {
-        //check if user exists
-        if(userRepository.findById(user_id) == null){
-            System.out.println("User does not exist");
-            return null;
-        }
-
-        return userRepository.findById(user_id).get().getGroupList();
-    }
-
-    public void addUserToGroup(Long idUser, long idGroup) {
-        //check if user exists
-        if(userRepository.findById(idUser) == null){
-            System.out.println("User does not exist");
-            return;
-        }
-
-        //check if group exists
-        if(groupRepository.findById(idGroup) == null){
-            System.out.println("Group does not exist");
-            return;
-        }
-
-        Group group = groupRepository.findById(idGroup).get();
-        ApiUser user = userRepository.findById(idUser).get();
-        group.addUser(user);
-        user.addGroup(group);
-        groupRepository.save(group);
-        userRepository.save(user);
-    }
-
-    public boolean findGroupByName(String groupName) {
-        return groupRepository.findByGroupName(groupName) != null;
-    }
-
-    public boolean findGroupById(long parseLong) {
-        return groupRepository.findById(parseLong) != null;
-    }
 }
