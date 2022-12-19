@@ -83,8 +83,13 @@ public class APIReadController {
 		throw new ResourceNotFoundException("Not authorized");
 	}
 
-	@GetMapping("api/group/{group_id}/cars")
-	public List<Car> getCars(@PathVariable Long group_id) throws JsonProcessingException {
+	@GetMapping("api/user/{user_id}/group/{group_id}/cars")
+	public List<Car> getCars(@PathVariable Long group_id, @PathVariable Long user_id) throws JsonProcessingException {
+		// verificar se user pertence ao grupo
+		if (userService.getUser(user_id).getGroup().getId() != group_id) {
+			throw new RuntimeException("Not authorized");
+		}
+
 		if (!groupService.findGroupById(group_id)) {
 			throw new RuntimeException("The group does not exist");
 		}
@@ -94,6 +99,15 @@ public class APIReadController {
 		} catch (Exception e) {
 			throw new RuntimeException("Error getting cars");
 		}
+	}
+
+	@GetMapping("api/user/{user_id}")
+	public UserDTO getUser(@PathVariable Long user_id) throws ResourceNotFoundException, JsonProcessingException {
+		ApiUser user = userService.getUser(user_id);
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found");
+		}
+		return getCurrentUser(user.getEmail());
 	}
 
 	@GetMapping("api/group/{group_id}/users")
