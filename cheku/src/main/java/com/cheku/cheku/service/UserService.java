@@ -1,5 +1,6 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.model.Group;
 import org.modelmapper.ModelMapper;
 import com.cheku.cheku.model.ApiUser;
 import com.cheku.cheku.model.dto.UserDTO;
@@ -79,4 +80,15 @@ public class UserService {
         userRepository.deleteByEmail(email);
     }
 
+    public boolean findUserById(Long user_id) {
+        return userRepository.existsById(user_id);
+    }
+
+    public Group ListGroupInUser(Long user_id) {
+        return userRepository.findById(user_id).get().getGroup();
+    }
+
+    public ApiUser getUser(Long group_id) {
+        return userRepository.findById(group_id).get();
+    }
 }

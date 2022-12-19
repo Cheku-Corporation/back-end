@@ -66,4 +66,9 @@ public class CarService {
     }
 
 
+    public Car deleteCar(Long car_id) {
+        Car car = carRepository.findById(car_id).get();
+        carRepository.delete(car);
+        return car;
+    }
 }

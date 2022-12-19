@@ -1,17 +1,22 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.model.request.GroupCreateRequest;
 import com.cheku.cheku.repository.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class GroupService {
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -64,6 +69,7 @@ public class GroupService {
         ApiUser user = userRepository.findById(idUser).get();
         group.addUser(user);
         user.setGroup(group);
+        //user.addGroup(group);
         groupRepository.save(group);
         userRepository.save(user);
     }
@@ -100,5 +106,15 @@ public class GroupService {
 
     }
 
+
+    public List<UserDTO> ListUserInGroup(Long group_id) {
+        List<ApiUser> users = groupRepository.findById(group_id).get().getUserList();
+        List<UserDTO> usersDTOs = new ArrayList<>();
+        for(ApiUser user : users){
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            usersDTOs.add(userDTO);
+        }
+        return usersDTOs;
+    }
 
 }

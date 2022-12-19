@@ -65,28 +65,61 @@ public class APIReadController {
 		return localizationService.getAll();
 	}
 
-	@GetMapping("api/car/{car_id}")
-	public Car getCar(@PathVariable Long car_id) throws ResourceNotFoundException {
-		return carservice.getCar(car_id);
+	@GetMapping("api/user/{user_id}/group/{group_id}/car/{car_id}")
+	public Car getCar(@PathVariable Long car_id, @PathVariable Long group_id,  @PathVariable Long user_id) throws ResourceNotFoundException {
+		if (carservice.getCar(car_id) == null) {
+			throw new ResourceNotFoundException("Car not found");
+		}
+		//verificar se o carro pertence ao grupo
+		if (carservice.getCar(car_id).getGroup().getId() == group_id) {
+			return carservice.getCar(car_id);
+		}
+
+		// verificar se user pertence ao grupo
+		if (userService.getUser(user_id).getGroup().getId() == group_id) {
+			return carservice.getCar(car_id);
+		}
+
+		throw new ResourceNotFoundException("Not authorized");
 	}
 
-	@GetMapping("api/group/cars")
-	public List<Car> getCars(@RequestBody String data) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		Long groupId = mapper.readTree(data).get("groupId").asLong();
-
-		//verificar se o grupo existe
-		System.out.println("Group id: " + groupService.findGroupById(groupId));
-		if (!groupService.findGroupById(groupId)) {
+	@GetMapping("api/group/{group_id}/cars")
+	public List<Car> getCars(@PathVariable Long group_id) throws JsonProcessingException {
+		if (!groupService.findGroupById(group_id)) {
 			throw new RuntimeException("The group does not exist");
 		}
 
 		try {
-			return groupService.ListCarInGroup(groupId);
+			return groupService.ListCarInGroup(group_id);
 		} catch (Exception e) {
 			throw new RuntimeException("Error getting cars");
 		}
 	}
+
+	@GetMapping("api/group/{group_id}/users")
+	public List<UserDTO> getUsers(@PathVariable Long group_id){
+		if (!groupService.findGroupById(group_id)) {
+			throw new RuntimeException("The group does not exist");
+		}
+		try {
+			return groupService.ListUserInGroup(group_id);
+		} catch (Exception e) {
+			throw new RuntimeException("Error getting users" +  e);
+		}
+	}
+
+	@GetMapping("api/user/{user_id}/group")
+	public Group getGroups(@PathVariable Long user_id){
+		if (!userService.findUserById(user_id)) {
+			throw new RuntimeException("The user does not exist");
+		}
+		try {
+			return userService.ListGroupInUser(user_id);
+		} catch (Exception e) {
+			throw new RuntimeException("Error getting groups");
+		}
+	}
+
 	@GetMapping("api/carModels")
 	public List<CarModelDTO> getCarModels() {
 		return carModelService.getAllCarModels();
