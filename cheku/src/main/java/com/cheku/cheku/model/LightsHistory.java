@@ -21,7 +21,7 @@ import com.cheku.cheku.model.enums.LightState;
  * Entity class for storing lights history data.
  */
 @Entity
-@Table(name = "luzes")
+@Table(name = "lights_history")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
