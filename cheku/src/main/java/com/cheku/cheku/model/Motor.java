@@ -1,11 +1,9 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Entity class representing a motor.
@@ -13,8 +11,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "motors")
 @Data
+@Builder
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Motor {
 
     /** The unique identifier for the motor. */
@@ -23,7 +24,7 @@ public class Motor {
     @Column(name = "id")
     private Long id;
 
-    /** The power of the motor. */
+    /** The power of the motor, typically measured in horsepower. */
     @Column(name = "power", nullable = false)
     @NotNull(message = "Power is required")
     private int power;

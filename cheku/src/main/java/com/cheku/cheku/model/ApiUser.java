@@ -56,28 +56,4 @@ public class ApiUser {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
-
-    /**
-     * Validates the email field to ensure that it is in the correct format.
-     * @return true if the email is in the correct format, false otherwise
-     */
-    public boolean isEmailValid() {
-        // Use a regex pattern to check the email format
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
-
-    /**
-     * Encrypts the password using the BCrypt algorithm.
-     */
-    public void encryptPassword() {
-        this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
-    }
 }
