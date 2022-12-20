@@ -71,16 +71,16 @@ public class APIReadController {
 			throw new ResourceNotFoundException("Car not found");
 		}
 		//verificar se o carro pertence ao grupo
-		if (carservice.getCar(car_id).getGroup().getId() == group_id) {
-			return carservice.getCar(car_id);
+		if (carservice.getCar(car_id).getGroup().getId() != group_id) {
+			throw new ResourceNotFoundException("Not authorized");
 		}
 
 		// verificar se user pertence ao grupo
-		if (userService.getUser(user_id).getGroup().getId() == group_id) {
-			return carservice.getCar(car_id);
+		if (userService.getUser(user_id).getGroup().getId() != group_id) {
+			throw new ResourceNotFoundException("Not authorized");
 		}
 
-		throw new ResourceNotFoundException("Not authorized");
+		return carservice.getCar(car_id);
 	}
 
 	@GetMapping("api/user/{user_id}/group/{group_id}/cars")
@@ -99,15 +99,6 @@ public class APIReadController {
 		} catch (Exception e) {
 			throw new RuntimeException("Error getting cars");
 		}
-	}
-
-	@GetMapping("api/user/{user_id}")
-	public UserDTO getUser(@PathVariable Long user_id) throws ResourceNotFoundException, JsonProcessingException {
-		ApiUser user = userService.getUser(user_id);
-		if (user == null) {
-			throw new ResourceNotFoundException("User not found");
-		}
-		return getCurrentUser(user.getEmail());
 	}
 
 	@GetMapping("api/group/{group_id}/users")
@@ -134,10 +125,6 @@ public class APIReadController {
 		}
 	}
 
-	@GetMapping("api/carModels")
-	public List<CarModelDTO> getCarModels() {
-		return carModelService.getAllCarModels();
-	}
 
 	@GetMapping("api/user/{user_email}")
 	public UserDTO getCurrentUser(@PathVariable String user_email) throws JsonProcessingException {

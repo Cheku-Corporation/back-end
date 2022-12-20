@@ -13,4 +13,5 @@ public interface CarRepository extends JpaRepository<Car, Long>  {
 
     boolean existsByMatricula(String matricula);
 
+    boolean existsByIdAndGroup(Long car_id, Long group_id);
 }

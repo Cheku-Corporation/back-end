@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.dto.CarModelDTO;
 import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,10 @@ public class AdminController {
 		return pneusService.getAllPneus();
 	}
 
+    @GetMapping("carModels")
+    public List<CarModelDTO> getCarModels() {
+        return carModelService.getAllCarModels();
+    }
     @GetMapping("cars")
     public List<Car> getCars() {
         return carService.getAllCars();
@@ -68,8 +73,6 @@ public class AdminController {
     public List<Group> getGroups(){
         return groupService.getAllGroups();
     }
-
-
 
 
 }

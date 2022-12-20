@@ -43,7 +43,7 @@ public class APICreateController {
     private CarService carService;
 
     @PostMapping("register")
-    public Object createRegister(@RequestBody String data) throws JsonProcessingException {
+    public Object createRegister(@RequestBody String data) throws JsonProcessingException,ResourceNotFoundException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             if (data.contains("ADMIN")){
@@ -51,8 +51,7 @@ public class APICreateController {
                 UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
                 userService.createUser(userCreateRequest);
                 Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "Admin created";
+                    public final String success = "Admin created";
                 };
                 return response;
             }
@@ -62,17 +61,11 @@ public class APICreateController {
 
             //verificar se o grupo existe
             if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
-                Object response = new Object() {
-                    public final String error = "The group already exists";
-                };
-                return response;
+                throw new ResourceNotFoundException("The group already exists");
             }
 
             if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
-                Object response = new Object() {
-                    public final String error = "The group not exists";
-                };
-                return response;
+                throw new ResourceNotFoundException("The group does not exist");
             }
 
 
@@ -89,8 +82,7 @@ public class APICreateController {
                 groupService.createGroup(group);
                 //returnar json success
                 Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "Group created";
+                    public final String success = "Group created";
                 };
                 return response;
             } else if (!groupId.isEmpty() && groupName.isEmpty()) {
@@ -104,13 +96,12 @@ public class APICreateController {
                 groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
 
                 Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "User added to group";
+                    public final String success = "User added to group";
                 };
                 return response;
 
             } else {
-                throw new RuntimeException("Erro ao criar o registo");
+                throw new ResourceNotFoundException("Erro ao criar o registo");
             }
     }
 
