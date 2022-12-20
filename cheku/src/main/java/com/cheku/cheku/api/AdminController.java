@@ -22,7 +22,7 @@ public class AdminController {
     private MotorService motorService;
 
     @Autowired
-    private PneusService pneusService;
+    private TiresService tiresService;
     @Autowired
     private CarService carService;
     @Autowired
@@ -39,7 +39,7 @@ public class AdminController {
 
     @PostMapping("tires")
     public Tires createPneus(@Valid @RequestBody Tires tires) throws ResourceNotFoundException {
-        return pneusService.addTires(tires);
+        return tiresService.addTires(tires);
     }
 
     @PostMapping("carModel")
@@ -54,7 +54,7 @@ public class AdminController {
 
 	@GetMapping("tires")
 	public List<Tires> getTires() {
-        return pneusService.getAllTires();
+        return tiresService.getAllTires();
     }
     @GetMapping("carModels")
     public List<CarModelDTO> getCarModels() {
