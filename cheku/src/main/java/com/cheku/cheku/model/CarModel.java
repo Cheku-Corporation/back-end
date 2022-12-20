@@ -1,6 +1,7 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.cheku.cheku.model.enums.TypeCar;
@@ -39,6 +40,7 @@ public class CarModel {
      * The year the car was manufactured.
      */
     @NotNull(message = "Year is required")
+    @Min(1900)
     @Column(name = "year", nullable = false)
     private int year;
 
@@ -58,11 +60,11 @@ public class CarModel {
     private TypeCar type;
 
     /**
-     * The motor of the car.
+     * The Engine of the car.
      */
-    @NotNull(message = "Motor is required")
+    @NotNull(message = "Engine is required")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "motor", nullable = false)
+    @JoinColumn(name = "Engine", nullable = false)
     private Motor motor;
 
     /**
@@ -70,7 +72,7 @@ public class CarModel {
      */
     @NotNull(message = "Tires is required")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "pneus", nullable = false)
+    @JoinColumn(name = "Tires_id", nullable = false)
     private Pneus pneus;
 
 }

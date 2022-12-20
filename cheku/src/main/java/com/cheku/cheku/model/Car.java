@@ -2,14 +2,8 @@ package com.cheku.cheku.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -36,27 +30,33 @@ public class Car {
     /**
      * The license plate number of the car.
      */
+    @NotNull
     @Size(min = 8, max = 8)
-    @Column(name = "matricula", nullable = false, unique = true)
+    @Column(name = "matricula", unique = true)
     private String matricula;
 
     /**
      * The date of the last inspection for the car.
      */
-    @Column(name = "inspectionDate", nullable = false)
+    @NotNull
+    @Column(name = "inspection_date")
+    @Temporal(TemporalType.DATE)
     private Date inspectionDate;
 
     /**
      * The date of the last insurance for the car.
      */
-    @Column(name = "insuranceDate", nullable = false)
+    @NotNull
+    @Column(name = "insurance_date")
+    @Temporal(TemporalType.DATE)
     private Date insuranceDate;
 
-    /**
+
+     /**
      * The group that the car belongs to.
      */
     @ManyToOne
-    @JoinColumn(name = "group_id", nullable = false)
+    @JoinColumn(name = "group_id", nullable = false, referencedColumnName = "id")
     private Group group;
 
     /**
