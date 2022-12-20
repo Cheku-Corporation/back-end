@@ -10,10 +10,9 @@ import lombok.Data;
 @Builder
 public final class CarModelDTO {
     /** The brand of the car. */
-    private final String brand;
+    private final String carBrand;
     /** The model of the car. */
-    private final String model;
+    private final String carModel;
     /** The year the car was manufactured. */
     private final String year;
 }
-
