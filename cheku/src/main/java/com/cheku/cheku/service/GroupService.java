@@ -117,4 +117,11 @@ public class GroupService {
         return usersDTOs;
     }
 
+    public Group getGroupById(Long groupId) {
+        try {
+            return groupRepository.findById(groupId).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Group not found");
+        }
+    }
 }

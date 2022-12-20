@@ -54,7 +54,7 @@ public class CarService {
     }
 
     public Car getCar(Long id) throws ResourceNotFoundException {
-        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
+        return carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
     }
 
     public Boolean existsById(Long id) {
@@ -74,13 +74,40 @@ public class CarService {
         return car;
     }
 
-    public Car updateCar(Long car_id, Car car) {
-        carRepository.findById(car_id).get();
-        car.setCar(car);
+    public Car updateCar(Car car, Car carUpdate, long userId) throws ResourceNotFoundException {
+        //verificar se o carro existe
+        if (carRepository.findById(car.getId()) == null) {
+            throw new ResourceNotFoundException("The car doesn't exist");
+        }
+        //verificar se o grupo existe
+        if (groupRepository.findById(carUpdate.getGroup().getId()) == null) {
+            throw new ResourceNotFoundException("The group doesn't exist");
+        }
+
+        //verificar se o model existe
+        if (carModelRepository.findByModel(carUpdate.getCarModel().getModel()) == null) {
+            throw new ResourceNotFoundException("The car model doesn't exist");
+        }
+
+        //verificar se o carro pertence ao grupo
+        if (car.getGroup().getId() != carUpdate.getGroup().getId()) {
+            throw new ResourceNotFoundException("The car doesn't belong to the group");
+        }
+
+        car.setMatricula(carUpdate.getMatricula());
+        car.setCarModel(carUpdate.getCarModel());
+        car.setGroup(carUpdate.getGroup());
+        car.setInsuranceDate(carUpdate.getInsuranceDate());
+        car.setInspectionDate(carUpdate.getInspectionDate());
+
         return carRepository.save(car);
     }
 
-    public boolean verifyCar(Long car_id, Long group_id) {
-        return carRepository.existsByIdAndGroup(car_id, group_id);
+    public Car getCarById(Long car_id) {
+        try {
+            return carRepository.findById(car_id).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Car not found");
+        }
     }
 }

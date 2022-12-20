@@ -3,6 +3,9 @@ package com.cheku.cheku.api;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.service.GroupService;
 import com.cheku.cheku.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.cheku.cheku.model.Car;
@@ -24,18 +27,27 @@ public class APIUpdateController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("user/{user_id}/group/{group_id}/car/{car_id}")
-    public Car updateCar(@PathVariable Long car_id, @PathVariable Long group_id, @PathVariable Long user_id, @Valid @RequestBody Car car) throws ResourceNotFoundException {
-        //verificar se o user_id é o admin do grupo
-        if (groupService.verifyAdmin(user_id, group_id) && carService.verifyCar(car_id, group_id)) {
-            return carService.updateCar(car_id, car);
+    @PutMapping("user/group/car/{id}")
+    public Car updateCar(@PathVariable Long id, @Valid @RequestBody String data) throws ResourceNotFoundException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Car car = carService.getCarById(id);
+
+        Car carUpdate = mapper.readValue(data, Car.class);
+
+        Long groupId = mapper.readTree(data).get("group").get("id").asLong();
+        Long userId = mapper.readTree(data).get("userId").asLong();
+
+        if (groupService.getGroupById(groupId).getAdmin() != userId){
+            throw new ResourceNotFoundException("Not Authorized");
         }
-        else{
-            throw new ResourceNotFoundException("Não tem permissões para editar o carro");
+
+        if (carService.existsByMatricula(carUpdate.getMatricula())){
+            throw new ResourceNotFoundException("Matricula already exists");
         }
+
+        return carService.updateCar(car,carUpdate, userId);
     }
 
-//editar car
-//user
-//group
 }

@@ -1,6 +1,6 @@
 package com.cheku.cheku.api;
 
-import javax.persistence.OneToMany;
+
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

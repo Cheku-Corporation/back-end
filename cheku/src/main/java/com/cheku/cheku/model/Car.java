@@ -37,11 +37,4 @@ public class Car {
     @JoinColumn(name = "model_id", nullable = false, referencedColumnName = "model")
     private CarModel carModel;
 
-    public void setCar(Car car) {
-        this.matricula = car.getMatricula();
-        this.inspectionDate = car.getInspectionDate();
-        this.insuranceDate = car.getInsuranceDate();
-        this.group = car.getGroup();
-        this.carModel = car.getCarModel();
-    }
 }
