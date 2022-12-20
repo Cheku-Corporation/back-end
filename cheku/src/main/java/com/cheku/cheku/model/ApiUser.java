@@ -1,9 +1,11 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entity class representing a user.
@@ -22,7 +24,6 @@ public class ApiUser {
 
     /** The user's email address. */
     @Column(name = "email", nullable = false, unique = true)
-    @Email
     @NotEmpty
     private String email;
 
@@ -43,6 +44,6 @@ public class ApiUser {
 
     /** The group that this user belongs to. */
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", nullable = false, referencedColumnName = "id")
     private Group group;
 }
