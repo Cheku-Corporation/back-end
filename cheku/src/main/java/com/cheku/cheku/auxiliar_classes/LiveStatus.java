@@ -1,6 +1,6 @@
 package com.cheku.cheku.auxiliar_classes;
 
-import com.cheku.cheku.model.PneusHistory;
+import com.cheku.cheku.model.TiresHistory;
 import com.cheku.cheku.model.SpeedHistory;
 import com.cheku.cheku.model.Trip;
 import com.cheku.cheku.model.enums.LightState;
@@ -97,12 +97,12 @@ public class LiveStatus {
             return this;
         }
 
-        public LiveStatusBuilder setTiresPressure(PneusHistory tire) {
+        public LiveStatusBuilder setTiresPressure(TiresHistory tire) {
             tiresPressure = tire.getPressure();
             return this;
         }
 
-        public LiveStatusBuilder setTiresTemperature(PneusHistory tire) {
+        public LiveStatusBuilder setTiresTemperature(TiresHistory tire) {
             System.out.println("tire temperature: " + tire.getTemperature());
             tiresTemperature = tire.getTemperature();
             return this;

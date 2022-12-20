@@ -2,10 +2,8 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 import com.cheku.cheku.exception.ResourceNotFoundException;
-import com.cheku.cheku.model.dto.CarModelDTO;
 import com.cheku.cheku.model.dto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +27,7 @@ public class APIReadController {
 	private LocalizationService localizationService;
 
 	@Autowired
-	private PneusHistoryService pneusHistoryService;
+	private TiresHistoryService pneusHistoryService;
 
 	@Autowired
 	private LightsService luzesService;
@@ -47,7 +45,7 @@ public class APIReadController {
 	private TripService tripService;
 
 	@Autowired
-	private PneusHistoryService tireService;
+	private TiresHistoryService tireService;
 
 	@Autowired
 	private NotificationService notificationService;

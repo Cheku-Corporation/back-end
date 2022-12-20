@@ -5,10 +5,10 @@ import java.util.concurrent.CountDownLatch;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.PneusHistory;
+import com.cheku.cheku.model.TiresHistory;
 import com.cheku.cheku.model.Trip;
 import com.cheku.cheku.service.CarService;
-import com.cheku.cheku.service.PneusHistoryService;
+import com.cheku.cheku.service.TiresHistoryService;
 import com.cheku.cheku.service.TripService;
 
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class TiresStatus {
     
     @Autowired
-    private PneusHistoryService tiresService;
+    private TiresHistoryService tiresService;
 
     @Autowired
     private TripService tripService;
@@ -37,7 +37,7 @@ public class TiresStatus {
         if(carService.existsById((long) 1)) {
             Car car = carService.getCar((long) 1);
             Trip trip = tripService.getCarCurrentTrip(car.getId());
-            PneusHistory tire = new PneusHistory(); 
+            TiresHistory tire = new TiresHistory();
             tire.setTrip(trip);
             tire.setPressure(j.getDouble("tires_pressure"));
             tire.setTemperature(j.getDouble("tires_temperature"));
