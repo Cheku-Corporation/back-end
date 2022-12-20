@@ -22,7 +22,7 @@ public class MotorService {
     public Motor addMotor(Motor motor)  throws ResourceNotFoundException {
 
         // verificar se não existe um motor com o mesmo parâmetro
-        if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
+        if (motorRepository.findByPowerAndDisplacementAndModel(motor.getPower(), motor.getDisplacement(), motor.getModel()) != null) {
             throw new ResourceNotFoundException("Motor already exists");
         }
         try {
@@ -41,9 +41,9 @@ public class MotorService {
         if (motor1 == null) {
             throw new ResourceNotFoundException("Motor not found");
         }
-        motor1.setCilindrada(motor.getCilindrada());
-        motor1.setModelo(motor.getModelo());
-        motor1.setPotencia(motor.getPotencia());
+        motor1.setDisplacement(motor.getDisplacement());
+        motor1.setModel(motor.getModel());
+        motor1.setPower(motor.getPower());
         motorRepository.save(motor1);
         return motor1;
     }

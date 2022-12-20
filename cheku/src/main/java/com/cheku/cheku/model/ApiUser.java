@@ -1,6 +1,7 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.*;
 
@@ -25,25 +26,29 @@ public class ApiUser {
     /**
      * The user's email address.
      */
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @NotNull(message = "Email is required")
     private String email;
 
     /**
      * The user's password (encrypted).
      */
     @Column(name = "password", nullable = false)
+    @NotNull(message = "Password is required")
     private String password;
 
     /**
      * The user's name.
      */
     @Column(name = "name", nullable = false)
+    @NotNull(message = "Name is required")
     private String name;
 
     /**
      * The user's role (e.g. "admin", "moderator", "user").
      */
     @Column(name = "role", nullable = false)
+    @NotNull(message = "Role is required")
     private String role;
 
     /**

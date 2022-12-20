@@ -6,5 +6,5 @@ import com.cheku.cheku.model.*;
 
 @Repository
 public interface MotorRepository extends JpaRepository<Motor, Long>  {
-    public Motor findByPotenciaAndCilindradaAndModelo(int potencia, int cilindrada, String modelo);
+    public Motor findByPowerAndDisplacementAndModel(int power, int displacement, String model);
 }
