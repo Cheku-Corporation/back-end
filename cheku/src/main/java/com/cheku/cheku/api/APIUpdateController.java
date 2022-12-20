@@ -39,7 +39,7 @@ public class APIUpdateController {
         Long groupId = mapper.readTree(data).get("group").get("id").asLong();
         Long userId = mapper.readTree(data).get("userId").asLong();
 
-        if (groupService.getGroupById(groupId).getAdmin() != userId){
+        if (groupService.getGroupById(groupId).getIsAdmin() != userId){
             throw new ResourceNotFoundException("Not Authorized");
         }
 

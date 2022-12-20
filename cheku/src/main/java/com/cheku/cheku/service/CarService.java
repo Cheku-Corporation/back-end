@@ -30,7 +30,7 @@ public class CarService {
         if (groupRepository.findById(car.getGroup().getId()) == null) {
             throw new RuntimeException("The group doesn't exist");
         }
-        Long adminId = groupRepository.findById(car.getGroup().getId()).get().getAdmin();
+        Long adminId = groupRepository.findById(car.getGroup().getId()).get().getIsAdmin();
         if (adminId != userId) {
             throw new RuntimeException("User is not admin");
         }

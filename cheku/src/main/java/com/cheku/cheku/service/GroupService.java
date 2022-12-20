@@ -45,7 +45,7 @@ public class GroupService {
 
         Group groupToCreate = new Group();
         BeanUtils.copyProperties(group, groupToCreate);
-        groupToCreate.setAdmin(user.get().getId());
+        groupToCreate.setIsAdmin(user.get().getId());
         groupToCreate.addUser(user.get());
         user.get().setGroup(groupToCreate);
         return groupRepository.save(groupToCreate);
@@ -102,7 +102,7 @@ public class GroupService {
             return false;
         }
 
-        return groupRepository.findById(group_id).get().getAdmin() == user_id;
+        return groupRepository.findById(group_id).get().getIsAdmin() == user_id;
 
     }
 

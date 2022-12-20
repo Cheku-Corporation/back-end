@@ -37,9 +37,9 @@ public class AdminController {
         return motorService.addMotor(motor);
     }
 
-    @PostMapping("pneus")
-    public Pneus createPneus(@Valid @RequestBody Pneus pneus) throws ResourceNotFoundException {
-        return pneusService.addPneus(pneus);
+    @PostMapping("tires")
+    public Tires createPneus(@Valid @RequestBody Tires tires) throws ResourceNotFoundException {
+        return pneusService.addTires(tires);
     }
 
     @PostMapping("carModel")
@@ -52,11 +52,10 @@ public class AdminController {
 		return motorService.getAllMotors();
 	}
 
-	@GetMapping("pneus")
-	public List<Pneus> getPneus() {
-		return pneusService.getAllPneus();
-	}
-
+	@GetMapping("tires")
+	public List<Tires> getTires() {
+        return pneusService.getAllTires();
+    }
     @GetMapping("carModels")
     public List<CarModelDTO> getCarModels() {
         return carModelService.getAllCarModels();

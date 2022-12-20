@@ -1,7 +1,7 @@
 package com.cheku.cheku.service;
 
 import com.cheku.cheku.exception.ResourceNotFoundException;
-import com.cheku.cheku.model.*;
+import com.cheku.cheku.model.Tires;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,44 +12,45 @@ import java.util.List;
 public class PneusService {
 
     @Autowired
-    private PneusRepository pneusRepository;
+    private TiresRepository tiresRepository;
 
     //Done
-    public List<Pneus> getAllPneus() {
-        return pneusRepository.findAll();
+    public List<Tires> getAllTires() {
+        return tiresRepository.findAll();
     }
-    public Pneus getPneus(Long id) {
-        return pneusRepository.findById(id).get();
+    public Tires getTires(Long id) {
+        return tiresRepository.findById(id).get();
     }
 
-    public Pneus addPneus(Pneus pneus) throws ResourceNotFoundException {
+    public Tires addTires(Tires tires) throws ResourceNotFoundException {
         // verificar se não existe um pneu com o mesmo parâmetro
-        if (pneusRepository.findByBrandAndModel(pneus.getBrand(), pneus.getModel()) != null) {
+        if (tiresRepository.findByBrandAndModel(tires.getBrand(), tires.getModel()) != null) {
             throw new ResourceNotFoundException("Pneu already exists");
         }
         try {
-            return pneusRepository.save(pneus);
+            return tiresRepository.save(tires);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Error saving pneu");
         }
     }
 
-    public Pneus updatePneus(Long id, Pneus pneus) throws ResourceNotFoundException {
-        Pneus pneus1 = pneusRepository.findById(id).get();
+    public Tires updateTires(Long id, Tires tires) throws ResourceNotFoundException {
+        Tires pneus1 = tiresRepository.findById(id).get();
         if (pneus1 == null) {
-            throw new ResourceNotFoundException("Pneus not found");
+            throw new ResourceNotFoundException("Tires not found");
         }
-        pneus1.setBrand(pneus.getBrand());
-        pneus1.setModel(pneus.getModel());
-        pneusRepository.save(pneus1);
+        pneus1.setBrand(tires.getBrand());
+        pneus1.setModel(tires.getModel());
+        tiresRepository.save(pneus1);
         return pneus1;
     }
 
-    public void deletePneus(Long id) throws ResourceNotFoundException {
-        Pneus pneus = pneusRepository.findById(id).get();
-        if (pneus == null) {
-            throw new ResourceNotFoundException("Pneus not found");
+    public void deleteTires(Long id) throws ResourceNotFoundException {
+        Tires tires = tiresRepository.findById(id).get();
+        if (tires == null) {
+            throw new ResourceNotFoundException("Tires not found");
         }
-        pneusRepository.delete(pneus);
+        tiresRepository.delete(tires);
     }
+
 }

@@ -73,6 +73,6 @@ public class CarModel {
     @NotNull(message = "Tires is required")
     @ManyToOne(optional = false)
     @JoinColumn(name = "Tires_id", nullable = false)
-    private Pneus pneus;
+    private Tires tires;
 
 }

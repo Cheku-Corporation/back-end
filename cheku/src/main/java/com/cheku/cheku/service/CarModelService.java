@@ -3,7 +3,6 @@ package com.cheku.cheku.service;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.model.dto.CarModelDTO;
-import com.cheku.cheku.model.dto.UserDTO;
 import com.cheku.cheku.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class CarModelService {
     private MotorRepository motorRepository;
 
     @Autowired
-    private PneusRepository pneusRepository;
+    private TiresRepository pneusRepository;
 
 
      public List<CarModelDTO> getAllCarModels() {
@@ -41,7 +40,7 @@ public class CarModelService {
 
      public CarModel createCarModel(CarModel car) throws ResourceNotFoundException {
          //verificar se não existe um carModel com os mesmos dados
-         if (carModelRepository.findByBrandAndModelAndYearAndTankCapacityAndTypeAndMotorAndPneus(car.getBrand(), car.getModel(), car.getYear(), car.getTankCapacity(), car.getType(), car.getMotor(), car.getPneus()) != null) {
+         if (carModelRepository.findByBrandAndModelAndYearAndTankCapacityAndTypeAndMotorAndTires(car.getBrand(), car.getModel(), car.getYear(), car.getTankCapacity(), car.getType(), car.getMotor(), car.getTires()) != null) {
            throw new ResourceNotFoundException("The Model car already exists");
          }
          //verificar se o motor existe
@@ -49,12 +48,12 @@ public class CarModelService {
            throw new ResourceNotFoundException("The motor doesn't exist");
          }
          //verificar se os pneus existem
-         else if (pneusRepository.findById(car.getPneus().getId()) == null) {
+         else if (pneusRepository.findById(car.getTires().getId()) == null) {
            throw new ResourceNotFoundException("The pneus doesn't exist");
          }
          try{
              car.setMotor(motorRepository.findById(car.getMotor().getId()).get());
-             car.setPneus(pneusRepository.findById(car.getPneus().getId()).get());
+             car.setTires(pneusRepository.findById(car.getTires().getId()).get());
              return carModelRepository.save(car);
          } catch (Exception e) {
             throw new ResourceNotFoundException("Error saving car");

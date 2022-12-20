@@ -1,58 +1,52 @@
 package com.cheku.cheku.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.regex.Pattern;
+import javax.validation.constraints.*;
 
-import lombok.Data;
+import lombok.*;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
- * Entity class for storing user data in the database.
+ * Entity class representing a user.
  */
 @Entity
 @Table(name = "users")
 @Data
+@Builder
+@EqualsAndHashCode
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApiUser {
 
-    /**
-     * The unique identifier for this user in the database.
-     */
+    /** The unique identifier for the user. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * The user's email address.
-     */
+    /** The user's email address. */
     @Column(name = "email", nullable = false, unique = true)
-    @NotNull(message = "Email is required")
+    @Email
+    @NotEmpty
     private String email;
 
-    /**
-     * The user's password (encrypted).
-     */
+    /** The user's password (encrypted). */
     @Column(name = "password", nullable = false)
-    @NotNull(message = "Password is required")
+    @NotEmpty
     private String password;
 
-    /**
-     * The user's name.
-     */
+    /** The user's name. */
     @Column(name = "name", nullable = false)
-    @NotNull(message = "Name is required")
+    @NotEmpty
     private String name;
 
-    /**
-     * The user's role (e.g. "admin", "moderator", "user").
-     */
+    /** The user's role (e.g. "admin", "moderator", "user"). */
     @Column(name = "role", nullable = false)
-    @NotNull(message = "User type is required")
+    @NotEmpty
     private String role;
 
-    /**
-     * The group that this user belongs to.
-     */
+    /** The group that this user belongs to. */
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
