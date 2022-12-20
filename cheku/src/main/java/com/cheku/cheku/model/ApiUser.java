@@ -5,17 +5,12 @@ import javax.validation.constraints.*;
 
 import lombok.*;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
 /**
  * Entity class representing a user.
  */
 @Entity
 @Table(name = "users")
 @Data
-@Builder
-@EqualsAndHashCode
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiUser {
