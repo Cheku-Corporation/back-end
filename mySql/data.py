@@ -31,8 +31,8 @@ def register(url):
 def login(url):
     return post(url, json={'email': "admin@gamil.com",'password': "admin"}).json()['Authorization']
     #return post(url, json={'email': "joao@gmail.com", 'password': "joao"}).json()['Authorization']
-# **Pneus**
-def pneus(url,token):
+# **tires**
+def tires(url,token):
     #Michelin
     post(url, headers={'Authorization': token}, json = {"brand":"Michelin", "model":"Primacy 4+"})
     post(url, headers={'Authorization': token}, json = {"brand":"Michelin", "model":"CrossClimate"})
@@ -82,16 +82,16 @@ TypeCombustivel = ["GASOLINE", "Diesel", "Hibrido", "Eletrico"]
 
 # **Car Model**
 def car_model(url,token):
-    post(url,headers={'Authorization': token}, json ={"brand":"BMW","model":"1er II (F20-F21) Facelift Hatchback","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":1},"pneus":{"id":1}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Mercedes-Benz","model":"CLA-klasse I (C117) Facelift Wagon Shooting brake","year":2016,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":2},"pneus":{"id":9}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Land Rover","model":"Landscape","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":3},"pneus":{"id":2}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Fiat","model":"500 II Hatchback Facelift","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":4},"pneus":{"id":3}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Jeep","model":"Patriot","year":2010,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":5},"pneus":{"id":4}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Lotus","model":"Elise II","year":2016,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":6},"pneus":{"id":5}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Mazda","model":"MX-5 Roadster","year":2002,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":7},"pneus":{"id":5}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Chevrolet","model":"Astro","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":8},"pneus":{"id":8}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Toyota","model":"Yaris Verso","year":2005,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":9},"pneus":{"id":10}})
-    post(url,headers={'Authorization': token}, json ={"brand":"Volkswagen","model":"Golf VI Variant","year":2010,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":10},"pneus":{"id":10}})
+    post(url,headers={'Authorization': token}, json ={"brand":"BMW","model":"1er II (F20-F21) Facelift Hatchback","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":1},"tires":{"id":1}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Mercedes-Benz","model":"CLA-klasse I (C117) Facelift Wagon Shooting brake","year":2016,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":2},"tires":{"id":9}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Land Rover","model":"Landscape","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":3},"tires":{"id":2}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Fiat","model":"500 II Hatchback Facelift","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":4},"tires":{"id":3}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Jeep","model":"Patriot","year":2010,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":5},"tires":{"id":4}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Lotus","model":"Elise II","year":2016,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":6},"tires":{"id":5}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Mazda","model":"MX-5 Roadster","year":2002,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":7},"tires":{"id":5}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Chevrolet","model":"Astro","year":2015,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":8},"tires":{"id":8}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Toyota","model":"Yaris Verso","year":2005,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":9},"tires":{"id":10}})
+    post(url,headers={'Authorization': token}, json ={"brand":"Volkswagen","model":"Golf VI Variant","year":2010,"type":"GASOLINE","tankCapacity": 50,"motor":{"id":10},"tires":{"id":10}})
 
 # **Car**
 def car(url,token):
@@ -110,7 +110,7 @@ def main():
     # **Post**
     register('http://localhost:8080/api/register')
     token = login("http://localhost:8080/login")
-    pneus("http://localhost:8080/admin/pneus", token)
+    tires("http://localhost:8080/admin/tires", token)
     motors("http://localhost:8080/admin/motor", token)
     car_model("http://localhost:8080/admin/carModel", token)
     car("http://localhost:8080/api/car", token)
@@ -119,3 +119,5 @@ def main():
 if __name__ == '__main__':
     main()
     
+
+
