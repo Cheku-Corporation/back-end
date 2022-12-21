@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.cheku.cheku.model.Localization;
 
+/**
+ * The LocalizationRepository interface extends the JpaRepository interface and is used to perform
+ * CRUD operations on the localization table in the database.
+ */
 
 @Repository
 public interface LocalizationRepository extends JpaRepository<Localization, Long>  {

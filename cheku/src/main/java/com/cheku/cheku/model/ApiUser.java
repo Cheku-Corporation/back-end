@@ -44,6 +44,6 @@ public class ApiUser {
 
     /** The group that this user belongs to. */
     @ManyToOne
-    @JoinColumn(name = "group_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "group_id", nullable = true, referencedColumnName = "id")
     private Group group;
 }

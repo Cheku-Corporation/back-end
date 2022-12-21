@@ -8,7 +8,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-
+/**
+ * The VelocityRepository interface extends the JpaRepository interface and is used to perform
+ * CRUD operations on the velocity table in the database.
+ */
 public interface VelocityRepository extends JpaRepository<SpeedHistory, Long> {
     
     @Query(value = "SELECT velocity, gear, date FROM speed_history LIMIT 100", nativeQuery = true)

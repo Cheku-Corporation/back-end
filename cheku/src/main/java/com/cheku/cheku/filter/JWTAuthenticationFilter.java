@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
+// This class is used to authenticate users based on their email and password.
+// If the authentication is successful, a JWT token is added to the response.
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -32,11 +34,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            //LER AS CREDENCIAIS DO USUÁRIO
+            // Read the user's credentials from the request
             ApiUser creds = new ObjectMapper()
                     .readValue(request.getInputStream(), ApiUser.class);
 
-            //TENTAR AUTENTICAR
+            // Try to authenticate the user
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),
@@ -44,11 +46,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>()));
 
         } catch (IOException e) {
+            // Throw an exception if there is a problem reading the credentials
             throw new RuntimeException("Falha ao tentar autenticar usuário");
         }
     }
 
     @Override protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
+        // If the authentication is successful, create a JWT token
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withClaim("role", auth.getAuthorities().iterator().next().getAuthority())
