@@ -56,15 +56,4 @@ public class TiresService {
         return pneus1;
     }
 
-    /** Deletes a tires from the database
-     * @param id The id of the tires to be deleted
-     */
-    public void deleteTires(Long id) throws ResourceNotFoundException {
-        Tires tires = tiresRepository.findById(id).get();
-        if (tires == null) {
-            throw new ResourceNotFoundException("Tires not found");
-        }
-        tiresRepository.delete(tires);
-    }
-
 }

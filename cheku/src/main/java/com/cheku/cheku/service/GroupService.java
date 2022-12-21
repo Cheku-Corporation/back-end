@@ -26,6 +26,9 @@ public class GroupService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CarRepository carRepository;
+
     /** Returns a list of all groups in the database */
     public List<Group> getAllGroups() {
         return groupRepository.findAll();
@@ -135,6 +138,16 @@ public class GroupService {
     /** Returns the group with the specified id */
     public Group getGroupById(Long groupId) {
         try {
+            // Delete the users from the group
+            Group group = groupRepository.findById(groupId).get();
+            for(ApiUser user : group.getUserList()){
+                userRepository.delete(user);
+            }
+
+            for (Car car : group.getCarList()) {
+                carRepository.delete(car);
+            }
+
             return groupRepository.findById(groupId).get();
         } catch (Exception e) {
             throw new RuntimeException("Group not found");

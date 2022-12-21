@@ -13,6 +13,9 @@ public class MotorService {
     @Autowired
     private MotorRepository motorRepository;
 
+
+
+
     /** Returns a list of all motors in the database */
     public List<Motor> getAllMotors() {
         return motorRepository.findAll();
@@ -58,16 +61,5 @@ public class MotorService {
         motor1.setPower(motor.getPower());
         motorRepository.save(motor1);
         return motor1;
-    }
-
-    /** Deletes a motor from the database
-     * @param id The id of the motor to be deleted
-     */
-    public void deleteMotor(Long id) throws ResourceNotFoundException {
-        Motor motor = motorRepository.findById(id).get();
-        if (motor == null) {
-            throw new ResourceNotFoundException("Motor not found");
-        }
-        motorRepository.delete(motor);
     }
 }

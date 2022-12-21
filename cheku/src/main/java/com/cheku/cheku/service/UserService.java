@@ -32,6 +32,9 @@ public class UserService {
     private ModelMapper modelMapper;
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private GroupService groupService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public ApiUser readUserByEmail (String email) {
@@ -76,8 +79,23 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void deleteUser(String email) {
-        userRepository.deleteByEmail(email);
+    public void deleteUser(Long id) {
+        ApiUser user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        userRepository.delete(user);
+        //verificar se o user é admin de algum grupo
+        //se for, deletar o grupo
+        if (user.getGroup().getIsAdmin() == user.getId()) {
+            groupService.deleteGroup(user.getGroup().getId());
+        }else{
+            //se não for, remover o user do grupo
+            Group group = user.getGroup();
+            group.removeUser(user);
+            // verificar se o grupo ficou vazio
+            if (!group.getUserListSize()) {
+                groupService.deleteGroup(group.getId());
+            }
+        }
+
     }
 
     public boolean findUserById(Long user_id) {

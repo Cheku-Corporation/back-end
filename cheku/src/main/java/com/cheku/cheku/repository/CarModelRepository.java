@@ -17,6 +17,9 @@ public interface CarModelRepository extends JpaRepository<CarModel, Long> {
     /** Finds a car model by its model.*/
     CarModel findByModel(String model);
 
-    /**Finds a car model by its brand, model, year, tank capacity, type, motor, and tires.*/
+    /** Finds a car model by its brand, model, year, tank capacity, type, motor, and tires.*/
     CarModel findByBrandAndModelAndYearAndTankCapacityAndTypeAndMotorAndTires(String brand, String model, int year, Double tankCapacity, TypeCar type, Motor motor, Tires pneus);
+
+    /** Deletes a car model by its model.*/
+    void deleteByModel(String model);
 }

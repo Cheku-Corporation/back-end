@@ -34,13 +34,13 @@ public class Group {
 
     /** The list of cars in the group.*/
     @JsonIgnore
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
     private List<Car> carList = new ArrayList<>();
 
     /** The list of users in the group.*/
     @JsonIgnore
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     private List<ApiUser> userList = new ArrayList<>();
 
@@ -98,5 +98,15 @@ public class Group {
             throw new RuntimeException("Car does not exist");
         }
         carList.remove(car);
+    }
+
+    /**
+     * Checks if the group contains a user.
+     *
+     * @param user the user to check
+     * @return true if the user is in the group, false otherwise
+     */
+    public Boolean getUserListSize() {
+        return userList.size() > 0;
     }
 }
