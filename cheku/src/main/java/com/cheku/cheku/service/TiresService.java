@@ -14,16 +14,22 @@ public class TiresService {
     @Autowired
     private TiresRepository tiresRepository;
 
-    //Done
+    /** Returns a list of all tires in the database */
     public List<Tires> getAllTires() {
         return tiresRepository.findAll();
     }
+
+
     public Tires getTires(Long id) {
         return tiresRepository.findById(id).get();
     }
 
+    /** Creates a new tires in the database
+     * @param tires The tires to be created
+     * @return The newly created tires
+     */
     public Tires addTires(Tires tires) throws ResourceNotFoundException {
-        // verificar se não existe um pneu com o mesmo parâmetro
+        // Check if a tires with the same brand and Model already exists
         if (tiresRepository.findByBrandAndModel(tires.getBrand(), tires.getModel()) != null) {
             throw new ResourceNotFoundException("Pneu already exists");
         }
@@ -34,6 +40,11 @@ public class TiresService {
         }
     }
 
+    /** Updates a tires in the database
+     * @param id The id of the tires to be updated
+     * @param tires The tires to be updated
+     * @return The updated tires
+     */
     public Tires updateTires(Long id, Tires tires) throws ResourceNotFoundException {
         Tires pneus1 = tiresRepository.findById(id).get();
         if (pneus1 == null) {
@@ -45,6 +56,9 @@ public class TiresService {
         return pneus1;
     }
 
+    /** Deletes a tires from the database
+     * @param id The id of the tires to be deleted
+     */
     public void deleteTires(Long id) throws ResourceNotFoundException {
         Tires tires = tiresRepository.findById(id).get();
         if (tires == null) {
