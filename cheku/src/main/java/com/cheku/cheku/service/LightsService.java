@@ -11,11 +11,12 @@ public class LightsService {
     @Autowired
     private LuzesRepository luzesRepository;
 
-    @Autowired
-    private CarRepository carRepository;
-
     public List<LightsHistory> getAllLuzes() {
         return luzesRepository.findAll();
+    }
+
+    public LightsHistory getLastLightState(Long car_id) {
+        return luzesRepository.getLast(car_id);
     }
 
     public LightsHistory save(LightsHistory luzes) {

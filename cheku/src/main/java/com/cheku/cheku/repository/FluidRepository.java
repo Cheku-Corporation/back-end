@@ -20,4 +20,7 @@ public interface FluidRepository extends JpaRepository<Fluid, Long> {
     /** Gets all the fluids from the fluid table as a list of SimpleFluid objects. */
     @Query(value = "SELECT oil, water, fuel FROM fluid", nativeQuery = true)
     List<SimpleFluid> getAll();
+
+    @Query(value = "SELECT * FROM fluid WHERE trip_id = ?1 ORDER BY date DESC LIMIT 1", nativeQuery = true)
+    Fluid getLast(Long trip_id);
 }

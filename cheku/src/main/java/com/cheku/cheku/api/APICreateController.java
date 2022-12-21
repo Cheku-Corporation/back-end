@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class APICreateController {
 
     private final VelocityService velocityService;
-    private final LocalizationService localizationService;
     private final TiresHistoryService pneusHistoryService;
     private final LightsService luzesService;
     private final UserService userService;
@@ -39,9 +38,8 @@ public class APICreateController {
 
 
     @Autowired
-    public APICreateController(VelocityService velocityService, LocalizationService localizationService,TiresHistoryService pneusHistoryService, LightsService luzesService, UserService userService,GroupService groupService, CarService carService) {
+    public APICreateController(VelocityService velocityService,TiresHistoryService pneusHistoryService, LightsService luzesService, UserService userService,GroupService groupService, CarService carService) {
         this.velocityService = velocityService;
-        this.localizationService = localizationService;
         this.pneusHistoryService = pneusHistoryService;
         this.luzesService = luzesService;
         this.userService = userService;

@@ -46,7 +46,21 @@ public class Trip {
     @Column(name = "end_date", nullable = true)
     private Date endTime;
 
-    /** The car that the trip is related to. */
+    @Column(name = "start_lat", nullable = true)
+    private Double startLatitude;
+
+    @Column(name = "start_long", nullable = true)
+    private Double startLongitude;
+
+    @Column(name = "end_lat", nullable = true)
+    private Double endLatitude;
+
+    @Column(name = "end_long", nullable = true)
+    private Double endLongitude;
+
+    @Column(name = "fuel", nullable = true)
+    private Double fuelSpended;
+
     @ManyToOne(optional = true)
     @JoinColumn(name = "car", nullable = true)
     private Car car;
