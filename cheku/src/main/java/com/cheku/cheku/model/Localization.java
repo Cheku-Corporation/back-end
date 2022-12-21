@@ -15,32 +15,34 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.cheku.cheku.model.enums.LightState;
-
 /**
- * Entity class for storing lights history data.
+ * Entity class for storing localization data.
  */
 @Entity
-@Table(name = "lights_history")
+@Table(name = "localization")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LightsHistory {
+public class Localization {
 
-    /** The unique ID of the lights history record. */
+    /** The unique ID of the localization record. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** The state of the lights. */
-    @Column(name = "state", nullable = false)
-    private LightState state;
+    /** The latitude of the location. */
+    @Column(name = "latitude", nullable = false)
+    private Double latitude;
 
-    /** The date when the lights state was recorded. */
+    /** The longitude of the location. */
+    @Column(name = "longitude", nullable = false)
+    private Double longitude;
+
+    /** The date when the localization data was recorded. */
     @Column(name = "date", nullable = false)
     private Date date;
 
-    /** The trip that the lights history is related to. */
+    /** The trip that the localization data is related to. */
     @ManyToOne(optional = true)
     @JoinColumn(name = "trip_id", nullable = true)
     private Trip trip;

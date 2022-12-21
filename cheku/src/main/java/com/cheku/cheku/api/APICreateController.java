@@ -1,114 +1,106 @@
 package com.cheku.cheku.api;
 
-import javax.persistence.OneToMany;
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
+import com.cheku.cheku.model.Group;
+import com.cheku.cheku.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cheku.cheku.exception.ResourceNotFoundException;
+import com.cheku.cheku.model.ApiUser;
+import com.cheku.cheku.model.Car;
+import com.cheku.cheku.model.request.GroupCreateRequest;
+import com.cheku.cheku.model.request.UserCreateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import com.cheku.cheku.model.*;
-import com.cheku.cheku.model.request.*;
-import com.cheku.cheku.service.*;
-import com.cheku.cheku.exception.ResourceNotFoundException;
-
-import java.util.Optional;
-
-
+/**
+ * A controller for creating various types of resources.
+ */
 @RestController
 @RequestMapping("/api")
 public class APICreateController {
 
-    @Autowired
-    private VelocityService velocityService;
+    private final VelocityService velocityService;
+    private final TiresHistoryService pneusHistoryService;
+    private final LightsService luzesService;
+    private final UserService userService;
+    private final GroupService groupService;
+    private final CarService carService;
+
 
     @Autowired
-    private PneusHistoryService pneusHistoryService;
+    public APICreateController(VelocityService velocityService,TiresHistoryService pneusHistoryService, LightsService luzesService, UserService userService,GroupService groupService, CarService carService) {
+        this.velocityService = velocityService;
+        this.pneusHistoryService = pneusHistoryService;
+        this.luzesService = luzesService;
+        this.userService = userService;
+        this.groupService = groupService;
+        this.carService = carService;
+    }
 
-    @Autowired
-    private LightsService luzesService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private GroupService groupService;
-
-    @Autowired
-    private CarService carService;
-
+    /**Creates a new registration.*/
     @PostMapping("register")
-    public Object createRegister(@RequestBody String data) throws JsonProcessingException {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            if (data.contains("ADMIN")){
-                //criar user
-                UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
-                userService.createUser(userCreateRequest);
-                Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "Admin created";
-                };
-                return response;
-            }
-            //verificar se é criar ou entrar num grupo
-            String groupId = mapper.readTree(data).get("groupId").asText();
-            String groupName = mapper.readTree(data).get("groupName").asText();
+    public Object createRegister(@RequestBody String data) throws JsonProcessingException, ResourceNotFoundException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        if (data.contains("ADMIN")) {
+            // Create user
+            UserCreateRequest userCreateRequest = mapper.readValue(data, UserCreateRequest.class);
+            userService.createUser(userCreateRequest);
+            Object response = new Object() {
+                public final String success = "Admin created";
+            };
+            return response;
+        }
+        // Check if creating or joining a group
+        String groupId = mapper.readTree(data).get("groupId").asText();
+        String groupName = mapper.readTree(data).get("groupName").asText();
 
-            //verificar se o grupo existe
-            if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
-                Object response = new Object() {
-                    public final String error = "The group already exists";
-                };
-                return response;
-            }
+        // Check if group exists
+        if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
+            throw new ResourceNotFoundException("The group already exists");
+        }
 
-            if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
-                Object response = new Object() {
-                    public final String error = "The group not exists";
-                };
-                return response;
-            }
-
-
-            if (groupId.isEmpty() && !groupName.isEmpty()) {
-
-                //Criar um new user
-                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
-                userService.createUser(user);
-
-                //criar grupo
-                Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
-                GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
-                group.setAdmin(admin.get().getId());
-                groupService.createGroup(group);
-                //returnar json success
-                Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "Group created";
-                };
-                return response;
-            } else if (!groupId.isEmpty() && groupName.isEmpty()) {
-
-                //Criar um new user
-                UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
-                userService.createUser(user);
-
-                //entrar num grupo
-                Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
-                groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
-
-                Object response = new Object() {
-                    public final String success = "true";
-                    public final String message = "User added to group";
-                };
-                return response;
-
-            } else {
-                throw new RuntimeException("Erro ao criar o registo");
-            }
+        if (!groupId.isEmpty() && !groupService.findGroupByCode(groupId)) {
+            throw new ResourceNotFoundException("The group does not exist");
+        }
+        if (groupId.isEmpty() && !groupName.isEmpty()) {
+            // Create new user
+            UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+            userService.createUser(user);
+            // Create group
+            Optional<ApiUser> admin = userService.getUserByEmail(user.getEmail());
+            GroupCreateRequest group = mapper.readValue(data, GroupCreateRequest.class);
+            group.setAdmin(admin.get().getId());
+            groupService.createGroup(group);
+            // Return success
+            Object response = new Object() {
+                public final String success = "Group created";
+            };
+            return response;
+        } else if (!groupId.isEmpty() && groupName.isEmpty()) {
+            // Create new user
+            UserCreateRequest user = mapper.readValue(data, UserCreateRequest.class);
+            userService.createUser(user);
+            // Join group
+            Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
+            groupService.addUserToGroup(user1.get().getId(), groupId);
+            Object response = new Object() {
+                public final String success = "User added to group";
+            };
+            return response;
+        } else {
+            throw new ResourceNotFoundException("Error creating registration");
+        }
     }
 
 

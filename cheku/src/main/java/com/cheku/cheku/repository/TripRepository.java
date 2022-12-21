@@ -12,6 +12,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 
+/**
+ * The TripRepository interface extends the JpaRepository interface and is used to perform
+ * CRUD operations on the trip table in the database.
+ */
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
     

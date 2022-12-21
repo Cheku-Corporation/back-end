@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.cheku.cheku.auxiliar_classes.UserNotification;
 import com.cheku.cheku.model.*;
 
+/**
+ * The NotificationRespository interface extends the JpaRepository interface and is used to perform
+ * CRUD operations on the notification table in the database.
+ */
 @Repository
 public interface NotificationRespository extends JpaRepository<Notification, Long>  {
 

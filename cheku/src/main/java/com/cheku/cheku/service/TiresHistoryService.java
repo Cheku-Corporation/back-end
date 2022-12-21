@@ -8,20 +8,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PneusHistoryService {
+public class TiresHistoryService {
 
     @Autowired
-    private PneusHistoryRepository pneusHistoryRepository;
+    private TiresHistoryRepository pneusHistoryRepository;
 
-    public List<PneusHistory> getAllPneusHistory() {
+    public List<TiresHistory> getAllPneusHistory() {
         return pneusHistoryRepository.findAll();
     }
 
-    public PneusHistory getLastTireState(Long car_id) {
+    public TiresHistory getLastTireState(Long car_id) {
         return pneusHistoryRepository.getLast(car_id);
     }
 
-    public PneusHistory savePneusHistory(PneusHistory pneusHistory) {
+    public TiresHistory savePneusHistory(TiresHistory pneusHistory) {
         try {
             return pneusHistoryRepository.save(pneusHistory);
         } catch (Exception e) {

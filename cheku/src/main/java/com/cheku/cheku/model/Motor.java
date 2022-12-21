@@ -1,32 +1,41 @@
 package com.cheku.cheku.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
+import lombok.*;
+
+/**
+ * Entity class representing a motor.
+ */
 @Entity
-@Data
 @Table(name = "motors")
+@Data
+@Builder
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Motor {
 
-    @Column(name = "id")
+    /** The unique identifier for the motor. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @NotNull(message = "Potencia is required")
-    @Column(name = "potencia", nullable = false)
-    private int potencia;
+    /** The power of the motor, typically measured in horsepower. */
+    @Column(name = "power", nullable = false)
+    @NotNull(message = "Power is required")
+    private int power;
 
-    @NotNull(message = "Cilindrada is required")
-    @Column(name = "cilindrada", nullable = false)
-    private int cilindrada;
+    /** The displacement of the motor, typically measured in cubic centimeters (cc). */
+    @Column(name = "displacement", nullable = false)
+    @NotNull(message = "Displacement is required")
+    private int displacement;
 
-    @NotNull(message = "Modelo is required")
-    @Column(name = "modelo", nullable = false)
-    private String modelo;
+    /** The model of the motor. */
+    @Column(name = "model", nullable = false)
+    @NotNull(message = "Model is required")
+    private String model;
 }

@@ -6,66 +6,107 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ * A group of users and cars.
+ */
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "groups")
 public class Group {
 
+    /**The unique identifier for the group.*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** The name of the group.*/
     @Column(name = "groupName", nullable = false)
     private String groupName;
 
+    /** The name of the group encripted.*/
+    @Column(name = "groupNameEncripted", nullable = false)
+    private String groupNameEncripted;
 
+    /** The list of cars in the group.*/
     @JsonIgnore
-    //lista de cars
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cars", referencedColumnName = "id", nullable = true)
     private List<Car> carList = new ArrayList<>();
 
-    //lista de users
+    /** The list of users in the group.*/
     @JsonIgnore
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
     private List<ApiUser> userList = new ArrayList<>();
 
+    /** The identifier of the user who is the admin of the group.*/
     @Column(name = "admin", nullable = false)
-    private long admin;
+    private long isAdmin;
 
-    public void addUser(ApiUser user) {
-        //verificar se o user ja existe
+    /**
+     * Adds a user to the group.
+     *
+     * @param user the user to add
+     * @throws RuntimeException if the user already exists in the group
+     */
+    public void addUser(@NonNull ApiUser user) {
         if (userList.contains(user)) {
             throw new RuntimeException("User already exists");
         }
         userList.add(user);
     }
 
-    public void addCar(Car car) {
-        //verificar se o car ja existe
+    /**
+     * Adds a car to the group.
+     *
+     * @param car the car to add
+     * @throws RuntimeException if the car already exists in the group
+     */
+    public void addCar(@NonNull Car car) {
         if (carList.contains(car)) {
-            throw new RuntimeException("Carro já existe");
+            throw new RuntimeException("Car already exists");
         }
         carList.add(car);
     }
 
-    public void removeUser(ApiUser user) {
-        //verificar se o user ja existe
+    /**
+     * Removes a user from the group.
+     *
+     * @param user the user to remove
+     * @throws RuntimeException if the user does not exist in the group
+     */
+    public void removeUser(@NonNull ApiUser user) {
         if (!userList.contains(user)) {
-            throw new RuntimeException("User não existe");
+            throw new RuntimeException("User does not exist");
         }
         userList.remove(user);
     }
 
-    public void removeCar(Car car) {
-        //verificar se o car ja existe
+    /**
+     * Removes a car from the group.
+     *
+     * @param car the car to remove
+     * @throws RuntimeException if the car does not exist in the group
+     */
+    public void removeCar(@NonNull Car car) {
         if (!carList.contains(car)) {
-            throw new RuntimeException("Carro não existe");
+            throw new RuntimeException("Car does not exist");
         }
         carList.remove(car);
+    }
+
+    /**
+     * Checks if the group contains a user.
+     *
+     * @param user the user to check
+     * @return true if the user is in the group, false otherwise
+     */
+    public Boolean getUserListSize() {
+        return userList.size() > 0;
     }
 }

@@ -13,16 +13,22 @@ public class MotorService {
     @Autowired
     private MotorRepository motorRepository;
 
-    //Done
+
+
+
+    /** Returns a list of all motors in the database */
     public List<Motor> getAllMotors() {
         return motorRepository.findAll();
     }
 
-    //Done
+    /** Creates a new motor in the database
+     * @param motor The motor to be created
+     * @return The newly created motor
+     */
     public Motor addMotor(Motor motor)  throws ResourceNotFoundException {
 
-        // verificar se não existe um motor com o mesmo parâmetro
-        if (motorRepository.findByPotenciaAndCilindradaAndModelo(motor.getPotencia(), motor.getCilindrada(), motor.getModelo()) != null) {
+        // Check if a motor with the same power, displacement, and model already exists
+        if (motorRepository.findByPowerAndDisplacementAndModel(motor.getPower(), motor.getDisplacement(), motor.getModel()) != null) {
             throw new ResourceNotFoundException("Motor already exists");
         }
         try {
@@ -32,27 +38,28 @@ public class MotorService {
         }
     }
 
+    /** Returns a motor by id
+     * @param id The id of the motor to be returned
+     * @return The motor with the given id
+     */
     public Motor getMotor(Long id) {
         return motorRepository.findById(id).get();
     }
 
+    /** Updates a motor in the database
+     * @param id The id of the motor to be updated
+     * @param motor The motor to be updated
+     * @return The updated motor
+     */
     public Motor updateMotor(Long id, Motor motor) throws ResourceNotFoundException {
         Motor motor1 = motorRepository.findById(id).get();
         if (motor1 == null) {
             throw new ResourceNotFoundException("Motor not found");
         }
-        motor1.setCilindrada(motor.getCilindrada());
-        motor1.setModelo(motor.getModelo());
-        motor1.setPotencia(motor.getPotencia());
+        motor1.setDisplacement(motor.getDisplacement());
+        motor1.setModel(motor.getModel());
+        motor1.setPower(motor.getPower());
         motorRepository.save(motor1);
         return motor1;
-    }
-
-    public void deleteMotor(Long id) throws ResourceNotFoundException {
-        Motor motor = motorRepository.findById(id).get();
-        if (motor == null) {
-            throw new ResourceNotFoundException("Motor not found");
-        }
-        motorRepository.delete(motor);
     }
 }
