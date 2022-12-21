@@ -10,5 +10,7 @@ import com.cheku.cheku.model.*;
  */
 @Repository
 public interface MotorRepository extends JpaRepository<Motor, Long>  {
+
+    /** Finds a car by power, Displacement and Model. */
     public Motor findByPowerAndDisplacementAndModel(int power, int displacement, String model);
 }

@@ -11,5 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TiresRepository extends JpaRepository<Tires, Long>  {
+
+    /** Finds a tires by brand, model */
     public Tires findByBrandAndModel(String brand, String model);
 }

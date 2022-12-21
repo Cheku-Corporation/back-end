@@ -11,8 +11,11 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<ApiUser, Long> {
+
+    /** Finds a user by its email. */
     Optional<ApiUser> findByEmail(String email);
 
+    /** Deletes a user by its email. */
     void deleteByEmail(String email);
 
 }

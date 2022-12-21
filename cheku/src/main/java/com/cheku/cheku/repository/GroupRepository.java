@@ -12,8 +12,10 @@ import java.util.List;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
+    /** Finds a group by its name. */
     Group findByGroupName(String name);
 
+    /** Lists all the groups from the group table. */
     List<Group> findAll();
 
 }
