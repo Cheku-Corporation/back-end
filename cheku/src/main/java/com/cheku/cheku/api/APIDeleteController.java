@@ -21,16 +21,16 @@ public class APIDeleteController {
         //verificar se o user_id é o admin do grupo
         if (groupService.verifyAdmin(user_id, group_id)) {
             carService.deleteCar(car_id);
-            String message = "Carro apagado com sucesso";
             Object response = new Object() {
-                public final String message = "Carro apagado com sucesso";
+                public final String sucesso = "Carro apagado com sucesso";
             };
+            return response;
+        } else {
+            Object response = new Object() {
+                public final String message = "Não tem permissões para apagar o carro";
+            };
+            return response;
         }
-        Object response = new Object() {
-            public final String message = "Não tem permissões para apagar o carro";
-        };
-
-        return response;
     }
 
 }
