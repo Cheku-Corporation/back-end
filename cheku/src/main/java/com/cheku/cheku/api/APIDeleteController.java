@@ -25,7 +25,7 @@ public class APIDeleteController {
             carService.deleteCar(carId);
             return new SuccessResponse("Carro apagado com sucesso");
         } else {
-            return new ErrorResponse("Não tem permissões para apagar o carro");
+            return new ResourceNotFoundException("Not authorized");
         }
     }
 
@@ -38,18 +38,6 @@ public class APIDeleteController {
 
         public String getSuccess() {
             return success;
-        }
-    }
-
-    private static class ErrorResponse {
-        private String message;
-
-        public ErrorResponse(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
         }
     }
 }
