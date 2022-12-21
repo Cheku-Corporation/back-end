@@ -43,7 +43,7 @@ public class APIUpdateController {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // Get the current car and the updated car data
-        Car car = carService.getCarById(id);
+        Car car = carService.getCar(id);
         Car carUpdate = mapper.readValue(data, Car.class);
 
         // Get the group ID and user ID from the data

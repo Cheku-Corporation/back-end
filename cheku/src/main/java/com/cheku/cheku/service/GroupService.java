@@ -106,7 +106,6 @@ public class GroupService {
 
     }
 
-
     public List<UserDTO> ListUserInGroup(Long group_id) {
         List<ApiUser> users = groupRepository.findById(group_id).get().getUserList();
         List<UserDTO> usersDTOs = new ArrayList<>();
