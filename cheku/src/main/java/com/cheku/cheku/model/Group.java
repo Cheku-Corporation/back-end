@@ -28,9 +28,9 @@ public class Group {
     @Column(name = "groupName", nullable = false)
     private String groupName;
 
-//    /** The name of the group encripted.*/
-//    @Column(name = "groupNameEncripted", nullable = false)
-//    private String groupNameEncripted;
+    /** The name of the group encripted.*/
+    @Column(name = "groupNameEncripted", nullable = false)
+    private String groupNameEncripted;
 
     /** The list of cars in the group.*/
     @JsonIgnore

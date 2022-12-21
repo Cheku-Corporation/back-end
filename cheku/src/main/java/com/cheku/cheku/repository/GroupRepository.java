@@ -18,4 +18,5 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     /** Lists all the groups from the group table. */
     List<Group> findAll();
 
+    Group findByGroupNameEncripted(String idGroup);
 }

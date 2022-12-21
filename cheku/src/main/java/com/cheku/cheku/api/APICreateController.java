@@ -1,9 +1,11 @@
 package com.cheku.cheku.api;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.cheku.cheku.model.Group;
 import com.cheku.cheku.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +71,8 @@ public class APICreateController {
         if (!groupName.isEmpty() && groupService.findGroupByName(groupName)) {
             throw new ResourceNotFoundException("The group already exists");
         }
-        if (!groupId.isEmpty() && !groupService.findGroupById(Long.parseLong(groupId))) {
+
+        if (!groupId.isEmpty() && !groupService.findGroupByCode(groupId)) {
             throw new ResourceNotFoundException("The group does not exist");
         }
         if (groupId.isEmpty() && !groupName.isEmpty()) {
@@ -92,7 +95,7 @@ public class APICreateController {
             userService.createUser(user);
             // Join group
             Optional<ApiUser> user1 = userService.getUserByEmail(user.getEmail());
-            groupService.addUserToGroup(user1.get().getId(), Long.parseLong(groupId));
+            groupService.addUserToGroup(user1.get().getId(), groupId);
             Object response = new Object() {
                 public final String success = "User added to group";
             };

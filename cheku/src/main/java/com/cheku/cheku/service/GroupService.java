@@ -7,11 +7,13 @@ import com.cheku.cheku.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Base64;
 
 @Service
 public class GroupService {
@@ -25,6 +27,9 @@ public class GroupService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private CarRepository carRepository;
@@ -55,15 +60,33 @@ public class GroupService {
         BeanUtils.copyProperties(group, groupToCreate);
         groupToCreate.setIsAdmin(user.get().getId());
         groupToCreate.addUser(user.get());
+        String groupNameEncripty = encodeGroupName(groupToCreate.getGroupName());
+        groupToCreate.setGroupNameEncripted(groupNameEncripty);
         user.get().setGroup(groupToCreate);
         return groupRepository.save(groupToCreate);
+    }
+
+    /** Returns a code for the group name
+     * @param id The id of the group to be returned
+     * @return The code for the group name
+     */
+    private String encodeGroupName(String groupName) {
+        return Base64.getEncoder().encodeToString(groupName.getBytes());
+    }
+
+    /** Returns a true if the group name is valid
+     * @param groupName The name of the group to be checked
+     * @return True if the group name is valid
+     */
+    public boolean findGroupByCode(String groupNameEncripted) {
+        return groupRepository.findByGroupNameEncripted(groupNameEncripted) != null;
     }
 
     /** Adds a user to a group
      * @param groupId The id of the group to add the user to
      * @param userId The id of the user to add to the group
      */
-    public void addUserToGroup(Long idUser, long idGroup) {
+    public void addUserToGroup(Long idUser, String idGroup) {
         //check if user exists
         if(userRepository.findById(idUser) == null){
             System.out.println("User does not exist");
@@ -71,12 +94,12 @@ public class GroupService {
         }
 
         //check if group exists
-        if(groupRepository.findById(idGroup) == null){
+        if(groupRepository.findByGroupNameEncripted(idGroup) == null){
             System.out.println("Group does not exist");
             return;
         }
 
-        Group group = groupRepository.findById(idGroup).get();
+        Group group = groupRepository.findByGroupNameEncripted(idGroup);
         ApiUser user = userRepository.findById(idUser).get();
         group.addUser(user);
         user.setGroup(group);
@@ -153,4 +176,6 @@ public class GroupService {
             throw new RuntimeException("Group not found");
         }
     }
+
+
 }
