@@ -5,7 +5,11 @@ O tipo de base de dados utilizada foi o _MySQL_, é _deployed_ em _container Doc
 Este ficheiro cria um *container* para o tipo de base de dados utilizada, com a palavra-passe `secret2` para o administrador (utilizador `demo`)
 </br>
 
-## Pré-requisitos
+> Para saber criar container, recomenda-se a consulta do ficheiro [BACK-END/readme.md](../readme.md)
+
+</br>
+
+# Pré-requisitos
 
 Pré-requisitos:
 - _python_
@@ -25,7 +29,9 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-## **Testar conexão à base de dados**
+</br>
+
+# **Testar conexão à base de dados**
 
 Para efeitos de teste da conectividade à base de dados, foi criado o script Python que se encontra na pasta **mysql/testMySQL.py**.
 
@@ -48,7 +54,7 @@ A base de dados deverá ficar disponível na porta *33050* do *localhost*.
 
 </br>
 
-## **Populate DB**
+# **Populate DB**
 Antes deve correr a aplicação, para criar a DB, só depois disso é que podemos inserir dados na DB.
 Para este efeito, foi criado um script Python que se encontra na pasta **mysql/data.py**.
 
