@@ -58,6 +58,6 @@ Para fazer o _deploy_ da aplicação, basta executar o comando abaixo.
 ```
 </br>
 
-# **Documentation**
+
 
 
