@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class LightsService {
     @Autowired
-    private LuzesRepository luzesRepository;
+    private LightsRepository luzesRepository;
 
     public List<LightsHistory> getAllLuzes() {
         return luzesRepository.findAll();

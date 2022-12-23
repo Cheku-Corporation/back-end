@@ -35,8 +35,8 @@ public class LightsStatus {
         System.out.println("Received Light <" + msg + ">");
 
         JSONObject j = new JSONObject(msg);
-        if(carService.existsById((long) 1)) {
-            Car car = carService.getCar((long) 1);
+        if(carService.existsById(j.getLong("id"))) {
+            Car car = carService.getCar(j.getLong("id"));
             Trip trip = tripService.getCarCurrentTrip(car.getId());
             LightsHistory lights = new LightsHistory(); 
             lights.setTrip(trip);

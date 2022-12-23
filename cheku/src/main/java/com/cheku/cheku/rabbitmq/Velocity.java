@@ -35,8 +35,8 @@ public class Velocity {
     JSONObject j = new JSONObject(msg);
     
     //System.out.println("Car exists? " + carService.existsById((long) 1));
-    if(carService.existsById((long) 1)) {
-      Car car = carService.getCar((long) 1);
+    if(carService.existsById(j.getLong("id"))) {
+      Car car = carService.getCar(j.getLong("id"));
       Trip trip = tripService.getCarCurrentTrip(car.getId());
       SpeedHistory historyVelocity = new SpeedHistory();
       historyVelocity.setTrip(trip);
@@ -59,7 +59,7 @@ public class Velocity {
 
   private void incrementDistance(Trip trip, Double speed) {
     //convert to m/s tives refresh rate (0.1s)
-    Double spaceTraveled = trip.getTraveledDistance() + (speed * (5.0/18.0) * 0.1);
+    Double spaceTraveled = trip.getTraveledDistance() + (speed * (5.0/18.0) * 0.1) / 1000;
     //System.out.println(trip.getTraveledDistance() +  " Traveled: " + spaceTraveled);
     tripService.changeDistance(trip.getId(), spaceTraveled);
   }

@@ -39,8 +39,8 @@ public class Fluids {
     System.out.println("Received Fluid <" + msg + ">");
 
     JSONObject j = new JSONObject(msg);
-    if (carService.existsById((long) 1)) {
-      Car car = carService.getCar((long) 1);
+    if (carService.existsById(j.getLong("id"))) {
+      Car car = carService.getCar(j.getLong("id"));
       Trip trip = tripService.getCarCurrentTrip(car.getId());
       Fluid fluid = new Fluid();
       fluid.setTrip(trip);
@@ -50,7 +50,7 @@ public class Fluids {
       fluid.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
       fluidService.addFluid(fluid);
 
-      if (fluid.getFuel() <= 0.5) {
+      if (fluid.getFuel() <= 0.2) {
         System.out.println("Adding not");
         Notification not = new Notification();
         not.setPriority(2);
