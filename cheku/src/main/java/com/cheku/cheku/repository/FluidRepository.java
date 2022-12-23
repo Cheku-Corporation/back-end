@@ -3,6 +3,7 @@ package com.cheku.cheku.repository;
 import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.model.Fluid;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,7 @@ public interface FluidRepository extends JpaRepository<Fluid, Long> {
 
     @Query(value = "SELECT * FROM fluid WHERE trip_id = ?1 ORDER BY date DESC LIMIT 1", nativeQuery = true)
     Fluid getLast(Long trip_id);
+
+    @Query(value = "SELECT * FROM fluid WHERE trip_id = ?1 AND date = ?2", nativeQuery = true)
+    Fluid getFromTimestamp(Long trip_id, Date time);
 }

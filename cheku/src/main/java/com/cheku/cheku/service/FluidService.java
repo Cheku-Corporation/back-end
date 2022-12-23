@@ -6,7 +6,7 @@ import com.cheku.cheku.repository.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,6 +43,10 @@ public class FluidService {
     public Double getLastFuelInLiters(Long car_id) {
         Long trip_id = tripService.getCarCurrentTrip(car_id).getId();
         return fluidRepository.getLast(trip_id).getFuel() * 100;
+    }
+
+    public Double getFuelInLitersByTimestamp(Long trip_id, Date time) {
+        return fluidRepository.getFromTimestamp(trip_id, time).getFuel() * 100;
     }
 
     public Fluid getFluid(Long id) {

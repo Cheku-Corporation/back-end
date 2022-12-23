@@ -28,8 +28,8 @@ public class CarStatus {
         String msg = new String(message);
         System.out.println("Received Car Status <" + msg + ">");
         JSONObject j = new JSONObject(msg);
-        if(carService.existsById((long) 1)) {
-            Car car = carService.getCar((long) 1);
+        if(carService.existsById(j.getLong("id"))) {
+            Car car = carService.getCar(j.getLong("id"));
             if(j.getString("motor_status").compareTo("ON") == 0) {
                 Trip trip = new Trip();
                 trip.setCar(car);
