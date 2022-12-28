@@ -1,7 +1,7 @@
-# **Serviço Checku**s
+# **Serviço Checku**
 
 Para construir esta aplicação recorreu-se à *framework* _Spring Boot_.
-</br></br>
+</br>
 
 # **Criar containers**
 Para criar os *containers*, o ficheiro com as configurações deve ser validado.

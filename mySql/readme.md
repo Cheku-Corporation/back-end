@@ -55,7 +55,7 @@ A base de dados deverá ficar disponível na porta *33050* do *localhost*.
 </br>
 
 # **Populate DB**
-Antes deve correr a aplicação, para criar a DB, só depois disso é que podemos inserir dados na DB.
+Após ter a aplicação a correr e ter criado a base de dados e as tabelas, deverà inserir dados na base de dados.
 Para este efeito, foi criado um script Python que se encontra na pasta **mysql/data.py**.
 
 Este deve ser executado da seguinte forma:
