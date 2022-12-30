@@ -34,9 +34,10 @@ public class TripCoordinates {
         System.out.println("Received coord <" + msg + ">");
         // velocityStorage.addVelocity(msg);
         JSONObject j = new JSONObject(msg);
-        if(carService.existsById((long) 1)) {
-            Car car = carService.getCar((long) 1);
+        if(carService.existsById(j.getLong("id"))) {
+            Car car = carService.getCar(j.getLong("id"));
             Trip trip = tripService.getCarCurrentTrip(car.getId());
+            System.out.println("trip id" + trip.getId());
             Localization localization = new Localization(); 
             localization.setTrip(trip);
             localization.setLatitude(j.getDouble("latitude"));

@@ -15,6 +15,6 @@ import com.cheku.cheku.model.Localization;
 @Repository
 public interface LocalizationRepository extends JpaRepository<Localization, Long>  {
 
-    @Query(value = "SELECT * FROM localization WHERE trip_id = ?1 ORDER BY date DESC LIMIT 1", nativeQuery = true)
-    Localization getLast(Long trip_id);
+    @Query(value = "SELECT * FROM localization WHERE trip_id = ?1 ORDER BY date DESC", nativeQuery = true)
+    List<Localization> getLast(Long trip_id);
 }

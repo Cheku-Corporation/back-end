@@ -183,7 +183,6 @@ public class APIReadController {
 			liveStatusBuilder.isOnTheRoad(false);
 		}
 		liveStatusBuilder
-		//return new LiveStatusBuilder()
 			.setSpeed(velocityService.getLastVelocity(car_id))
 			.setGear(velocityService.getLastVelocity(car_id))
 			.setRPM(velocityService.getLastVelocity(car_id))
