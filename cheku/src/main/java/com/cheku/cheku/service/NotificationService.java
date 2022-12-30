@@ -23,8 +23,8 @@ public class NotificationService {
     @Autowired
     private CarService carService;
 
-    public List<UserNotification> getAllNotifications(Long car_id) {
-        return notificationRespository.getAllNotifications(car_id);
+    public List<UserNotification> getAllNotifications(Long group_id) {
+        return notificationRespository.getAllNotifications(group_id);
     }
 
     public Notification addNotification(Notification notification) throws ResourceNotFoundException {

@@ -159,7 +159,7 @@ public class GroupService {
     }
 
     /** Returns the group with the specified id */
-    public Group getGroupById(Long groupId) {
+    public Group deleteFromGroup(Long groupId) {
         try {
             // Delete the users from the group
             Group group = groupRepository.findById(groupId).get();
@@ -177,5 +177,8 @@ public class GroupService {
         }
     }
 
+    public Group getGroupById(Long groupId) {
 
+    return groupRepository.findById(groupId).get();
+    }
 }
