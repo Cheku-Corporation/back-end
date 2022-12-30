@@ -152,9 +152,9 @@ public class APIReadController {
 		return velocityService.getLast1000Velocities(car_id);
 	}
 
-	@GetMapping("api/car/{car_id}/notifications")
-	public List<UserNotification> getCarNotifications(@PathVariable Long car_id) {
-		return notificationService.getAllNotifications(car_id);
+	@GetMapping("api/group/{group_id}/notifications")
+	public List<UserNotification> getCarNotifications(@PathVariable Long group_id) {
+		return notificationService.getAllNotifications(group_id);
 	}
 
 	@GetMapping("api/lasttrip")

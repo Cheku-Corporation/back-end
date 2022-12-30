@@ -20,7 +20,7 @@ public class APIDeleteController {
 
     @DeleteMapping("api/user/{userId}/group/{groupId}/car/{carId}")
     public Object deleteCar(@PathVariable Long carId, @PathVariable Long groupId, @PathVariable Long userId) throws ResourceNotFoundException {
-        Group group = groupService.getGroupById(groupId);
+        Group group = groupService.deleteFromGroup(groupId);
         if (groupService.verifyAdmin(userId, groupId)) {
             carService.deleteCar(carId);
             return new SuccessResponse("Carro apagado com sucesso");
