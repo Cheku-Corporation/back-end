@@ -93,8 +93,12 @@ public class CarService {
     public Car deleteCar(Long car_id) {
         Car car = carRepository.findById(car_id).get();
         Group group = groupRepository.findById(car.getGroup().getId()).get();
-        group.removeCar(car);
-        carRepository.delete(car);
+        try {
+            group.removeCar(car);
+            carRepository.delete(car);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting car");
+        }
         return car;
     }
 

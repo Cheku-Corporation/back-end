@@ -45,17 +45,6 @@ Antes de ser possível fazer o _deploy_ deve-se alterar os _urls_ dos serviços 
     spring.rabbitmq.host=rabbitmq
 ```
 
-Para criar o _jar_ da aplicação, basta executar o comando abaixo.
-
-```bash
-    $ ./mvnw package
-```
-
-Para fazer o _deploy_ da aplicação, basta executar o comando abaixo.
-
-```bash
-    $ docker compose up --build
-```
 </br>
 
 
