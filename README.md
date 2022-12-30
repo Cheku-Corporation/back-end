@@ -16,7 +16,7 @@ Se não forem mostrados erros, pode avançar-se com a sua criação.
     $ docker compose up -d
 ```
 
-> Para saber como popular a base de dados, recomenda-se a consulta do ficheiro [back-end/mySql/readme.md](mySql/readme.md).
+> Para saber como popular a base de dados, recomenda-se a consulta do ficheiro [back-end/DBInsert/readme.md](DBInsert/readme.md).
 
 </br>
 
