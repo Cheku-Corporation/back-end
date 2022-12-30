@@ -24,10 +24,11 @@ $ python3 -m venv venv
 ```bash
 $ source venv/bin/activate
 ```
-1. Instalar as *dependências:
+3. Instalar as *dependências*:
 ```bash
 $ pip install -r requirements.txt
 ```
+> As dependências que estão no ficheiro `requirements.txt` são o pika, que serve para realizar a conexão com o *MySQL* e o *requests*, que serve para executar pull request à api.
 
 </br>
 
@@ -55,7 +56,7 @@ A base de dados deverá ficar disponível na porta *33050* do *localhost*.
 </br>
 
 # **Populate DB**
-Após ter a aplicação a correr e ter criado a base de dados e as tabelas, deverà inserir dados na base de dados.
+**Após ter a aplicação a correr** e ter criado a base de dados e as tabelas, deverà inserir dados na base de dados.
 Para este efeito, foi criado um script Python que se encontra na pasta **mysql/data.py**.
 
 Este deve ser executado da seguinte forma:
