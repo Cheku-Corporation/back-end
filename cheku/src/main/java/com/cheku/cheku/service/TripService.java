@@ -56,6 +56,10 @@ public class TripService {
         return tripRepository.getTripWithCarAndNumber(car_id, number);
     }
 
+    public boolean isOnTheRoad(Long car_id) {
+        return tripRepository.getCurrentCarTrip(car_id).getEndTime() == null;
+    }
+
     public List<Trip> getAll() {
         return tripRepository.findAll(); 
     }
