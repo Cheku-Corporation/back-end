@@ -153,7 +153,7 @@ public class APIReadController {
 	}
 
 	@GetMapping("api/group/{group_id}/notifications")
-	public List<UserNotification> getCarNotifications(@PathVariable Long group_id) {
+	public List<Notification> getCarNotifications(@PathVariable Long group_id) {
 		return notificationService.getAllNotifications(group_id);
 	}
 
