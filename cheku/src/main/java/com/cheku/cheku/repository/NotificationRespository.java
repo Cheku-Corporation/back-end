@@ -17,6 +17,6 @@ import com.cheku.cheku.model.*;
 @Repository
 public interface NotificationRespository extends JpaRepository<Notification, Long>  {
 
-    @Query(value = "SELECT priority, subject, message FROM notifications WHERE group_id = ?1", nativeQuery = true)
-    List<UserNotification> getAllNotifications(Long group_id);
+    @Query(value = "SELECT * FROM notifications WHERE group_id = ?1", nativeQuery = true)
+    List<Notification> getAllNotifications(Long group_id);
 }

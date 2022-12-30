@@ -55,7 +55,7 @@ public class Fluids {
       fluid.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
       fluidService.addFluid(fluid);
 
-      if (fluid.getFuel() <= 0.2000) {
+      if (fluid.getFuel() == 0.2000) {
         System.out.println("Adding fuel not");
         Notification not = new Notification();
         not.setPriority(2);
@@ -67,7 +67,7 @@ public class Fluids {
         notificationService.addNotification(not);
       }
 
-      if (fluid.getOil() <= 0.2000) {
+      if (fluid.getOil() == 0.2000) {
         System.out.println("Adding oil not");
         Notification not = new Notification();
         not.setPriority(2);
@@ -79,7 +79,7 @@ public class Fluids {
         notificationService.addNotification(not);
       }
 
-      if (fluid.getWater() <= 0.2000) {
+      if (fluid.getWater() == 0.2000) {
         System.out.println("Adding water not");
         Notification not = new Notification();
         not.setPriority(2);
