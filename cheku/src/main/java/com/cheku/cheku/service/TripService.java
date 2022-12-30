@@ -56,6 +56,10 @@ public class TripService {
         return tripRepository.getTripWithCarAndNumber(car_id, number);
     }
 
+    public boolean isOnTheRoad(Long car_id) {
+        return tripRepository.getCurrentCarTrip(car_id).getEndTime() == null;
+    }
+
     public List<Trip> getAll() {
         return tripRepository.findAll(); 
     }
@@ -69,7 +73,7 @@ public class TripService {
         List<Trip> trips = tripRepository.findAllPassed(car_id);
         System.out.println("Number of trips: " + trips.size() );
         if(trips.size() == 0) {
-            throw new RuntimeException("Not enougth data to show");
+            return 0.0;
         }
         Double distance = 0.0d;
         for (Trip t : trips) {

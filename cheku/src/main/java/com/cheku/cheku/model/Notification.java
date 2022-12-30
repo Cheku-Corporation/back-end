@@ -40,12 +40,8 @@ public class Notification {
    @Column(name = "message", nullable = false)
    private String message;
 
-   /** The type of the notification. */
-   @Column(name = "type", nullable = false)
-   private String type;
-
    /** The car that the notification is related to. */
    @ManyToOne(optional = true)
-   @JoinColumn(name = "car_id", nullable = true)
-   private Car car;
+   @JoinColumn(name = "group_id", nullable = true, referencedColumnName = "id")
+   private Group group;
 }

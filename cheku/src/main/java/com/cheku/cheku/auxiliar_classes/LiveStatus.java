@@ -7,6 +7,7 @@ import com.cheku.cheku.model.Trip;
 
 public class LiveStatus {
     
+    private boolean onTheRoad; 
     private long timeOnTravel;
     private Double currentSpeed;
     private Double averageSpeed;
@@ -20,22 +21,29 @@ public class LiveStatus {
     private Double currentWaterPercentage;
     private Double currentOilPercentage;
     private Double currentFuelPercentage;
+    private Coordinates localization;
 
 
     private LiveStatus(LiveStatusBuilder builder) {
-        currentRPM = builder.currentRPM;
-        currentSpeed = builder.currentSpeed;
+        currentRPM = (double) Math.round(builder.currentRPM * 100d) / 100d;
+        currentSpeed = (double) Math.round(builder.currentSpeed * 100d) / 100d;
         currentGear = builder.currentGear;
         relativeDistance = (double) Math.round(builder.relativeDistance * 100d) / 100d;
         totalDistance = (double) Math.round(builder.totalDistance * 100d) / 100d;
-        tiresPressure = builder.tiresPressure;
-        tiresTemperature = builder.tiresTemperature;
+        tiresPressure = (double) Math.round(builder.tiresPressure * 100d) / 100d;
+        tiresTemperature = (double) Math.round(builder.tiresTemperature * 100d) / 100d;
         lightsState = builder.lightsState;
         timeOnTravel = builder.timeOnTravel;
         averageSpeed = (Double) (double) Math.round((relativeDistance / timeOnTravel) * 100d) / 100d;
         currentFuelPercentage = builder.currentFuelPercentage;
         currentOilPercentage = builder.currentOilPercentage;
         currentWaterPercentage = builder.currentWaterPercentage;
+        localization = builder.localization;
+        onTheRoad = builder.onTheRoad;
+    }
+
+    public boolean getOnTheRoad() {
+        return onTheRoad;
     }
 
     public Double getCurrentRPM() {
@@ -52,10 +60,6 @@ public class LiveStatus {
 
     public int getCurrentGear() {
         return currentGear;
-    }
-
-    public String getLightdsState() {
-        return lightsState;
     }
 
     public Double getRelativeDistance() {
@@ -94,8 +98,13 @@ public class LiveStatus {
         return currentWaterPercentage;
     }
 
+    public Coordinates getLocalization() {
+        return localization;
+    }
+
     public static class LiveStatusBuilder {
         
+        private boolean onTheRoad;
         private Double currentSpeed;
         private Double currentRPM;
         private int currentGear;
@@ -108,6 +117,7 @@ public class LiveStatus {
         private Double currentWaterPercentage;
         private Double currentOilPercentage;
         private Double currentFuelPercentage;
+        private Coordinates localization;
     
 
         public LiveStatusBuilder setSpeed(SpeedHistory speed) {
@@ -167,6 +177,16 @@ public class LiveStatus {
 
         public LiveStatusBuilder setFuel(Double fuel) {
             currentFuelPercentage = fuel;
+            return this;
+        }
+
+        public LiveStatusBuilder setLocalization(Coordinates coords) {
+            localization = coords;
+            return this;
+        }
+
+        public LiveStatusBuilder isOnTheRoad(Boolean onRide) {
+            onTheRoad = onRide;
             return this;
         }
 
