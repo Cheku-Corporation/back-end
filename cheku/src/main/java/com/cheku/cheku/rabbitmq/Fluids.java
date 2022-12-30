@@ -78,7 +78,7 @@ public class Fluids {
         not.setGroup(groupService.getGroupById(car.getGroup().getId()));
         notificationService.addNotification(not);
       }
-
+      
       if (fluid.getWater() == 0.2000) {
         System.out.println("Adding water not");
         Notification not = new Notification();
