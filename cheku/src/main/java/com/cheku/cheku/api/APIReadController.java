@@ -43,6 +43,9 @@ public class APIReadController {
 	private TiresHistoryService tireService;
 
 	@Autowired
+	private LocalizationService localizationService;
+
+	@Autowired
 	private NotificationService notificationService;
 
 	@Autowired
@@ -164,7 +167,16 @@ public class APIReadController {
 
 	@GetMapping("api/live")
 	public LiveStatus getLive(@RequestParam(value = "carid") Long car_id) {
-		return new LiveStatusBuilder()
+		LiveStatusBuilder liveStatusBuilder = new LiveStatusBuilder();
+		if(tripService.isOnTheRoad(car_id)) {
+			System.out.println("On the ride!");
+			liveStatusBuilder.isOnTheRoad(true);
+		} else {
+			System.out.println("Stopped");
+			liveStatusBuilder.isOnTheRoad(false);
+		}
+		liveStatusBuilder
+		//return new LiveStatusBuilder()
 			.setSpeed(velocityService.getLastVelocity(car_id))
 			.setGear(velocityService.getLastVelocity(car_id))
 			.setRPM(velocityService.getLastVelocity(car_id))
@@ -177,6 +189,8 @@ public class APIReadController {
 			.setOil(fluidService.getLastOilPercentage(car_id))
 			.setWater(fluidService.getLastWaterPercentage(car_id))
 			.setFuel(fluidService.getLastFuelInLiters(car_id))
+			.setLocalization(localizationService.getLast(car_id))
 			.build();
+		return liveStatusBuilder.build();
 	}
 }
