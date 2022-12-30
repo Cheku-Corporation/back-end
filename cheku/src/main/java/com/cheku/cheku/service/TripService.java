@@ -22,6 +22,9 @@ public class TripService {
     private VelocityService velocityService;
 
     @Autowired
+    private FluidConsumption fluidService;
+
+    @Autowired
     private CarService carService;
 
 
@@ -84,12 +87,16 @@ public class TripService {
         int numberOfTrips = 0;
         Double distance = 0.0d;
         Double time = 0.0d;
+        Double fuel = 0.0d;
         TripOverview trip = new TripOverview();
         for (Trip t : trips) {
             distance += t.getTraveledDistance();
             long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
             time += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
-            
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            fuel += fuel_final - fuel_init;
+
             MapPositions thisTripCoordenates = new MapPositions();
             thisTripCoordenates.setTripNumber(numberOfTrips + 1);
             thisTripCoordenates.setStart(new Coordinates(t.getStartLatitude(), t.getStartLongitude()));
@@ -99,10 +106,48 @@ public class TripService {
                 break;
             }
         }
+        try {
+            //Double fuelSpentInLitters = fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100;
+            trip.setFuelSpent(fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100);
+        } catch (ResourceNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         trip.setTotalDistance(distance);
         trip.setTotalTime(time);
-        trip.setAverageSpeed(distance / time);
-        return trip; 
+        Double averageSpeed = distance / time;
+        trip.setAverageSpeed(averageSpeed);
+        Double consumption = (trip.getFuelSpent() * 100) / trip.getTotalDistance();
+        trip.setFuelConsumptionPer100km(consumption);
+
+        if(trips.size() - numberOfTrips < 1) {
+            trip.setPreviousHasData(false);
+            return trip; 
+        }
+        trip.setPreviousHasData(true);
+        Double previousDistance = 0.0d;
+        Double previousTime = 0.0d;
+        Double previousFuel = 0.0d;
+        for (Trip t : trips.subList(numberOfTrips, trips.size())) {
+            previousDistance += t.getTraveledDistance();
+            long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
+            previousTime += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            previousFuel += fuel_final - fuel_init;
+            if(++numberOfTrips == 2) {
+                break;
+            }
+        }
+        System.out.println(previousDistance + " " + previousTime);
+        Double previousAverageSpeed = previousDistance / previousTime;
+        trip.setFuelSpentComparedToPrevious((fuel - previousFuel) * 100 / previousTime);
+        trip.setAverageSpeedComparedToPrevious((averageSpeed - previousAverageSpeed) * 100 / previousAverageSpeed);
+        trip.setTotalTimeComparedToPrevious((time - previousTime) * 100 / previousTime);
+        trip.setTotalDistanceComparedToPrevious((distance - previousDistance) * 100 / previousDistance);
+        Double previousConsumption = (previousFuel * 100) / previousDistance;
+        trip.setFuelConsumptionPer100kmComparedToPrevious((consumption - previousConsumption) * 100 / previousConsumption);
+        return trip;
     }
 
     public TripOverview getWeekOverview(Long car_id) {
@@ -114,12 +159,16 @@ public class TripService {
         int numberOfTrips = 0;
         Double distance = 0.0d;
         Double time = 0.0d;
+        Double fuel = 0.0d;
         TripOverview trip = new TripOverview();
         for (Trip t : trips) {
             distance += t.getTraveledDistance();
             long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
             time += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
-            
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            fuel += fuel_final - fuel_init;
+
             MapPositions thisTripCoordenates = new MapPositions();
             thisTripCoordenates.setTripNumber(numberOfTrips + 1);
             thisTripCoordenates.setStart(new Coordinates(t.getStartLatitude(), t.getStartLongitude()));
@@ -129,9 +178,47 @@ public class TripService {
                 break;
             }
         }
+        try {
+            //Double fuelSpentInLitters = fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100;
+            trip.setFuelSpent(fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100);
+        } catch (ResourceNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         trip.setTotalDistance(distance);
         trip.setTotalTime(time);
-        trip.setAverageSpeed(distance / time);
+        Double averageSpeed = distance / time;
+        trip.setAverageSpeed(averageSpeed);
+        Double consumption = (trip.getFuelSpent() * 100) / trip.getTotalDistance();
+        trip.setFuelConsumptionPer100km(consumption);
+
+        if(trips.size() - numberOfTrips < 7) {
+            trip.setPreviousHasData(false);
+            return trip; 
+        }
+        trip.setPreviousHasData(true);
+        Double previousDistance = 0.0d;
+        Double previousTime = 0.0d;
+        Double previousFuel = 0.0d;
+        for (Trip t : trips.subList(numberOfTrips, trips.size())) {
+            previousDistance += t.getTraveledDistance();
+            long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
+            previousTime += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            previousFuel += fuel_final - fuel_init;
+            if(++numberOfTrips == 14) {
+                break;
+            }
+        }
+        System.out.println(previousDistance + " " + previousTime);
+        Double previousAverageSpeed = previousDistance / previousTime;
+        trip.setFuelSpentComparedToPrevious((fuel - previousFuel) * 100 / previousTime);
+        trip.setAverageSpeedComparedToPrevious((averageSpeed - previousAverageSpeed) * 100 / previousAverageSpeed);
+        trip.setTotalTimeComparedToPrevious((time - previousTime) * 100 / previousTime);
+        trip.setTotalDistanceComparedToPrevious((distance - previousDistance) * 100 / previousDistance);
+        Double previousConsumption = (previousFuel * 100) / previousDistance;
+        trip.setFuelConsumptionPer100kmComparedToPrevious((consumption - previousConsumption) * 100 / previousConsumption);
         return trip;
     }
 
@@ -144,12 +231,16 @@ public class TripService {
         int numberOfTrips = 0;
         Double distance = 0.0d;
         Double time = 0.0d;
+        Double fuel = 0.0d;
         TripOverview trip = new TripOverview();
         for (Trip t : trips) {
             distance += t.getTraveledDistance();
             long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
             time += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
-            
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            fuel += fuel_final - fuel_init;
+
             MapPositions thisTripCoordenates = new MapPositions();
             thisTripCoordenates.setTripNumber(numberOfTrips + 1);
             thisTripCoordenates.setStart(new Coordinates(t.getStartLatitude(), t.getStartLongitude()));
@@ -159,9 +250,47 @@ public class TripService {
                 break;
             }
         }
+        try {
+            //Double fuelSpentInLitters = fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100;
+            trip.setFuelSpent(fuel * carService.getCar(car_id).getCarModel().getTankCapacity() / 100);
+        } catch (ResourceNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         trip.setTotalDistance(distance);
         trip.setTotalTime(time);
-        trip.setAverageSpeed(distance / time);
+        Double averageSpeed = distance / time;
+        trip.setAverageSpeed(averageSpeed);
+        Double consumption = (trip.getFuelSpent() * 100) / trip.getTotalDistance();
+        trip.setFuelConsumptionPer100km(consumption);
+
+        if(trips.size() - numberOfTrips < 7) {
+            trip.setPreviousHasData(false);
+            return trip; 
+        }
+        trip.setPreviousHasData(true);
+        Double previousDistance = 0.0d;
+        Double previousTime = 0.0d;
+        Double previousFuel = 0.0d;
+        for (Trip t : trips.subList(numberOfTrips, trips.size())) {
+            previousDistance += t.getTraveledDistance();
+            long diffInMillies = t.getEndTime().getTime() - t.getStartTime().getTime();
+            previousTime += TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.SECONDS);
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            previousFuel += fuel_final - fuel_init;
+            if(++numberOfTrips == 14) {
+                break;
+            }
+        }
+        System.out.println(previousDistance + " " + previousTime);
+        Double previousAverageSpeed = previousDistance / previousTime;
+        trip.setFuelSpentComparedToPrevious((fuel - previousFuel) * 100 / previousTime);
+        trip.setAverageSpeedComparedToPrevious((averageSpeed - previousAverageSpeed) * 100 / previousAverageSpeed);
+        trip.setTotalTimeComparedToPrevious((time - previousTime) * 100 / previousTime);
+        trip.setTotalDistanceComparedToPrevious((distance - previousDistance) * 100 / previousDistance);
+        Double previousConsumption = (previousFuel * 100) / previousDistance;
+        trip.setFuelConsumptionPer100kmComparedToPrevious((consumption - previousConsumption) * 100 / previousConsumption);
         return trip;
     }
 }

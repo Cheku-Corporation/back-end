@@ -17,6 +17,6 @@ import com.cheku.cheku.model.*;
 @Repository
 public interface NotificationRespository extends JpaRepository<Notification, Long>  {
 
-    @Query(value = "SELECT priority, subject, message FROM notifications LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT priority, subject, message FROM notifications WHERE car_id = ?1 LIMIT 1", nativeQuery = true)
     List<UserNotification> getAllNotifications(Long car_id);
 }

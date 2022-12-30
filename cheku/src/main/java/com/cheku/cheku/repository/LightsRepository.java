@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
  * CRUD operations on the luzes table in the database.
  */
 @Repository
-public interface LuzesRepository extends JpaRepository<LightsHistory, Long> {
+public interface LightsRepository extends JpaRepository<LightsHistory, Long> {
 
-    @Query(value = "SELECT * FROM lights ORDER BY date DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM lights_history ORDER BY date DESC LIMIT 1", nativeQuery = true)
     LightsHistory getLast(Long car_id);
 }
