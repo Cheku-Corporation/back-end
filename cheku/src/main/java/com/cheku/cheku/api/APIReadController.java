@@ -2,6 +2,7 @@ package com.cheku.cheku.api;
 
 import java.util.List;
 import com.cheku.cheku.exception.ResourceNotFoundException;
+import com.cheku.cheku.model.dto.CarModelDTO;
 import com.cheku.cheku.model.dto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,12 @@ public class APIReadController {
 	@GetMapping("api/user/{user_email}")
 	public UserDTO getCurrentUser(@PathVariable String user_email) throws JsonProcessingException {
 		return userService.getCurrentUser(user_email);
+	}
+
+	/** Returns a list of all car models.*/
+	@GetMapping("api/carModels")
+	public List<CarModelDTO> getCarModels() {
+		return carModelService.getAllCarModels();
 	}
 
 	@GetMapping("api/car/{car_id}/velocities/100")
