@@ -25,26 +25,23 @@ public class NotificationService {
     @Autowired
     private GroupService groupService;
 
-    @Autowired
-    private CarService carService;
-
     public List<Notification> getAllNotifications(Long group_id) {
-        Group group = groupService.getGroupById(group_id);
+        return notificationRespository.getAllNotifications(group_id);
+    }
+
+    public void checkInsuranceDate(Car car, Long group_id) {
         Date date = new Date();
         long now = date.getTime() / 100;
-        for (Car car : group.getCarList()) {
-            System.out.println(car.getInspectionDate().getTime());
-            if(car.getInspectionDate().getTime() - now < 1000000) {
-                System.out.println("Adding notification Inspection");
-                Notification not = new Notification();
-                not.setPriority(2);
-                not.setSubject("Inspection Insurance");
-                not.setMessage("Your Inspection Insurance will expire soon");
-                not.setGroup(groupService.getGroupById(group_id));
-                notificationRespository.save(not);
-            }
+        System.out.println(car.getInspectionDate().getTime());
+        if(car.getInspectionDate().getTime() - now < 100000) {
+            System.out.println("Adding notification Inspection");
+            Notification not = new Notification();
+            not.setPriority(2);
+            not.setSubject("Inspection Insurance");
+            not.setMessage("Your Inspection Insurance will expire soon");
+            not.setGroup(groupService.getGroupById(group_id));
+            notificationRespository.save(not);
         }
-        return notificationRespository.getAllNotifications(group_id);
     }
 
     public Notification addNotification(Notification notification) throws ResourceNotFoundException {

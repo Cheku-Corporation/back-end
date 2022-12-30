@@ -21,6 +21,9 @@ public class CarService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     /** Returns a list of all cars in the database */
     public List<Car> getAllCars() {
         return carRepository.findAll();
@@ -48,6 +51,8 @@ public class CarService {
         if (carModelRepository.findByModel(car.getCarModel().getModel()) == null) {
             throw new RuntimeException("The car model doesn't exist");
         }
+
+        notificationService.checkInsuranceDate(car, car.getGroup().getId());
 
         try{
             // Set the group and car model for the car
@@ -135,6 +140,7 @@ public class CarService {
         car.setInsuranceDate(carUpdate.getInsuranceDate());
         car.setInspectionDate(carUpdate.getInspectionDate());
 
+        notificationService.checkInsuranceDate(car, car.getGroup().getId());
         return carRepository.save(car);
     }
 }

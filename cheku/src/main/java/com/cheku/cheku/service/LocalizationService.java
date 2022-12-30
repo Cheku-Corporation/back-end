@@ -31,7 +31,9 @@ public class LocalizationService {
 
     public Coordinates getLast(Long car_id) {
         Long trip_id = tripService.getCarCurrentTrip(car_id).getId();
-        Localization l = localizationRepository.getLast(trip_id);
+        //System.out.println("trip id: " + trip_id);
+        Localization l = localizationRepository.getLast(trip_id).get(0);
+        //System.out.println("location: " + l.getId());
         return new Coordinates(l.getLatitude(), l.getLongitude());
     }
 }
