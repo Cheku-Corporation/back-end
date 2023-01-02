@@ -337,4 +337,41 @@ public class TripService {
         }
         return consumptions;
     }
+
+    public GearsOverTime getLastTripSpeedPerTime(Long car_id) {
+        List<Trip> trips = tripRepository.findAllPassed(car_id);
+        System.out.println("Number of trips: " + trips.size() );
+        if(trips.size() < 1) {
+            throw new RuntimeException("Not enougth data to show");
+        }
+        Trip trip = trips.get(0);
+        List<SpeedHistory> velocities = velocityService.getVelocitiesByTrip(trip.getId());
+        GearsOverTime graph = new GearsOverTime();
+        for (SpeedHistory speed : velocities) {
+            if(speed.getGear() == 0) {
+                graph.incrementTimeGear0();
+            } 
+            else if(speed.getGear() == 1) {
+                graph.incrementTimeGear1();
+            } 
+            else if(speed.getGear() == 2) {
+                graph.incrementTimeGear2();
+            }
+            else if(speed.getGear() == 3) {
+                graph.incrementTimeGear3();
+            }
+            else if(speed.getGear() == 4) {
+                graph.incrementTimeGear4();
+            }
+            else if(speed.getGear() == 5) {
+                graph.incrementTimeGear5();
+            }
+            else if(speed.getGear() == 6) {
+                graph.incrementTimeGear6();
+            } else {
+                System.out.println(speed.getGear());
+            }
+        }
+        return graph;
+    }
 }
