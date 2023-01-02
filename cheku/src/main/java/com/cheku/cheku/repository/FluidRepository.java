@@ -1,6 +1,6 @@
 package com.cheku.cheku.repository;
 
-import com.cheku.cheku.auxiliar_classes.SimpleFluid;
+import com.cheku.cheku.data_representation.SimpleFluid;
 import com.cheku.cheku.model.Fluid;
 
 import java.util.Date;

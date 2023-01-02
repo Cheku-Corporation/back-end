@@ -1,6 +1,6 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.SimpleFluid;
+import com.cheku.cheku.data_representation.SimpleFluid;
 import com.cheku.cheku.model.Fluid;
 import com.cheku.cheku.repository.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;

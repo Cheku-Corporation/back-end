@@ -1,12 +1,8 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.SimpleFluid;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.Fluid;
-import com.cheku.cheku.model.Group;
 import com.cheku.cheku.model.Notification;
-import com.cheku.cheku.repository.FluidRepository;
 import com.cheku.cheku.repository.NotificationRespository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +31,7 @@ public class NotificationService {
         if(car.getInspectionDate().getTime() - now < 100000) {
             System.out.println("Adding notification Inspection");
             Notification not = new Notification();
-            not.setPriority(1);
+            not.setPriority(2);
             not.setSubject("Inspection Insurance");
             not.setMessage("Your Inspection Insurance will expire soon");
             not.setGroup(groupService.getGroupById(group_id));

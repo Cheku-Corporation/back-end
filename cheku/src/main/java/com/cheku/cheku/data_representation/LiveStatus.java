@@ -1,4 +1,4 @@
-package com.cheku.cheku.auxiliar_classes;
+package com.cheku.cheku.data_representation;
 
 import com.cheku.cheku.model.LightsHistory;
 import com.cheku.cheku.model.TiresHistory;

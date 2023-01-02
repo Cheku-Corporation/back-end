@@ -1,6 +1,6 @@
 package com.cheku.cheku.repository;
 
-import com.cheku.cheku.auxiliar_classes.Velocity;
+import com.cheku.cheku.data_representation.Velocity;
 import com.cheku.cheku.model.*;
 
 import java.util.List;

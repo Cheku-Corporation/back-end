@@ -1,6 +1,9 @@
 package com.cheku.cheku.api;
 
 import java.util.List;
+
+import com.cheku.cheku.data_representation.*;
+import com.cheku.cheku.data_representation.LiveStatus.LiveStatusBuilder;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.dto.CarModelDTO;
 import com.cheku.cheku.model.dto.UserDTO;
@@ -8,8 +11,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.cheku.cheku.auxiliar_classes.*;
-import com.cheku.cheku.auxiliar_classes.LiveStatus.LiveStatusBuilder;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.service.*;
 
@@ -21,9 +22,6 @@ public class APIReadController {
 
 	@Autowired
 	private CarService carservice;
-
-	@Autowired
-	private TiresHistoryService pneusHistoryService;
 
 	@Autowired
 	private LightsService lightsService;
@@ -140,6 +138,16 @@ public class APIReadController {
 	@GetMapping("api/carModels")
 	public List<CarModelDTO> getCarModels() {
 		return carModelService.getAllCarModels();
+	}
+
+	@GetMapping("api/car/{car_id}/fuelconsumption")
+	public List<FuelConsumption> getFuelConsumptions(@PathVariable Long car_id, @RequestParam(value = "period") String period) {
+		if(period.equals("week")) {
+			return tripService.fuelConsumptionOverWeek(car_id);
+		} else if(period.equals("month")) {
+			return tripService.fuelConsumptionOverMonth(car_id);
+		}
+		return tripService.fuelConsumptionOverWeek(car_id);
 	}
 
 	@GetMapping("api/car/{car_id}/velocities/100")
