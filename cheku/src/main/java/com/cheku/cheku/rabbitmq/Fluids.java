@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.cheku.cheku.model.Car;
 import com.cheku.cheku.model.Fluid;
-import com.cheku.cheku.model.Group;
 import com.cheku.cheku.model.Notification;
 import com.cheku.cheku.model.Trip;
 import com.cheku.cheku.service.CarService;
@@ -58,7 +57,7 @@ public class Fluids {
       if (fluid.getFuel() == 0.2000) {
         System.out.println("Adding fuel not");
         Notification not = new Notification();
-        not.setPriority(2);
+        not.setPriority(3);
         not.setSubject("Low Fuel");
         not.setMessage("Your car has only " + (fluid.getFuel() * 10) + "% fuel left!");
         Long l = car.getGroup().getId();
@@ -70,7 +69,7 @@ public class Fluids {
       if (fluid.getOil() == 0.2000) {
         System.out.println("Adding oil not");
         Notification not = new Notification();
-        not.setPriority(2);
+        not.setPriority(3);
         not.setSubject("Low Oil");
         not.setMessage("Your car has only " + (fluid.getOil() * 10) + "% oil left!");
         Long l = car.getGroup().getId();
@@ -82,7 +81,7 @@ public class Fluids {
       if (fluid.getWater() == 0.2000) {
         System.out.println("Adding water not");
         Notification not = new Notification();
-        not.setPriority(2);
+        not.setPriority(3);
         not.setSubject("Low Water");
         not.setMessage("Your car has only " + (fluid.getWater() * 10) + "% water left!");
         Long l = car.getGroup().getId();

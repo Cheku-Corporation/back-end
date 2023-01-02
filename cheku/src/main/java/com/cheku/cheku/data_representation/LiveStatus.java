@@ -1,4 +1,4 @@
-package com.cheku.cheku.auxiliar_classes;
+package com.cheku.cheku.data_representation;
 
 import com.cheku.cheku.model.LightsHistory;
 import com.cheku.cheku.model.TiresHistory;
@@ -11,22 +11,22 @@ public class LiveStatus {
     private long timeOnTravel;
     private Double currentSpeed;
     private Double averageSpeed;
-    private Double currentRPM;
+    private int currentRPM;
     private int currentGear;
     private Double relativeDistance;
     private Double totalDistance;
     private String lightsState;
     private Double tiresPressure;
     private Double tiresTemperature;
-    private Double currentWaterPercentage;
-    private Double currentOilPercentage;
-    private Double currentFuelPercentage;
+    private int currentWaterPercentage;
+    private int currentOilPercentage;
+    private int currentFuelPercentage;
     private Coordinates localization;
 
 
     private LiveStatus(LiveStatusBuilder builder) {
-        currentRPM = (double) Math.round(builder.currentRPM * 100d) / 100d;
-        currentSpeed = (double) Math.round(builder.currentSpeed * 100d) / 100d;
+        currentRPM = builder.currentRPM;
+        currentSpeed = (double) Math.round(builder.currentSpeed * 100d) / 100d; 
         currentGear = builder.currentGear;
         relativeDistance = (double) Math.round(builder.relativeDistance * 100d) / 100d;
         totalDistance = (double) Math.round(builder.totalDistance * 100d) / 100d;
@@ -35,8 +35,8 @@ public class LiveStatus {
         lightsState = builder.lightsState;
         timeOnTravel = builder.timeOnTravel;
         averageSpeed = (Double) (double) Math.round((relativeDistance / timeOnTravel) * 100d) / 100d;
-        currentFuelPercentage = builder.currentFuelPercentage;
-        currentOilPercentage = builder.currentOilPercentage;
+        currentFuelPercentage = builder.currentFuelPercentage; 
+        currentOilPercentage = builder.currentOilPercentage; 
         currentWaterPercentage = builder.currentWaterPercentage;
         localization = builder.localization;
         onTheRoad = builder.onTheRoad;
@@ -46,7 +46,7 @@ public class LiveStatus {
         return onTheRoad;
     }
 
-    public Double getCurrentRPM() {
+    public int getCurrentRPM() {
         return currentRPM;
     }
 
@@ -86,15 +86,15 @@ public class LiveStatus {
         return lightsState;
     }
 
-    public Double getCurrentFuelPercentage() {
+    public int getCurrentFuelPercentage() {
         return currentFuelPercentage;
     }
 
-    public Double getCurrentOilPercentage() {
+    public int getCurrentOilPercentage() {
         return currentOilPercentage;
     }
 
-    public Double getCurrentWaterPercentage() {
+    public int getCurrentWaterPercentage() {
         return currentWaterPercentage;
     }
 
@@ -106,7 +106,7 @@ public class LiveStatus {
         
         private boolean onTheRoad;
         private Double currentSpeed;
-        private Double currentRPM;
+        private int currentRPM;
         private int currentGear;
         private Double relativeDistance;
         private Double totalDistance;
@@ -114,9 +114,9 @@ public class LiveStatus {
         private Double tiresPressure;
         private Double tiresTemperature;
         private long timeOnTravel;
-        private Double currentWaterPercentage;
-        private Double currentOilPercentage;
-        private Double currentFuelPercentage;
+        private int currentWaterPercentage;
+        private int currentOilPercentage;
+        private int currentFuelPercentage;
         private Coordinates localization;
     
 
@@ -126,7 +126,7 @@ public class LiveStatus {
         }
         
         public LiveStatusBuilder setRPM(SpeedHistory rpm) {
-            currentRPM = rpm.getRPM();
+            currentRPM = Integer.parseInt(rpm.getRPM().toString());
             return this;
         }
 
@@ -166,17 +166,17 @@ public class LiveStatus {
         }
 
         public LiveStatusBuilder setOil(Double oil) {
-            currentOilPercentage = oil;
+            currentOilPercentage = oil.intValue();
             return this;
         }
 
         public LiveStatusBuilder setWater(Double water) {
-            currentWaterPercentage = water;
+            currentWaterPercentage = water.intValue();
             return this;
         }
 
         public LiveStatusBuilder setFuel(Double fuel) {
-            currentFuelPercentage = fuel;
+            currentFuelPercentage = fuel.intValue();
             return this;
         }
 

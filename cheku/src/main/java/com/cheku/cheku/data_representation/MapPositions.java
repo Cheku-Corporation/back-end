@@ -1,4 +1,4 @@
-package com.cheku.cheku.auxiliar_classes;
+package com.cheku.cheku.data_representation;
 
 public class MapPositions {
     

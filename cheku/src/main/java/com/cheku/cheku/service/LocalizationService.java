@@ -1,6 +1,6 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.Coordinates;
+import com.cheku.cheku.data_representation.Coordinates;
 import com.cheku.cheku.model.Localization;
 import com.cheku.cheku.repository.LocalizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;

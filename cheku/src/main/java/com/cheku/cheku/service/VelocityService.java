@@ -1,11 +1,10 @@
 package com.cheku.cheku.service;
 
+import com.cheku.cheku.data_representation.Velocity;
 import com.cheku.cheku.model.*;
 import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.cheku.cheku.auxiliar_classes.Velocity;
 
 import java.util.List;
 

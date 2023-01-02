@@ -5,9 +5,10 @@ import com.cheku.cheku.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cheku.cheku.auxiliar_classes.*;
+import com.cheku.cheku.data_representation.*;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -296,5 +297,44 @@ public class TripService {
         Double previousConsumption = (previousFuel * 100) / previousDistance;
         trip.setFuelConsumptionPer100kmComparedToPrevious((consumption - previousConsumption) * 100 / previousConsumption);
         return trip;
+    }
+
+    public List<FuelConsumption> fuelConsumptionOverWeek(Long car_id) {
+        List<Trip> trips = tripRepository.findAllPassed(car_id);
+        //System.out.println("Number of trips: " + trips.size() );
+        if(trips.size() < 7) {
+            throw new RuntimeException("Not enougth data to show");
+        }
+        int numberOfTrips = 0;
+        List<FuelConsumption> consumptions = new ArrayList<FuelConsumption>();
+        for (Trip t : trips) {
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            Double consumption = ((fuel_final - fuel_init) * 100) / t.getTraveledDistance();
+            consumptions.add(new FuelConsumption(consumption, t.getId()));
+            if(++numberOfTrips == 7) {
+                break;
+            }
+        }
+        return consumptions;
+    }
+
+    public List<FuelConsumption> fuelConsumptionOverMonth(Long car_id) {
+        List<Trip> trips = tripRepository.findAllPassed(car_id);
+        if(trips.size() < 24) {
+            throw new RuntimeException("Not enougth data to show");
+        }
+        int numberOfTrips = 0;
+        List<FuelConsumption> consumptions = new ArrayList<FuelConsumption>();
+        for (Trip t : trips) {
+            Double fuel_init = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getEndTime()); 
+            Double fuel_final = fluidService.getFuelInLitersByTimestamp(t.getId(), t.getStartTime()); 
+            Double consumption = ((fuel_final - fuel_init) * 100) / t.getTraveledDistance();
+            consumptions.add(new FuelConsumption(consumption, t.getId()));
+            if(++numberOfTrips == 24) {
+                break;
+            }
+        }
+        return consumptions;
     }
 }

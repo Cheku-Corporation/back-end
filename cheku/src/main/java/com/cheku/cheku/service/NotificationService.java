@@ -1,13 +1,8 @@
 package com.cheku.cheku.service;
 
-import com.cheku.cheku.auxiliar_classes.SimpleFluid;
-import com.cheku.cheku.auxiliar_classes.UserNotification;
 import com.cheku.cheku.exception.ResourceNotFoundException;
 import com.cheku.cheku.model.Car;
-import com.cheku.cheku.model.Fluid;
-import com.cheku.cheku.model.Group;
 import com.cheku.cheku.model.Notification;
-import com.cheku.cheku.repository.FluidRepository;
 import com.cheku.cheku.repository.NotificationRespository;
 
 import org.springframework.beans.factory.annotation.Autowired;
