@@ -150,6 +150,11 @@ public class APIReadController {
 		return tripService.fuelConsumptionOverWeek(car_id);
 	}
 
+	@GetMapping("api/car/{car_id}/speedinformation")
+	public GearsOverTime getSpeedinformation(@PathVariable Long car_id) {
+		return tripService.getLastTripSpeedPerTime(car_id);
+	}
+
 	@GetMapping("api/car/{car_id}/velocities/100")
 	public List<Velocity> get100CarVelocities(@PathVariable Long car_id) {
 		return velocityService.getLast100Velocities(car_id);

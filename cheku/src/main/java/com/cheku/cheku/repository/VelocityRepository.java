@@ -22,4 +22,7 @@ public interface VelocityRepository extends JpaRepository<SpeedHistory, Long> {
 
     @Query(value = "SELECT * FROM speed_history ORDER BY date DESC LIMIT 1", nativeQuery = true)
     SpeedHistory getLast(Long car_id);
+
+    @Query(value = "SELECT * FROM speed_history WHERE trip_id = ?1", nativeQuery = true)
+    List<SpeedHistory> getByTrip(Long trip_id);
 }

@@ -22,6 +22,10 @@ public class VelocityService {
         return velocityRepository.getLast(car_id); 
     }
 
+    public List<SpeedHistory> getVelocitiesByTrip(Long trip_id) {
+        return velocityRepository.getByTrip(trip_id); 
+    }
+
     public List<Velocity> getLast100Velocities(Long car_id) {
         return velocityRepository.getLast100byCarId(car_id); 
     }
