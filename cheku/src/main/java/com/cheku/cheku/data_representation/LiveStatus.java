@@ -126,12 +126,12 @@ public class LiveStatus {
         }
         
         public LiveStatusBuilder setRPM(SpeedHistory rpm) {
-            currentRPM = Integer.parseInt(rpm.getRPM().toString());
+            currentRPM = rpm.getRPM().intValue();
             return this;
         }
 
         public LiveStatusBuilder setGear(SpeedHistory gear) {
-            currentGear = gear.getGear().intValue();
+            currentGear = gear.getGear();
             return this;
         }
 

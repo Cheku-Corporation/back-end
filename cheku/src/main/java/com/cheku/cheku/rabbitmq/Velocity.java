@@ -40,7 +40,7 @@ public class Velocity {
 
   public void receiveMessage(byte[] message) throws ResourceNotFoundException {
     String msg = new String(message);
-    //System.out.println("Received velocity <" + msg + ">");
+    System.out.println("Received velocity <" + msg + ">");
     JSONObject j = new JSONObject(msg);
     
     if(carService.existsById(j.getLong("id"))) {
@@ -48,7 +48,7 @@ public class Velocity {
       Trip trip = tripService.getCarCurrentTrip(car.getId());
       SpeedHistory historyVelocity = new SpeedHistory();
       historyVelocity.setTrip(trip);
-      historyVelocity.setGear(j.getInt("gear"));
+      historyVelocity.setGear((int) j.getDouble("gear"));
       historyVelocity.setVelocity(j.getDouble("velocity"));
       historyVelocity.setRPM(j.getDouble("rpm"));
       historyVelocity.setDate(new Date((long) (j.getDouble("timestamp") * 1000)));
@@ -57,7 +57,7 @@ public class Velocity {
 
       incrementDistance(trip, j.getDouble("velocity"));
 
-      if (j.getDouble("velocity") >= 160) {
+      if (j.getDouble("velocity") >= 180) {
         System.out.println("Adding velocity notification");
         Notification not = new Notification();
         not.setPriority(1);
