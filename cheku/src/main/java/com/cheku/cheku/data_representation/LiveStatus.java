@@ -131,7 +131,7 @@ public class LiveStatus {
         }
 
         public LiveStatusBuilder setGear(SpeedHistory gear) {
-            currentGear = gear.getGear();
+            currentGear = gear.getGear().intValue();
             return this;
         }
 
