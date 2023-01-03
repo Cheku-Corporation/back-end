@@ -45,6 +45,7 @@ public class APIUpdateController {
         // Get the current car and the updated car data
         Car car = carService.getCar(id);
         Car carUpdate = mapper.readValue(data, Car.class);
+        System.out.println(carUpdate);
 
         // Get the group ID and user ID from the data
         Long groupId = mapper.readTree(data).get("group").get("id").asLong();
@@ -55,14 +56,10 @@ public class APIUpdateController {
             throw new ResourceNotFoundException("Not Authorized");
         }
 
-        // Check if the updated car's license plate already exists
-        if (carService.existsByMatricula(carUpdate.getMatricula())) {
-            throw new ResourceNotFoundException("Matricula already exists");
-        }
-
         // Update the car and return the result
         return carService.updateCar(car, carUpdate, userId);
     }
+
 }
 
 

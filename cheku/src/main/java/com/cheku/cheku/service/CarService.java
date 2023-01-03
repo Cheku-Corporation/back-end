@@ -123,22 +123,33 @@ public class CarService {
             throw new ResourceNotFoundException("The group doesn't exist");
         }
 
-        // Check if the car model exists
-        if (carModelRepository.findByModel(carUpdate.getCarModel().getModel()) == null) {
-            throw new ResourceNotFoundException("The car model doesn't exist");
+        if (carUpdate.getCarModel() != null) {
+                // Check if the car model exists
+            if (carModelRepository.findByModel(carUpdate.getCarModel().getModel()) == null) {
+                throw new ResourceNotFoundException("The car model doesn't exist");
+            }
+            car.setCarModel(carModelRepository.findByModel(carUpdate.getCarModel().getModel()));
         }
 
-        // Check if the car belongs to the group
-        if (car.getGroup().getId() != carUpdate.getGroup().getId()) {
-            throw new ResourceNotFoundException("The car doesn't belong to the group");
+        if(carUpdate.getGroup() != null) {
+            // Check if the car belongs to the group
+            if (car.getGroup().getId() != carUpdate.getGroup().getId()) {
+                throw new ResourceNotFoundException("The car doesn't belong to the group");
+            }
+            car.setGroup(groupRepository.findById(carUpdate.getGroup().getId()).get());
         }
 
         // Update the car details
-        car.setMatricula(carUpdate.getMatricula());
-        car.setCarModel(carModelRepository.findByModel(carUpdate.getCarModel().getModel()));
-        car.setGroup(groupRepository.findById(carUpdate.getGroup().getId()).get());
-        car.setInsuranceDate(carUpdate.getInsuranceDate());
-        car.setInspectionDate(carUpdate.getInspectionDate());
+
+        if(carUpdate.getMatricula() != null){
+            car.setMatricula(carUpdate.getMatricula());
+        }
+        if(carUpdate.getInsuranceDate() != null){
+            car.setInsuranceDate(carUpdate.getInsuranceDate());
+        }
+        if(carUpdate.getInspectionDate() != null){
+            car.setInspectionDate(carUpdate.getInspectionDate());
+        }
 
         notificationService.checkInsuranceDate(car, car.getGroup().getId());
         return carRepository.save(car);
